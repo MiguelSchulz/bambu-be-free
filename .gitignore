@@ -1,0 +1,17 @@
+# IDE
+.idea/
+.DS_Store
+*.swp
+*.swo
+
+# iOS
+**/*.xcuserstate
+**/xcuserdata/
+**/DerivedData/
+**/.build
+**/Build
+build
+
+# Credentials & secrets 
+**/Configuration/LocalSigning.xcconfig
+**/BambuBeFree/GoogleService-Info.plist
