@@ -176,9 +176,9 @@ final class CameraStreamManager: CameraStreamProviding {
             }
         case .failed(let error):
             logger.error("TCP connection failed: \(error.localizedDescription)")
-            connectionState = .error("Connection failed: \(error.localizedDescription)")
+            connectionState = .error(String(localized: "Connection failed: \(error.localizedDescription)"))
         case .waiting:
-            connectionState = .error("Printer unreachable. Check IP address and that printer is on.")
+            connectionState = .error(String(localized: "Printer unreachable. Check IP address and that printer is on."))
         default:
             break
         }
@@ -212,7 +212,7 @@ final class CameraStreamManager: CameraStreamProviding {
 
                 guard jpegLength > 0, jpegLength < 10_000_000 else {
                     await MainActor.run {
-                        self.connectionState = .error("Authentication failed. Check your access code.")
+                        self.connectionState = .error(String(localized: "Authentication failed. Check your access code."))
                     }
                     return
                 }
@@ -235,7 +235,7 @@ final class CameraStreamManager: CameraStreamProviding {
             if !Task.isCancelled {
                 await MainActor.run {
                     self.logger.error("TCP stream error: \(error.localizedDescription)")
-                    self.connectionState = .error("Stream error: \(error.localizedDescription)")
+                    self.connectionState = .error(String(localized: "Stream error: \(error.localizedDescription)"))
                 }
             }
         }
@@ -300,9 +300,9 @@ final class CameraStreamManager: CameraStreamProviding {
             }
         case .failed(let error):
             logger.error("Connection failed: \(error.localizedDescription)")
-            connectionState = .error("Connection failed: \(error.localizedDescription)")
+            connectionState = .error(String(localized: "Connection failed: \(error.localizedDescription)"))
         case .waiting:
-            connectionState = .error("Printer unreachable. Check IP address and that printer is on.")
+            connectionState = .error(String(localized: "Printer unreachable. Check IP address and that printer is on."))
         default:
             break
         }
@@ -686,7 +686,7 @@ final class CameraStreamManager: CameraStreamProviding {
                 extraHeaders: [("Transport", "RTP/AVP/TCP;unicast;interleaved=0-1")]
             )
             guard setup.status == 200 else {
-                connectionState = .error("RTSP SETUP failed (status \(setup.status))")
+                connectionState = .error(String(localized: "RTSP SETUP failed (status \(setup.status))"))
                 return
             }
 
@@ -699,7 +699,7 @@ final class CameraStreamManager: CameraStreamProviding {
                 extraHeaders: [("Session", sessionId), ("Range", "npt=0.000-")]
             )
             guard play.status == 200 else {
-                connectionState = .error("RTSP PLAY failed (status \(play.status))")
+                connectionState = .error(String(localized: "RTSP PLAY failed (status \(play.status))"))
                 return
             }
 
@@ -747,7 +747,7 @@ final class CameraStreamManager: CameraStreamProviding {
         } catch {
             if !Task.isCancelled {
                 logger.error("RTSP stream error: \(error.localizedDescription)")
-                connectionState = .error("Stream error: \(error.localizedDescription)")
+                connectionState = .error(String(localized: "Stream error: \(error.localizedDescription)"))
             }
         }
     }

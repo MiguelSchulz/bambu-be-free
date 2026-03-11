@@ -31,10 +31,16 @@ public struct AMSTrayView: View {
                 )
                 .overlay {
                     VStack(spacing: 2) {
-                        Text(tray.materialType ?? "Empty")
-                            .font(.caption)
-                            .fontWeight(tray.isEmpty ? .regular : .semibold)
-                            .foregroundColor(tray.isEmpty ? .secondary : textColor)
+                        Group {
+                            if let material = tray.materialType {
+                                Text(material)
+                            } else {
+                                Text("Empty")
+                            }
+                        }
+                        .font(.caption)
+                        .fontWeight(tray.isEmpty ? .regular : .semibold)
+                        .foregroundColor(tray.isEmpty ? .secondary : textColor)
 
                         if let remain = tray.remainPercent, tray.isBambuFilament {
                             // Remaining bar

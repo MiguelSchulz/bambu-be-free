@@ -28,7 +28,7 @@ struct CredentialsStepView: View {
         .navigationTitle("Credentials")
     }
 
-    private func credentialCard(icon: SFSymbol, title: String, example: String) -> some View {
+    private func credentialCard(icon: SFSymbol, title: LocalizedStringResource, example: String) -> some View {
         VStack(spacing: 8) {
             Image(systemSymbol: icon)
                 .font(.title2)

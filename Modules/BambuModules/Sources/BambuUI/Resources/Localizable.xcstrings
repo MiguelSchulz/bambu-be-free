@@ -1,0 +1,54 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%" : {
+
+    },
+    "%lld" : {
+
+    },
+    "%lld/" : {
+
+    },
+    "%lld%%" : {
+
+    },
+    "°C" : {
+
+    },
+    "0" : {
+
+    },
+    "Camera not available" : {
+
+    },
+    "Connecting to printer..." : {
+
+    },
+    "Disconnected" : {
+
+    },
+    "Done" : {
+
+    },
+    "Empty" : {
+
+    },
+    "Layer %@" : {
+
+    },
+    "Off" : {
+
+    },
+    "Print cancelled" : {
+
+    },
+    "Print complete!" : {
+
+    },
+    "Waiting for first frame..." : {
+
+    }
+  },
+  "version" : "1.0"
+}

@@ -8,7 +8,7 @@ struct AMSSection: View {
     let amsUnit: AMSUnit
 
     private var headerLabel: String {
-        let name = amsUnit.amsType?.displayName ?? "AMS"
+        let name = amsUnit.amsType.map { String(localized: $0.displayName) } ?? String(localized: "AMS")
         if viewModel.printerState.amsUnits.count > 1 {
             return "\(name) \(amsUnit.id + 1)"
         }

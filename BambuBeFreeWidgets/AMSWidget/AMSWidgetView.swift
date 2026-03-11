@@ -28,7 +28,15 @@ struct AMSWidgetView: View {
         VStack(spacing: 8) {
             // Header
             HStack {
-                Label(unit.amsTypeName ?? "AMS", systemSymbol: .tray2Fill)
+                Label {
+                    if let name = unit.amsTypeName {
+                        Text(name)
+                    } else {
+                        Text("AMS")
+                    }
+                } icon: {
+                    Image(systemSymbol: .tray2Fill)
+                }
                     .font(.subheadline)
                     .fontWeight(.medium)
 

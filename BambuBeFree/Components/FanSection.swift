@@ -9,7 +9,7 @@ struct FanSection: View {
         viewModel.printerState
     }
 
-    private var auxFanLabel: String {
+    private var auxFanLabel: LocalizedStringResource {
         switch printerState.airductMode {
         case 0: "Aux Fan (Intake)"
         case 1: "Aux Fan (Recirc.)"

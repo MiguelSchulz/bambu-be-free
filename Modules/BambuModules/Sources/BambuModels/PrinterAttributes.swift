@@ -85,7 +85,7 @@ public struct PrinterAttributes: Sendable {
 // MARK: - Convenience
 
 extension PrinterAttributes.ContentState {
-    public var formattedTime: String {
+    public var formattedTime: LocalizedStringResource {
         guard remainingMinutes > 0 else { return "<1m" }
         let hours = remainingMinutes / 60
         let mins = remainingMinutes % 60
@@ -95,16 +95,26 @@ extension PrinterAttributes.ContentState {
         return "\(mins)m"
     }
 
+    public var formattedTimeRemaining: LocalizedStringResource {
+        guard remainingMinutes > 0 else { return "<1m remaining" }
+        let hours = remainingMinutes / 60
+        let mins = remainingMinutes % 60
+        if hours > 0 {
+            return "\(hours)h \(mins)m remaining"
+        }
+        return "\(mins)m remaining"
+    }
+
     public var layerInfo: String? {
         guard totalLayers > 0 else { return nil }
         return "\(layerNum)/\(totalLayers)"
     }
 
     public var displayTitle: String {
-        jobName.isEmpty ? "3D Print" : jobName
+        jobName.isEmpty ? String(localized: "3D Print") : jobName
     }
 
-    public var temperatureInfo: String? {
+    public var temperatureInfo: LocalizedStringResource? {
         guard let nozzle = nozzleTemp, let bed = bedTemp else { return nil }
         let nozzleStr = if let target = nozzleTargetTemp, target > 0 {
             "\(nozzle)/\(target)°C"
@@ -116,14 +126,13 @@ extension PrinterAttributes.ContentState {
         } else {
             "\(bed)°C"
         }
-        var result = "Nozzle \(nozzleStr) · Bed \(bedStr)"
         if let chamber = chamberTemp, chamber > 0 {
-            result += " · Chamber \(chamber)°C"
+            return "Nozzle \(nozzleStr) · Bed \(bedStr) · Chamber \(chamber)°C"
         }
-        return result
+        return "Nozzle \(nozzleStr) · Bed \(bedStr)"
     }
 
-    public var stateLabel: String {
+    public var stateLabel: LocalizedStringResource {
         switch status {
         case .preparing:
             if stageCategory == "calibrate" { return "Calibrating" }
@@ -218,7 +227,7 @@ extension PrinterAttributes.ContentState {
         return lines
     }
 
-    public var trailingText: String {
+    public var trailingText: LocalizedStringResource {
         switch status {
         case .completed: "Done"
         case .cancelled: "Stop"

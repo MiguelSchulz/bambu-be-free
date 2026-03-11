@@ -15,7 +15,7 @@ public enum AMSType {
         }
     }
 
-    public var displayName: String {
+    public var displayName: LocalizedStringResource {
         switch self {
         case .standard: "AMS"
         case .pro: "AMS 2 Pro"
@@ -105,9 +105,9 @@ public final class AMSUnit: Identifiable {
         let hours = dryTimeRemaining / 3600
         let minutes = (dryTimeRemaining % 3600) / 60
         if hours > 0 {
-            return "\(hours)h \(minutes)m"
+            return String(localized: "\(hours)h \(minutes)m")
         }
-        return "\(minutes)m"
+        return String(localized: "\(minutes)m")
     }
 
     public init(id: Int) {

@@ -95,7 +95,7 @@ public struct CameraCard: View {
         }
     }
 
-    private func placeholder(text: String) -> some View {
+    private func placeholder(text: LocalizedStringResource) -> some View {
         VStack(spacing: 8) {
             ProgressView()
             Text(text)

@@ -53,7 +53,7 @@ struct PrinterCommandTests {
             ["Silent", "Standard", "Sport", "Ludicrous"]
           ))
     func speedLevelLabels(level: PrinterCommand.SpeedLevel, expected: String) {
-        #expect(level.label == expected)
+        #expect(String(localized: level.label) == expected)
     }
 
     // MARK: - Chamber Light

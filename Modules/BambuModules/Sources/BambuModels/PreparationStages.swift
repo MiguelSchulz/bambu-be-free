@@ -3,7 +3,7 @@ import Foundation
 public enum PreparationStages {
     // MARK: - Stage Names (stg_cur → human-readable)
 
-    private static let stageNames: [Int: String] = [
+    private static let stageNames: [Int: LocalizedStringResource] = [
         1: "Auto bed leveling",
         2: "Preheating heatbed",
         3: "Vibration compensation",
@@ -111,7 +111,7 @@ public enum PreparationStages {
     // MARK: - Public API
 
     public static func name(for stgCur: Int) -> String? {
-        stageNames[stgCur]
+        stageNames[stgCur].map { String(localized: $0) }
     }
 
     public static func category(for stgCur: Int) -> Category? {

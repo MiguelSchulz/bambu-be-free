@@ -11,25 +11,25 @@ struct ContentStateTests {
     @Test("formattedTime with 0 minutes")
     func formattedTimeZero() {
         let state = makeState(remainingMinutes: 0)
-        #expect(state.formattedTime == "<1m")
+        #expect(String(localized: state.formattedTime) == "<1m")
     }
 
     @Test("formattedTime with minutes only")
     func formattedTimeMinutes() {
         let state = makeState(remainingMinutes: 45)
-        #expect(state.formattedTime == "45m")
+        #expect(String(localized: state.formattedTime) == "45m")
     }
 
     @Test("formattedTime with hours and minutes")
     func formattedTimeHours() {
         let state = makeState(remainingMinutes: 90)
-        #expect(state.formattedTime == "1h 30m")
+        #expect(String(localized: state.formattedTime) == "1h 30m")
     }
 
     @Test("formattedTime with exact hours")
     func formattedTimeExactHours() {
         let state = makeState(remainingMinutes: 120)
-        #expect(state.formattedTime == "2h 0m")
+        #expect(String(localized: state.formattedTime) == "2h 0m")
     }
 
     // MARK: - layerInfo
@@ -71,7 +71,7 @@ struct ContentStateTests {
     @Test("temperatureInfo includes target when > 0")
     func temperatureInfoWithTarget() {
         let state = makeState(nozzleTemp: 200, bedTemp: 55, nozzleTargetTemp: 220, bedTargetTemp: 60)
-        let info = state.temperatureInfo
+        let info = state.temperatureInfo.map { String(localized: $0) }
         #expect(info != nil)
         #expect(info!.contains("200/220°C"))
         #expect(info!.contains("55/60°C"))
@@ -80,7 +80,7 @@ struct ContentStateTests {
     @Test("temperatureInfo includes chamber when > 0")
     func temperatureInfoChamber() {
         let state = makeState(nozzleTemp: 200, bedTemp: 55, chamberTemp: 38)
-        let info = state.temperatureInfo
+        let info = state.temperatureInfo.map { String(localized: $0) }
         #expect(info != nil)
         #expect(info!.contains("Chamber 38°C"))
     }
@@ -101,7 +101,7 @@ struct ContentStateTests {
           ])
     func stateLabel(status: PrinterStatus, category: String?, expected: String) {
         let state = makeState(status: status, stageCategory: category)
-        #expect(state.stateLabel == expected)
+        #expect(String(localized: state.stateLabel) == expected)
     }
 
     // MARK: - prepareStageLabel
@@ -146,16 +146,16 @@ struct ContentStateTests {
           ])
     func trailingText(status: PrinterStatus, expected: String) {
         let state = makeState(status: status)
-        #expect(state.trailingText == expected)
+        #expect(String(localized: state.trailingText) == expected)
     }
 
     @Test("trailingText shows percentage for printing/paused")
     func trailingTextPercent() {
         let state = makeState(progress: 42, status: .printing)
-        #expect(state.trailingText == "42%")
+        #expect(String(localized: state.trailingText) == "42%")
 
         let pausedState = makeState(progress: 42, status: .paused)
-        #expect(pausedState.trailingText == "42%")
+        #expect(String(localized: pausedState.trailingText) == "42%")
     }
 
     // MARK: - compactTemperatureLines

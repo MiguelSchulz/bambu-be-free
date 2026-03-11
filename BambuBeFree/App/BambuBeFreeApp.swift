@@ -43,13 +43,13 @@ struct BambuBeFreeApp: App {
             case .connected:
                 return nil
             case .error:
-                return "Could not connect to the printer. Please check that the IP address and access code are correct, and that your iPhone is on the same Wi-Fi network as the printer."
+                return String(localized: "Could not connect to the printer. Please check that the IP address and access code are correct, and that your iPhone is on the same Wi-Fi network as the printer.")
             default:
                 break
             }
             if Date() > deadline { break }
         }
-        return "Connection timed out. Make sure the printer is turned on and that your iPhone is on the same Wi-Fi network."
+        return String(localized: "Connection timed out. Make sure the printer is turned on and that your iPhone is on the same Wi-Fi network.")
     }
 
     var body: some Scene {

@@ -2,7 +2,7 @@ import SFSafeSymbols
 import SwiftUI
 
 public struct TemperatureGauge: View {
-    public let label: String
+    public let label: LocalizedStringResource
     public let icon: SFSymbol
     public let current: Int
     public let target: Int?
@@ -15,7 +15,7 @@ public struct TemperatureGauge: View {
     @State private var originalValue = 0
     @FocusState private var isFocused: Bool
 
-    public init(label: String, icon: SFSymbol, current: Int, target: Int?,
+    public init(label: LocalizedStringResource, icon: SFSymbol, current: Int, target: Int?,
                 range: ClosedRange<Int>?, editable: Bool, onValueSet: @escaping (Int) -> Void) {
         self.label = label
         self.icon = icon

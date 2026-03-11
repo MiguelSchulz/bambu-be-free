@@ -70,7 +70,11 @@ public struct PrintProgressContent: View {
                             .foregroundColor(.secondary)
                     }
                     if state.remainingMinutes > 0 {
-                        Label(state.formattedTime + " remaining", systemSymbol: .clock)
+                        Label {
+                            Text(state.formattedTimeRemaining)
+                        } icon: {
+                            Image(systemSymbol: .clock)
+                        }
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }

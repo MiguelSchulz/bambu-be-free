@@ -1,0 +1,346 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "!" : {
+
+    },
+    "..." : {
+
+    },
+    "%lld%%" : {
+
+    },
+    "%lldh %lldm" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lldh %2$lldm"
+          }
+        }
+      }
+    },
+    "%lldh %lldm remaining" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lldh %2$lldm remaining"
+          }
+        }
+      }
+    },
+    "%lldm" : {
+
+    },
+    "%lldm remaining" : {
+
+    },
+    "<1m" : {
+
+    },
+    "<1m remaining" : {
+
+    },
+    "3D Print" : {
+
+    },
+    "A1 / P1 (TCP)" : {
+
+    },
+    "ABS" : {
+
+    },
+    "Absolute accuracy calibration" : {
+
+    },
+    "AMS" : {
+
+    },
+    "AMS 2 Pro" : {
+
+    },
+    "AMS HT" : {
+
+    },
+    "Auto bed leveling" : {
+
+    },
+    "Auto Detect" : {
+
+    },
+    "Bed leveling (high temp)" : {
+
+    },
+    "Bed leveling phase 1" : {
+
+    },
+    "Bed leveling phase 2" : {
+
+    },
+    "Calibrating" : {
+
+    },
+    "Calibrating blade holder" : {
+
+    },
+    "Calibrating camera" : {
+
+    },
+    "Calibrating camera offset" : {
+
+    },
+    "Calibrating extrusion" : {
+
+    },
+    "Calibrating extrusion flow" : {
+
+    },
+    "Calibrating micro lidar" : {
+
+    },
+    "Calibrating motor noise" : {
+
+    },
+    "Calibrating nozzle clump detection" : {
+
+    },
+    "Calibrating nozzle offset" : {
+
+    },
+    "Cancelled" : {
+
+    },
+    "Chamber temp control error" : {
+
+    },
+    "Changing filament" : {
+
+    },
+    "Checking absolute accuracy" : {
+
+    },
+    "Checking camera position" : {
+
+    },
+    "Checking door and cover" : {
+
+    },
+    "Checking extruder temp" : {
+
+    },
+    "Checking material" : {
+
+    },
+    "Checking material position" : {
+
+    },
+    "Checking platform" : {
+
+    },
+    "Checking quick release" : {
+
+    },
+    "Cleaning nozzle tip" : {
+
+    },
+    "Complete" : {
+
+    },
+    "Cooling chamber" : {
+
+    },
+    "Cooling heatbed" : {
+
+    },
+    "Custom" : {
+
+    },
+    "Cutting module offset calibration" : {
+
+    },
+    "Done" : {
+
+    },
+    "Filament" : {
+
+    },
+    "Filament loading" : {
+
+    },
+    "Filament runout pause" : {
+
+    },
+    "Filament unloading" : {
+
+    },
+    "Front cover falling" : {
+
+    },
+    "Heatbed temp malfunction" : {
+
+    },
+    "Heating chamber" : {
+
+    },
+    "Heating hotend" : {
+
+    },
+    "Homing blade holder" : {
+
+    },
+    "Homing toolhead" : {
+
+    },
+    "Hotend pick and place test" : {
+
+    },
+    "Identifying build plate" : {
+
+    },
+    "Idle" : {
+
+    },
+    "Inspecting first layer" : {
+
+    },
+    "Issue" : {
+
+    },
+    "Laser calibration" : {
+
+    },
+    "Live view camera calibration" : {
+
+    },
+    "Ludicrous" : {
+
+    },
+    "M400 pause" : {
+
+    },
+    "Measuring surface" : {
+
+    },
+    "Motor noise calibration" : {
+
+    },
+    "Nozzle %@ · Bed %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Nozzle %1$@ · Bed %2$@"
+          }
+        }
+      }
+    },
+    "Nozzle %@ · Bed %@ · Chamber %lld°C" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Nozzle %1$@ · Bed %2$@ · Chamber %3$lld°C"
+          }
+        }
+      }
+    },
+    "Nozzle temp malfunction" : {
+
+    },
+    "PA" : {
+
+    },
+    "Paused" : {
+
+    },
+    "Paused by G-code" : {
+
+    },
+    "Paused by user" : {
+
+    },
+    "Paused: AMS lost" : {
+
+    },
+    "Paused: cutter error" : {
+
+    },
+    "Paused: first layer error" : {
+
+    },
+    "Paused: low fan speed" : {
+
+    },
+    "Paused: nozzle clog" : {
+
+    },
+    "Paused: nozzle filament covered" : {
+
+    },
+    "Paused: skipped step" : {
+
+    },
+    "PETG" : {
+
+    },
+    "PLA" : {
+
+    },
+    "Preheating heatbed" : {
+
+    },
+    "Preparing" : {
+
+    },
+    "Preparing AMS" : {
+
+    },
+    "Preparing hotend" : {
+
+    },
+    "Printing" : {
+
+    },
+    "Printing calibration lines" : {
+
+    },
+    "Purifying chamber air" : {
+
+    },
+    "Scanning bed surface" : {
+
+    },
+    "Silent" : {
+
+    },
+    "Sport" : {
+
+    },
+    "Standard" : {
+
+    },
+    "Stop" : {
+
+    },
+    "Thermal preconditioning" : {
+
+    },
+    "TPU" : {
+
+    },
+    "Vibration compensation" : {
+
+    },
+    "Waiting for chamber temp" : {
+
+    },
+    "Waiting for heatbed temp" : {
+
+    },
+    "X1 / P2S (RTSP)" : {
+
+    }
+  },
+  "version" : "1.0"
+}

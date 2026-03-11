@@ -71,7 +71,7 @@ public struct PrinterStateSnapshot: Codable, Sendable {
         self.amsUnits = state.amsUnits.map { unit in
             AMSUnitSnapshot(
                 id: unit.id,
-                amsTypeName: unit.amsType?.displayName,
+                amsTypeName: unit.amsType.map { String(localized: $0.displayName) },
                 humidityLevel: unit.humidityLevel,
                 humidityRaw: unit.humidityRaw,
                 temperature: unit.temperature,

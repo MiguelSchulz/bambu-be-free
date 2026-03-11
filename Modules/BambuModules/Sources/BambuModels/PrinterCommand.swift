@@ -25,6 +25,17 @@ public enum PrinterCommand {
 
         public var id: String { rawValue }
 
+        public var label: LocalizedStringResource {
+            switch self {
+            case .pla: "PLA"
+            case .abs: "ABS"
+            case .petg: "PETG"
+            case .tpu: "TPU"
+            case .pa: "PA"
+            case .custom: "Custom"
+            }
+        }
+
         public var temperature: Int {
             switch self {
             case .pla: 55
@@ -56,7 +67,7 @@ public enum PrinterCommand {
 
         public var id: Int { rawValue }
 
-        public var label: String {
+        public var label: LocalizedStringResource {
             switch self {
             case .silent: "Silent"
             case .standard: "Standard"

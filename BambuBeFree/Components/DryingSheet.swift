@@ -21,7 +21,7 @@ struct DryingSheet: View {
                         set: { viewModel.applyDryingPreset($0) }
                     )) {
                         ForEach(PrinterCommand.DryingPreset.allCases) { preset in
-                            Text(preset.rawValue).tag(preset)
+                            Text(preset.label).tag(preset)
                         }
                     }
                     .pickerStyle(.segmented)

@@ -4,7 +4,7 @@ import SwiftUI
 
 struct SetupStepLayout<Content: View>: View {
     let step: OnboardingStep
-    let nextLabel: String
+    let nextLabel: LocalizedStringResource
     let isNextDisabled: Bool
     let isLoading: Bool
     let nextAction: () -> Void
@@ -12,7 +12,7 @@ struct SetupStepLayout<Content: View>: View {
 
     init(
         step: OnboardingStep,
-        nextLabel: String = "Continue",
+        nextLabel: LocalizedStringResource = "Continue",
         isNextDisabled: Bool = false,
         isLoading: Bool = false,
         nextAction: @escaping () -> Void,

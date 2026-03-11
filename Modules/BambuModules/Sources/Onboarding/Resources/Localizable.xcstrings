@@ -1,0 +1,150 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Access Code" : {
+
+    },
+    "Camera Protocol" : {
+
+    },
+    "Check the confirmation box and tap **Enable**" : {
+
+    },
+    "Configure Your Slicer" : {
+
+    },
+    "Connect" : {
+
+    },
+    "Connect to your Bambu Lab printer to get started." : {
+
+    },
+    "Continue" : {
+
+    },
+    "Credentials" : {
+
+    },
+    "Developer Mode" : {
+
+    },
+    "Developer Mode disables cloud authentication so third-party apps can connect directly." : {
+
+    },
+    "Developer Mode lets third-party apps like this one control your printer. It only works when LAN Mode is enabled." : {
+
+    },
+    "Done" : {
+
+    },
+    "e.g. 192.168.1.100" : {
+
+    },
+    "e.g. 12345678" : {
+
+    },
+    "Enable Developer Mode" : {
+
+    },
+    "Enable LAN Mode" : {
+
+    },
+    "Enter Credentials" : {
+
+    },
+    "Enter the IP address and access code you found on your printer." : {
+
+    },
+    "Enter your **Access Code** when prompted" : {
+
+    },
+    "Find **Developer Mode**" : {
+
+    },
+    "Find **LAN Only Mode** and turn it **ON**" : {
+
+    },
+    "Find the **Access Code** displayed under LAN Only Mode" : {
+
+    },
+    "Find Your Credentials" : {
+
+    },
+    "Go to the **Device** page and select your printer" : {
+
+    },
+    "Guide Me Through Setup" : {
+
+    },
+    "I Know What I'm Doing" : {
+
+    },
+    "IP Address" : {
+
+    },
+    "LAN Mode" : {
+
+    },
+    "LAN Mode allows your printer to communicate directly over your local network without going through the cloud." : {
+
+    },
+    "Look for the **lock icon** indicating LAN mode" : {
+
+    },
+    "Navigate to **WLAN** (or Network Settings)" : {
+
+    },
+    "Note down the **IP Address** shown" : {
+
+    },
+    "On your printer's touchscreen, go to **Settings**" : {
+
+    },
+    "On your printer's touchscreen, tap **Settings**" : {
+
+    },
+    "Open **Bambu Studio** on your computer" : {
+
+    },
+    "Read the important notice carefully" : {
+
+    },
+    "Setup" : {
+
+    },
+    "Slicer Setup" : {
+
+    },
+    "Test Connection" : {
+
+    },
+    "The button should turn **green** when enabled" : {
+
+    },
+    "The toggle should turn **green** when enabled" : {
+
+    },
+    "This step is optional for using this app, but required to send prints over LAN." : {
+
+    },
+    "To send prints over LAN, you'll also need to update your slicer's connection settings." : {
+
+    },
+    "View on Bambu Wiki" : {
+
+    },
+    "Welcome to Bambu Companion" : {
+
+    },
+    "With LAN Mode enabled, scroll down in **Settings**" : {
+
+    },
+    "You'll need your printer's IP address and access code to connect. Here's where to find them." : {
+
+    },
+    "Your iPhone must be on the same network as your printer (LAN mode only). Using a VPN like Tailscale or WireGuard is the easiest way to connect remotely." : {
+
+    }
+  },
+  "version" : "1.0"
+}

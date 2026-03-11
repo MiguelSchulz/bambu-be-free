@@ -7,7 +7,7 @@ public enum PrinterType: String, CaseIterable, Identifiable, Sendable {
 
     public var id: String { rawValue }
 
-    public var displayName: String {
+    public var displayName: LocalizedStringResource {
         switch self {
         case .auto: "Auto Detect"
         case .rtsp: "X1 / P2S (RTSP)"

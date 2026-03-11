@@ -12,7 +12,6 @@
 		2E14D79481D12E904C285062 /* BambuBeFreeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3A3944E879443B1EBE26BD /* BambuBeFreeApp.swift */; };
 		61096408FD92137078B34C26 /* BambuBeFreeWidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6489B624FFAEEF2F1742B42 /* BambuBeFreeWidgetsBundle.swift */; };
 		9CD4459AF9DB78170F0347BA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0484EFE2059E44EF632C62E1 /* Assets.xcassets */; };
-		F8ACC8AF2F61815100DE0A82 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = F8ACC8AD2F61815100DE0A82 /* AppIcon.icon */; };
 		AA0008000800080008000800 /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0008000800080008000800 /* DashboardViewModel.swift */; };
 		AA0009000900090009000900 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0009000900090009000900 /* DashboardView.swift */; };
 		AA000B000B000B000B000B00 /* PrintProgressSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000B000B000B000B000B00 /* PrintProgressSection.swift */; };
@@ -46,7 +45,9 @@
 		CC50075007500750075007AA /* BambuModels in Frameworks */ = {isa = PBXBuildFile; productRef = CC60076007600760076007AA /* BambuModels */; };
 		CC50085008500850085008AA /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = CC60086008600860086008AA /* Networking */; };
 		D4E5F607182930405060718A /* CameraStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6071829304A5B6C /* CameraStreamView.swift */; };
+		F842936E2F6184C2000A5C09 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = F842936D2F6184C2000A5C09 /* Localizable.xcstrings */; };
 		F88F3EB72F60654E00BFA018 /* NavigatorUI in Frameworks */ = {isa = PBXBuildFile; productRef = CC90019001900190019001AA /* NavigatorUI */; };
+		F8ACC8AF2F61815100DE0A82 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = F8ACC8AD2F61815100DE0A82 /* AppIcon.icon */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,6 +116,7 @@
 		D86EEAC462745475D75FEC42 /* BambuBeFreeWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BambuBeFreeWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD0020002000200020002000 /* BambuBeFreeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BambuBeFreeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD0026002600260026002600 /* DashboardViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModelTests.swift; sourceTree = "<group>"; };
+		F842936D2F6184C2000A5C09 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		F84B712D2F5DB8750039D8B3 /* Example.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Example.xcodeproj; sourceTree = "<group>"; };
 		F84B71662F5DB8750039D8B3 /* CocoaMQTT.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CocoaMQTT.xcodeproj; sourceTree = "<group>"; };
 		F84B71722F5DB8750039D8B3 /* BonjourClient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = BonjourClient.xcodeproj; sourceTree = "<group>"; };
@@ -740,6 +742,7 @@
 			isa = PBXGroup;
 			children = (
 				F8ACC8AD2F61815100DE0A82 /* AppIcon.icon */,
+				F842936D2F6184C2000A5C09 /* Localizable.xcstrings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1090,6 +1093,7 @@
 			files = (
 				9CD4459AF9DB78170F0347BA /* Assets.xcassets in Resources */,
 				F8ACC8AF2F61815100DE0A82 /* AppIcon.icon in Resources */,
+				F842936E2F6184C2000A5C09 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1231,6 +1235,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 			};
@@ -1295,6 +1300,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};

@@ -1,7 +1,7 @@
 import SwiftUI
 
 public struct FanGauge: View {
-    public let label: String
+    public let label: LocalizedStringResource
     public let speed255: Int
     public let editable: Bool
     public let onValueSet: (Int) -> Void
@@ -11,7 +11,7 @@ public struct FanGauge: View {
     @State private var originalPercent = 0
     @FocusState private var isFocused: Bool
 
-    public init(label: String, speed255: Int, editable: Bool, onValueSet: @escaping (Int) -> Void) {
+    public init(label: LocalizedStringResource, speed255: Int, editable: Bool, onValueSet: @escaping (Int) -> Void) {
         self.label = label
         self.speed255 = speed255
         self.editable = editable

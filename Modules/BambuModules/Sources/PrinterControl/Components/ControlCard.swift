@@ -2,13 +2,17 @@ import SFSafeSymbols
 import SwiftUI
 
 struct ControlCard<Content: View>: View {
-    let title: String
+    let title: LocalizedStringResource
     let systemSymbol: SFSymbol
     @ViewBuilder let content: () -> Content
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Label(title, systemSymbol: systemSymbol)
+            Label {
+                Text(title)
+            } icon: {
+                Image(systemSymbol: systemSymbol)
+            }
                 .font(.headline)
             content()
         }

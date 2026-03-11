@@ -3,6 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "BambuModules",
+    defaultLocalization: "en",
     platforms: [.iOS(.v18)],
     products: [
         .library(name: "BambuModels", targets: ["BambuModels"]),
@@ -19,7 +20,8 @@ let package = Package(
     targets: [
         .target(
             name: "BambuModels",
-            dependencies: ["SFSafeSymbols"]
+            dependencies: ["SFSafeSymbols"],
+            resources: [.process("Resources")]
         ),
         .target(
             name: "Networking",
@@ -30,7 +32,8 @@ let package = Package(
         ),
         .target(
             name: "BambuUI",
-            dependencies: ["BambuModels", "SFSafeSymbols"]
+            dependencies: ["BambuModels", "SFSafeSymbols"],
+            resources: [.process("Resources")]
         ),
         .target(
             name: "Onboarding",
@@ -39,7 +42,8 @@ let package = Package(
                 "BambuUI",
                 "SFSafeSymbols",
                 .product(name: "NavigatorUI", package: "Navigator"),
-            ]
+            ],
+            resources: [.process("Resources")]
         ),
         .target(
             name: "PrinterControl",
@@ -48,7 +52,8 @@ let package = Package(
                 "BambuUI",
                 "Networking",
                 "SFSafeSymbols",
-            ]
+            ],
+            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "BambuModelsTests",
