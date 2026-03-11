@@ -12,6 +12,7 @@
 		2E14D79481D12E904C285062 /* BambuBeFreeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3A3944E879443B1EBE26BD /* BambuBeFreeApp.swift */; };
 		61096408FD92137078B34C26 /* BambuBeFreeWidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6489B624FFAEEF2F1742B42 /* BambuBeFreeWidgetsBundle.swift */; };
 		9CD4459AF9DB78170F0347BA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0484EFE2059E44EF632C62E1 /* Assets.xcassets */; };
+		F8ACC8AF2F61815100DE0A82 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = F8ACC8AD2F61815100DE0A82 /* AppIcon.icon */; };
 		AA0008000800080008000800 /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0008000800080008000800 /* DashboardViewModel.swift */; };
 		AA0009000900090009000900 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0009000900090009000900 /* DashboardView.swift */; };
 		AA000B000B000B000B000B00 /* PrintProgressSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000B000B000B000B000B00 /* PrintProgressSection.swift */; };
@@ -218,6 +219,7 @@
 				E7B77F0A814AB41858AD3753 /* BambuBeFreeWidgets */,
 				DD0027002700270027002700 /* BambuBeFreeTests */,
 				F6939D9D1CA440BB4CEF49ED /* Products */,
+				F8ACC8AE2F61815100DE0A82 /* Resources */,
 			);
 			sourceTree = "<group>";
 		};
@@ -753,7 +755,6 @@
 				0484EFE2059E44EF632C62E1 /* Assets.xcassets */,
 				B5AB62012611B04E00613271 /* BambuBeFree.entitlements */,
 				AE3964F38EDD96C813861613 /* Info.plist */,
-				F8ACC8AE2F61815100DE0A82 /* Resources */,
 			);
 			path = BambuBeFree;
 			sourceTree = "<group>";
@@ -1088,6 +1089,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9CD4459AF9DB78170F0347BA /* Assets.xcassets in Resources */,
+				F8ACC8AF2F61815100DE0A82 /* AppIcon.icon in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
