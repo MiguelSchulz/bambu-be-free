@@ -7,5 +7,6 @@ struct BambuBeFreeWidgets: WidgetBundle {
         CameraWidget()
         PrintStateWidget()
         AMSWidget()
+        PrinterOverviewWidget()
     }
 }
