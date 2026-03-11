@@ -2,40 +2,124 @@
   "sourceLanguage" : "en",
   "strings" : {
     "Axes Not Homed" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Achsen nicht referenziert"
+          }
+        }
+      }
     },
     "Bed" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bett"
+          }
+        }
+      }
     },
     "Control" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Steuerung"
+          }
+        }
+      }
     },
     "Controls are disabled while the printer is busy." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Steuerung ist deaktiviert, solange der Drucker beschäftigt ist."
+          }
+        }
+      }
     },
     "Extrude" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Extrudieren"
+          }
+        }
+      }
     },
     "Extruder" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Extruder"
+          }
+        }
+      }
     },
     "Nozzle Too Cold" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nozzle zu kalt"
+          }
+        }
+      }
     },
     "OK" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
     },
     "Please heat the nozzle to above 170°C before loading or unloading filament." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bitte heize die Nozzle auf über 170°C auf, bevor du Filament lädst oder entlädst."
+          }
+        }
+      }
     },
     "Please home all axes before moving to avoid damaging the printer." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bitte referenziere alle Achsen, bevor du den Drucker bewegst, um Beschädigungen zu vermeiden."
+          }
+        }
+      }
     },
     "Position" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Position"
+          }
+        }
+      }
     },
     "Retract" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zurückziehen"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

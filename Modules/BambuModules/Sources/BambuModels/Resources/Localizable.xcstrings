@@ -2,16 +2,43 @@
   "sourceLanguage" : "en",
   "strings" : {
     "!" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "!"
+          }
+        }
+      }
     },
     "..." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "..."
+          }
+        }
+      }
     },
     "%lld%%" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld %%"
+          }
+        }
+      }
     },
     "%lldh %lldm" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld Std. %2$lld Min."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -22,6 +49,12 @@
     },
     "%lldh %lldm remaining" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch %1$lld Std. %2$lld Min."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -31,202 +64,663 @@
       }
     },
     "%lldm" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Min."
+          }
+        }
+      }
     },
     "%lldm remaining" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch %lld Min."
+          }
+        }
+      }
     },
     "<1m" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "<1 Min."
+          }
+        }
+      }
     },
     "<1m remaining" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weniger als 1 Min."
+          }
+        }
+      }
     },
     "3D Print" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3D-Druck"
+          }
+        }
+      }
     },
     "A1 / P1 (TCP)" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A1 / P1 (TCP)"
+          }
+        }
+      }
     },
     "ABS" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ABS"
+          }
+        }
+      }
     },
     "Absolute accuracy calibration" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kalibrierung der absoluten Genauigkeit"
+          }
+        }
+      }
     },
     "AMS" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AMS"
+          }
+        }
+      }
     },
     "AMS 2 Pro" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AMS 2 Pro"
+          }
+        }
+      }
     },
     "AMS HT" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AMS HT"
+          }
+        }
+      }
     },
     "Auto bed leveling" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auto Bed Leveling"
+          }
+        }
+      }
     },
     "Auto Detect" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatisch erkennen"
+          }
+        }
+      }
     },
     "Bed leveling (high temp)" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bed Leveling (hohe Temp.)"
+          }
+        }
+      }
     },
     "Bed leveling phase 1" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bed Leveling Phase 1"
+          }
+        }
+      }
     },
     "Bed leveling phase 2" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bed Leveling Phase 2"
+          }
+        }
+      }
     },
     "Calibrating" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kalibrierung"
+          }
+        }
+      }
     },
     "Calibrating blade holder" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kalibrierung Klingenhalter"
+          }
+        }
+      }
     },
     "Calibrating camera" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kalibrierung Kamera"
+          }
+        }
+      }
     },
     "Calibrating camera offset" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kalibrierung Kamera-Offset"
+          }
+        }
+      }
     },
     "Calibrating extrusion" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kalibrierung Extrusion"
+          }
+        }
+      }
     },
     "Calibrating extrusion flow" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kalibrierung Extrusionsfluss"
+          }
+        }
+      }
     },
     "Calibrating micro lidar" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kalibrierung Micro Lidar"
+          }
+        }
+      }
     },
     "Calibrating motor noise" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kalibrierung Motorgeräusche"
+          }
+        }
+      }
     },
     "Calibrating nozzle clump detection" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kalibrierung Nozzle-Klumpen-Erkennung"
+          }
+        }
+      }
     },
     "Calibrating nozzle offset" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kalibrierung Nozzle-Offset"
+          }
+        }
+      }
     },
     "Cancelled" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abgebrochen"
+          }
+        }
+      }
     },
     "Chamber temp control error" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fehler bei Chamber-Temperaturregelung"
+          }
+        }
+      }
     },
     "Changing filament" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filament wird gewechselt"
+          }
+        }
+      }
     },
     "Checking absolute accuracy" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prüfung der absoluten Genauigkeit"
+          }
+        }
+      }
     },
     "Checking camera position" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prüfung der Kameraposition"
+          }
+        }
+      }
     },
     "Checking door and cover" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prüfung von Tür und Abdeckung"
+          }
+        }
+      }
     },
     "Checking extruder temp" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prüfung der Extruder-Temperatur"
+          }
+        }
+      }
     },
     "Checking material" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Materialprüfung"
+          }
+        }
+      }
     },
     "Checking material position" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prüfung der Materialposition"
+          }
+        }
+      }
     },
     "Checking platform" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prüfung der Druckplatte"
+          }
+        }
+      }
     },
     "Checking quick release" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prüfung Schnellverschluss"
+          }
+        }
+      }
     },
     "Cleaning nozzle tip" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reinigung der Nozzle-Spitze"
+          }
+        }
+      }
     },
     "Complete" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fertig"
+          }
+        }
+      }
     },
     "Cooling chamber" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chamber wird gekühlt"
+          }
+        }
+      }
     },
     "Cooling heatbed" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heizbett wird gekühlt"
+          }
+        }
+      }
     },
     "Custom" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Benutzerdefiniert"
+          }
+        }
+      }
     },
     "Cutting module offset calibration" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kalibrierung Schneidemodul-Offset"
+          }
+        }
+      }
     },
     "Done" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fertig"
+          }
+        }
+      }
     },
     "Filament" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filament"
+          }
+        }
+      }
     },
     "Filament loading" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filament wird geladen"
+          }
+        }
+      }
     },
     "Filament runout pause" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pause: Filament aufgebraucht"
+          }
+        }
+      }
     },
     "Filament unloading" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filament wird entladen"
+          }
+        }
+      }
     },
     "Front cover falling" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frontabdeckung fällt"
+          }
+        }
+      }
     },
     "Heatbed temp malfunction" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fehlfunktion Heizbett-Temperatur"
+          }
+        }
+      }
     },
     "Heating chamber" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chamber wird aufgeheizt"
+          }
+        }
+      }
     },
     "Heating hotend" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hotend wird aufgeheizt"
+          }
+        }
+      }
     },
     "Homing blade holder" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homing Klingenhalter"
+          }
+        }
+      }
     },
     "Homing toolhead" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homing Druckkopf"
+          }
+        }
+      }
     },
     "Hotend pick and place test" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hotend Pick-and-Place-Test"
+          }
+        }
+      }
     },
     "Identifying build plate" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Druckplatte wird erkannt"
+          }
+        }
+      }
     },
     "Idle" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bereit"
+          }
+        }
+      }
     },
     "Inspecting first layer" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prüfung der ersten Schicht"
+          }
+        }
+      }
     },
     "Issue" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Problem"
+          }
+        }
+      }
     },
     "Laser calibration" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laser-Kalibrierung"
+          }
+        }
+      }
     },
     "Live view camera calibration" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kalibrierung der Live-View-Kamera"
+          }
+        }
+      }
     },
     "Ludicrous" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ludicrous"
+          }
+        }
+      }
     },
     "M400 pause" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "M400-Pause"
+          }
+        }
+      }
     },
     "Measuring surface" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oberfläche wird vermessen"
+          }
+        }
+      }
     },
     "Motor noise calibration" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Motorgeräusch-Kalibrierung"
+          }
+        }
+      }
     },
     "Nozzle %@ · Bed %@" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nozzle %1$@ · Bett %2$@"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -237,6 +731,12 @@
     },
     "Nozzle %@ · Bed %@ · Chamber %lld°C" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nozzle %1$@ · Bett %2$@ · Chamber %3$lld°C"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -246,100 +746,324 @@
       }
     },
     "Nozzle temp malfunction" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fehlfunktion Nozzle-Temperatur"
+          }
+        }
+      }
     },
     "PA" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PA"
+          }
+        }
+      }
     },
     "Paused" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pausiert"
+          }
+        }
+      }
     },
     "Paused by G-code" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pause durch G-Code"
+          }
+        }
+      }
     },
     "Paused by user" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vom Benutzer pausiert"
+          }
+        }
+      }
     },
     "Paused: AMS lost" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pause: AMS verloren"
+          }
+        }
+      }
     },
     "Paused: cutter error" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pause: Cutter-Fehler"
+          }
+        }
+      }
     },
     "Paused: first layer error" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pause: Fehler bei erster Schicht"
+          }
+        }
+      }
     },
     "Paused: low fan speed" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pause: Niedrige Lüftergeschwindigkeit"
+          }
+        }
+      }
     },
     "Paused: nozzle clog" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pause: Nozzle verstopft"
+          }
+        }
+      }
     },
     "Paused: nozzle filament covered" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pause: Nozzle mit Filament bedeckt"
+          }
+        }
+      }
     },
     "Paused: skipped step" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pause: Schritt übersprungen"
+          }
+        }
+      }
     },
     "PETG" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PETG"
+          }
+        }
+      }
     },
     "PLA" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PLA"
+          }
+        }
+      }
     },
     "Preheating heatbed" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heizbett wird vorgeheizt"
+          }
+        }
+      }
     },
     "Preparing" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vorbereitung"
+          }
+        }
+      }
     },
     "Preparing AMS" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AMS wird vorbereitet"
+          }
+        }
+      }
     },
     "Preparing hotend" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hotend wird vorbereitet"
+          }
+        }
+      }
     },
     "Printing" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Druckt"
+          }
+        }
+      }
     },
     "Printing calibration lines" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kalibrierungslinien werden gedruckt"
+          }
+        }
+      }
     },
     "Purifying chamber air" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chamber-Luft wird gereinigt"
+          }
+        }
+      }
     },
     "Scanning bed surface" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Druckbett wird gescannt"
+          }
+        }
+      }
     },
     "Silent" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leise"
+          }
+        }
+      }
     },
     "Sport" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sport"
+          }
+        }
+      }
     },
     "Standard" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Standard"
+          }
+        }
+      }
     },
     "Stop" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stopp"
+          }
+        }
+      }
     },
     "Thermal preconditioning" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thermische Vorkonditionierung"
+          }
+        }
+      }
     },
     "TPU" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TPU"
+          }
+        }
+      }
     },
     "Vibration compensation" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vibrationskompensation"
+          }
+        }
+      }
     },
     "Waiting for chamber temp" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Warten auf Chamber-Temperatur"
+          }
+        }
+      }
     },
     "Waiting for heatbed temp" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Warten auf Heizbett-Temperatur"
+          }
+        }
+      }
     },
     "X1 / P2S (RTSP)" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "X1 / P2S (RTSP)"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

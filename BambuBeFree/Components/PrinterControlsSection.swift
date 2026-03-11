@@ -15,6 +15,14 @@ struct PrinterControlsSection: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(.yellow)
+                .confirmationDialog("Pause Print?", isPresented: $viewModel.showPauseConfirmation) {
+                    Button("Pause Print") {
+                        viewModel.pausePrint()
+                    }
+                    Button("Cancel", role: .cancel) {}
+                } message: {
+                    Text("The printer will finish its current move and pause.")
+                }
             }
 
             if viewModel.canResume {
@@ -37,23 +45,15 @@ struct PrinterControlsSection: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(.red)
+                .confirmationDialog("Stop Print?", isPresented: $viewModel.showStopConfirmation) {
+                    Button("Stop Print", role: .destructive) {
+                        viewModel.stopPrint()
+                    }
+                    Button("Cancel", role: .cancel) {}
+                } message: {
+                    Text("This will cancel the current print job. This action cannot be undone.")
+                }
             }
-        }
-        .confirmationDialog("Pause Print?", isPresented: $viewModel.showPauseConfirmation) {
-            Button("Pause Print") {
-                viewModel.pausePrint()
-            }
-            Button("Cancel", role: .cancel) {}
-        } message: {
-            Text("The printer will finish its current move and pause.")
-        }
-        .confirmationDialog("Stop Print?", isPresented: $viewModel.showStopConfirmation) {
-            Button("Stop Print", role: .destructive) {
-                viewModel.stopPrint()
-            }
-            Button("Cancel", role: .cancel) {}
-        } message: {
-            Text("This will cancel the current print job. This action cannot be undone.")
         }
     }
 }
