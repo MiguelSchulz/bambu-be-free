@@ -1,4 +1,5 @@
 import BambuModels
+import SFSafeSymbols
 import SwiftUI
 
 enum CredentialsField: Hashable {
@@ -62,7 +63,7 @@ struct CredentialsForm: View {
             }
 
             if let error = viewModel.connectionError {
-                Label(error, systemImage: "exclamationmark.triangle.fill")
+                Label(error, systemSymbol: .exclamationmarkTriangleFill)
                     .font(.subheadline)
                     .foregroundStyle(.red)
             }
@@ -75,7 +76,7 @@ struct CredentialsForm: View {
                 .font(.caption)
                 .foregroundStyle(.secondary)
         } icon: {
-            Image(systemName: "info.circle")
+            Image(systemSymbol: .infoCircle)
                 .foregroundStyle(.secondary)
         }
     }

@@ -1,5 +1,6 @@
 import BambuModels
 import BambuUI
+import SFSafeSymbols
 import SwiftUI
 
 struct TemperatureSection: View {
@@ -14,7 +15,7 @@ struct TemperatureSection: View {
             if let nozzle = state.nozzleTemp {
                 TemperatureGauge(
                     label: "Nozzle",
-                    icon: "flame.fill",
+                    icon: .flameFill,
                     current: nozzle,
                     target: state.nozzleTargetTemp,
                     range: 0...300,
@@ -24,7 +25,7 @@ struct TemperatureSection: View {
             if let bed = state.bedTemp {
                 TemperatureGauge(
                     label: "Bed",
-                    icon: "square.fill",
+                    icon: .squareFill,
                     current: bed,
                     target: state.bedTargetTemp,
                     range: 0...110,
@@ -34,7 +35,7 @@ struct TemperatureSection: View {
             if let chamber = state.chamberTemp, chamber > 0 {
                 TemperatureGauge(
                     label: "Chamber",
-                    icon: "wind",
+                    icon: .wind,
                     current: chamber,
                     target: nil,
                     range: nil,

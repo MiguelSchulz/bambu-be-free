@@ -1,4 +1,5 @@
 import BambuUI
+import SFSafeSymbols
 import SwiftUI
 
 struct BedControlView: View {
@@ -6,15 +7,15 @@ struct BedControlView: View {
 
     var body: some View {
         VStack(spacing: 4) {
-            DirectionalButton(systemImage: "chevron.up.2") {
+            DirectionalButton(systemSymbol: .chevronUp2) {
                 viewModel.jogZ(distance: 10)
             }
-            DirectionalButton(systemImage: "chevron.up") {
+            DirectionalButton(systemSymbol: .chevronUp) {
                 viewModel.jogZ(distance: 1)
             }
 
             VStack(spacing: 2) {
-                Image(systemName: "square.stack.3d.up")
+                Image(systemSymbol: .squareStack3dUp)
                     .font(.title2)
                     .foregroundStyle(.secondary)
                 Text("Bed")
@@ -23,10 +24,10 @@ struct BedControlView: View {
             }
             .frame(height: 52)
 
-            DirectionalButton(systemImage: "chevron.down") {
+            DirectionalButton(systemSymbol: .chevronDown) {
                 viewModel.jogZ(distance: -1)
             }
-            DirectionalButton(systemImage: "chevron.down.2") {
+            DirectionalButton(systemSymbol: .chevronDown2) {
                 viewModel.jogZ(distance: -10)
             }
         }

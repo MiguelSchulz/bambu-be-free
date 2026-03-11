@@ -1,3 +1,4 @@
+import SFSafeSymbols
 import SwiftUI
 
 /// Fan icon that spins continuously at a speed proportional to the percentage.
@@ -24,13 +25,13 @@ public struct SpinningFan: View {
                 TimelineView(.animation) { timeline in
                     let elapsed = timeline.date.timeIntervalSince(baseTime)
                     let angle = baseAngle + elapsed * rate
-                    Image(systemName: "fan.fill")
+                    Image(systemSymbol: .fanFill)
                         .font(.title3)
                         .foregroundStyle(.cyan)
                         .rotationEffect(.degrees(angle))
                 }
             } else {
-                Image(systemName: "fan.fill")
+                Image(systemSymbol: .fanFill)
                     .font(.title3)
                     .foregroundStyle(.secondary)
             }

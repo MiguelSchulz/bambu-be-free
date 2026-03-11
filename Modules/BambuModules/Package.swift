@@ -14,9 +14,13 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/emqx/CocoaMQTT.git", from: "2.2.1"),
         .package(url: "https://github.com/hmlongco/Navigator.git", from: "2.0.0"),
+        .package(url: "https://github.com/SFSafeSymbols/SFSafeSymbols.git", from: "7.0.0"),
     ],
     targets: [
-        .target(name: "BambuModels"),
+        .target(
+            name: "BambuModels",
+            dependencies: ["SFSafeSymbols"]
+        ),
         .target(
             name: "Networking",
             dependencies: [
@@ -26,13 +30,14 @@ let package = Package(
         ),
         .target(
             name: "BambuUI",
-            dependencies: ["BambuModels"]
+            dependencies: ["BambuModels", "SFSafeSymbols"]
         ),
         .target(
             name: "Onboarding",
             dependencies: [
                 "BambuModels",
                 "BambuUI",
+                "SFSafeSymbols",
                 .product(name: "NavigatorUI", package: "Navigator"),
             ]
         ),
@@ -42,6 +47,7 @@ let package = Package(
                 "BambuModels",
                 "BambuUI",
                 "Networking",
+                "SFSafeSymbols",
             ]
         ),
         .testTarget(

@@ -1,4 +1,5 @@
 import BambuUI
+import SFSafeSymbols
 import SwiftUI
 
 struct FullscreenCameraView: View {
@@ -31,7 +32,7 @@ struct FullscreenCameraView: View {
                     Button {
                         isPresented = false
                     } label: {
-                        Image(systemName: "xmark")
+                        Image(systemSymbol: .xmark)
                             .font(.system(size: 16, weight: .semibold))
                             .foregroundStyle(.white)
                             .padding(10)
@@ -44,7 +45,7 @@ struct FullscreenCameraView: View {
                         Button {
                             onToggleLight(!isLightOn)
                         } label: {
-                            Image(systemName: isLightOn ? "lightbulb.fill" : "lightbulb")
+                            Image(systemSymbol: isLightOn ? .lightbulbFill : .lightbulb)
                                 .font(.system(size: 16, weight: .semibold))
                                 .foregroundStyle(isLightOn ? .yellow : .white.opacity(0.7))
                                 .padding(10)

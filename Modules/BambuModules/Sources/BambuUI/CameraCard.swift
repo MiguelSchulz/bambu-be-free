@@ -1,3 +1,4 @@
+import SFSafeSymbols
 import SwiftUI
 
 public struct CameraCard: View {
@@ -63,7 +64,7 @@ public struct CameraCard: View {
                             Button {
                                 onToggleLight(!isLightOn)
                             } label: {
-                                Image(systemName: isLightOn ? "lightbulb.fill" : "lightbulb")
+                                Image(systemSymbol: isLightOn ? .lightbulbFill : .lightbulb)
                                     .font(.system(size: 14, weight: .semibold))
                                     .foregroundStyle(isLightOn ? .yellow : .white.opacity(0.7))
                                     .padding(10)
@@ -73,7 +74,7 @@ public struct CameraCard: View {
                         Spacer()
                         if let onTapFullscreen {
                             Button(action: onTapFullscreen) {
-                                Image(systemName: "arrow.up.left.and.arrow.down.right")
+                                Image(systemSymbol: .arrowUpLeftAndArrowDownRight)
                                     .font(.system(size: 14, weight: .semibold))
                                     .foregroundStyle(.white)
                                     .padding(10)

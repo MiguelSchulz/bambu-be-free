@@ -1,4 +1,5 @@
 import BambuModels
+import SFSafeSymbols
 import SwiftUI
 
 /// Shared print progress view content used by both the dashboard (PrintProgressSection)
@@ -15,7 +16,7 @@ public struct PrintProgressContent: View {
         VStack(alignment: .leading, spacing: 12) {
             // Status header: icon + job name + state badge
             HStack {
-                Image(systemName: state.iconName)
+                Image(systemSymbol: state.iconName)
                     .foregroundColor(state.accentColor)
                 Text(state.displayTitle)
                     .font(.headline)
@@ -33,7 +34,7 @@ public struct PrintProgressContent: View {
 
             // Prepare stage label
             if let stage = state.prepareStageLabel {
-                Label(stage, systemImage: "gearshape.2")
+                Label(stage, systemSymbol: .gearshape2)
                     .font(.subheadline)
                     .foregroundColor(state.accentColor)
             }
@@ -64,12 +65,12 @@ public struct PrintProgressContent: View {
                 Spacer()
                 VStack(alignment: .trailing, spacing: 4) {
                     if let layers = state.layerInfo {
-                        Label("Layer \(layers)", systemImage: "square.stack.3d.up")
+                        Label("Layer \(layers)", systemSymbol: .squareStack3dUp)
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
                     if state.remainingMinutes > 0 {
-                        Label(state.formattedTime + " remaining", systemImage: "clock")
+                        Label(state.formattedTime + " remaining", systemSymbol: .clock)
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }

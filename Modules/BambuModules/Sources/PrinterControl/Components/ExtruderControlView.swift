@@ -1,3 +1,4 @@
+import SFSafeSymbols
 import SwiftUI
 
 struct ExtruderControlView: View {
@@ -8,7 +9,7 @@ struct ExtruderControlView: View {
             Button {
                 viewModel.retract()
             } label: {
-                Label("Retract", systemImage: "arrow.up")
+                Label("Retract", systemSymbol: .arrowUp)
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.bordered)
@@ -16,7 +17,7 @@ struct ExtruderControlView: View {
             Button {
                 viewModel.extrude()
             } label: {
-                Label("Extrude", systemImage: "arrow.down")
+                Label("Extrude", systemSymbol: .arrowDown)
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.bordered)

@@ -1,5 +1,6 @@
 import BambuModels
 import BambuUI
+import SFSafeSymbols
 import SwiftUI
 
 struct CameraStreamView: View {
@@ -138,7 +139,7 @@ struct CameraStreamView: View {
             Button {
                 isFullscreen = true
             } label: {
-                Image(systemName: "arrow.up.left.and.arrow.down.right")
+                Image(systemSymbol: .arrowUpLeftAndArrowDownRight)
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundStyle(.white)
                     .padding(10)
@@ -152,7 +153,7 @@ struct CameraStreamView: View {
                     manager.disconnect()
                     manager.connect(ip: printerIP, accessCode: accessCode, printerType: PrinterType(rawValue: printerTypeRaw) ?? .auto)
                 } label: {
-                    Image(systemName: "arrow.clockwise")
+                    Image(systemSymbol: .arrowClockwise)
                 }
             }
             ToolbarItem(placement: .topBarTrailing) {
@@ -171,7 +172,7 @@ struct CameraStreamView: View {
 
     private func errorView(message: String) -> some View {
         VStack(spacing: 20) {
-            Image(systemName: "exclamationmark.triangle.fill")
+            Image(systemSymbol: .exclamationmarkTriangleFill)
                 .font(.system(size: 48))
                 .foregroundStyle(.red)
 

@@ -1,4 +1,5 @@
 import BambuUI
+import SFSafeSymbols
 import SwiftUI
 
 struct SetupStepLayout<Content: View>: View {
@@ -28,7 +29,7 @@ struct SetupStepLayout<Content: View>: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 24) {
-                Image(systemName: step.systemImage)
+                Image(systemSymbol: step.systemSymbol)
                     .font(.system(size: 60))
                     .foregroundStyle(.tint)
                     .padding(.top, 24)
@@ -46,7 +47,7 @@ struct SetupStepLayout<Content: View>: View {
 
                 if let wikiURL = step.wikiURL {
                     Link(destination: wikiURL) {
-                        Label("View on Bambu Wiki", systemImage: "safari")
+                        Label("View on Bambu Wiki", systemSymbol: .safari)
                     }
                     .font(.subheadline)
                 }

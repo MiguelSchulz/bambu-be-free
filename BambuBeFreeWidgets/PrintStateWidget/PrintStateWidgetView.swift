@@ -1,5 +1,6 @@
 import BambuModels
 import BambuUI
+import SFSafeSymbols
 import SwiftUI
 import WidgetKit
 
@@ -33,7 +34,7 @@ struct PrintStateWidgetView: View {
                     .invalidatableContent()
 
                 Button(intent: RefreshPrintStateWidgetIntent()) {
-                    Image(systemName: "arrow.clockwise")
+                    Image(systemSymbol: .arrowClockwise)
                         .fontWeight(.semibold)
                         .font(.caption2)
                         .padding(.horizontal, 8)
@@ -52,7 +53,7 @@ struct PrintStateWidgetView: View {
 
     private var loadingView: some View {
         VStack(spacing: 8) {
-            Image(systemName: "printer.fill")
+            Image(systemSymbol: .printerFill)
                 .font(.largeTitle)
                 .foregroundStyle(.secondary)
             Text("Loading status...")
@@ -67,7 +68,7 @@ struct PrintStateWidgetView: View {
 
     private func errorView(message: String) -> some View {
         VStack(spacing: 8) {
-            Image(systemName: "printer.fill")
+            Image(systemSymbol: .printerFill)
                 .font(.title2)
                 .foregroundStyle(.secondary)
             Text("Printer Unavailable")
@@ -80,7 +81,7 @@ struct PrintStateWidgetView: View {
                 .lineLimit(2)
 
             Button(intent: RefreshPrintStateWidgetIntent()) {
-                Label("Retry", systemImage: "arrow.clockwise")
+                Label("Retry", systemSymbol: .arrowClockwise)
                     .font(.caption2)
             }
             .buttonStyle(.bordered)
@@ -94,7 +95,7 @@ struct PrintStateWidgetView: View {
 
     private var notConfiguredView: some View {
         VStack(spacing: 8) {
-            Image(systemName: "printer.fill")
+            Image(systemSymbol: .printerFill)
                 .font(.title2)
                 .foregroundStyle(.secondary)
             Text("No Printer Configured")

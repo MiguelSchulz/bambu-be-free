@@ -1,6 +1,7 @@
 import BambuModels
 import BambuUI
 import Networking
+import SFSafeSymbols
 import SwiftUI
 
 public struct PrinterControlView: View {
@@ -27,7 +28,7 @@ public struct PrinterControlView: View {
                     if !viewModel.controlsEnabled {
                         Label(
                             "Controls are disabled while the printer is busy.",
-                            systemImage: "exclamationmark.triangle.fill"
+                            systemSymbol: .exclamationmarkTriangleFill
                         )
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
@@ -43,7 +44,7 @@ public struct PrinterControlView: View {
                         )
                     }
 
-                    ControlCard(title: "Position", systemImage: "move.3d") {
+                    ControlCard(title: "Position", systemSymbol: .move3d) {
                         HStack(alignment: .center, spacing: 16) {
                             JogPadView(viewModel: viewModel)
                             BedControlView(viewModel: viewModel)
@@ -51,7 +52,7 @@ public struct PrinterControlView: View {
                     }
                     .disabled(!viewModel.controlsEnabled)
 
-                    ControlCard(title: "Extruder", systemImage: "arrow.down.to.line") {
+                    ControlCard(title: "Extruder", systemSymbol: .arrowDownToLine) {
                         ExtruderControlView(viewModel: viewModel)
                     }
                     .disabled(!viewModel.controlsEnabled)

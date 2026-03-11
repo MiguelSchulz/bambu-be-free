@@ -3,6 +3,7 @@ import NavigatorUI
 import Networking
 import Onboarding
 import PrinterControl
+import SFSafeSymbols
 import SwiftUI
 
 enum RootTab: Hashable {
@@ -57,7 +58,7 @@ struct BambuBeFreeApp: App {
                 TabView(selection: $selectedTab) {
                     DashboardView(viewModel: dashboardViewModel)
                         .tabItem {
-                            Label("Dashboard", systemImage: "printer.fill")
+                            Label("Dashboard", systemSymbol: .printerFill)
                         }
                         .tag(RootTab.dashboard)
                     PrinterControlView(
@@ -67,12 +68,12 @@ struct BambuBeFreeApp: App {
                         printerState: dashboardViewModel.printerState
                     )
                     .tabItem {
-                        Label("Control", systemImage: "gamecontroller.fill")
+                        Label("Control", systemSymbol: .gamecontrollerFill)
                     }
                     .tag(RootTab.control)
                     PlaceholderView()
                         .tabItem {
-                            Label("More", systemImage: "ellipsis.circle")
+                            Label("More", systemSymbol: .ellipsisCircle)
                         }
                         .tag(RootTab.more)
                 }
@@ -91,7 +92,7 @@ private struct PlaceholderView: View {
         NavigationStack {
             ContentUnavailableView(
                 "Coming Soon",
-                systemImage: "sparkles",
+                systemImage: SFSymbol.sparkles.rawValue,
                 description: Text("New features are on the way.")
             )
             .navigationTitle("More")

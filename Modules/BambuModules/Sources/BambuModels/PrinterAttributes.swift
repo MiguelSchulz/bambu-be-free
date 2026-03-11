@@ -1,4 +1,5 @@
 import Foundation
+import SFSafeSymbols
 import SwiftUI
 
 // MARK: - Printer Status Enum
@@ -149,13 +150,13 @@ extension PrinterAttributes.ContentState {
 // MARK: - UI Helpers
 
 extension PrinterAttributes.ContentState {
-    public var iconName: String {
+    public var iconName: SFSymbol {
         switch status {
-        case .completed: "checkmark.circle.fill"
-        case .cancelled: "xmark.circle.fill"
-        case .paused:    "pause.circle.fill"
-        case .issue:     "exclamationmark.triangle.fill"
-        case .preparing, .printing, .idle: "printer.fill"
+        case .completed: .checkmarkCircleFill
+        case .cancelled: .xmarkCircleFill
+        case .paused:    .pauseCircleFill
+        case .issue:     .exclamationmarkTriangleFill
+        case .preparing, .printing, .idle: .printerFill
         }
     }
 

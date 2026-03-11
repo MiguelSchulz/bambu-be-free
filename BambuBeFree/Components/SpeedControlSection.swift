@@ -1,4 +1,5 @@
 import BambuModels
+import SFSafeSymbols
 import SwiftUI
 
 struct SpeedControlSection: View {
@@ -6,7 +7,7 @@ struct SpeedControlSection: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Label("Print Speed", systemImage: "gauge.with.needle")
+            Label("Print Speed", systemSymbol: .gaugeWithNeedle)
                 .font(.subheadline)
                 .foregroundColor(.secondary)
 

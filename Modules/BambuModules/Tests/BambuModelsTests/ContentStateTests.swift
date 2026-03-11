@@ -1,3 +1,4 @@
+import SFSafeSymbols
 import Testing
 import SwiftUI
 @testable import BambuModels
@@ -125,13 +126,13 @@ struct ContentStateTests {
 
     @Test("iconName returns correct symbols",
           arguments: [
-            (PrinterStatus.completed, "checkmark.circle.fill"),
-            (.cancelled, "xmark.circle.fill"),
-            (.paused, "pause.circle.fill"),
-            (.issue, "exclamationmark.triangle.fill"),
-            (.printing, "printer.fill"),
+            (PrinterStatus.completed, SFSymbol.checkmarkCircleFill),
+            (.cancelled, .xmarkCircleFill),
+            (.paused, .pauseCircleFill),
+            (.issue, .exclamationmarkTriangleFill),
+            (.printing, .printerFill),
           ])
-    func iconName(status: PrinterStatus, expected: String) {
+    func iconName(status: PrinterStatus, expected: SFSymbol) {
         let state = makeState(status: status)
         #expect(state.iconName == expected)
     }

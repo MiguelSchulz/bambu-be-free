@@ -1,3 +1,4 @@
+import SFSafeSymbols
 import SwiftUI
 import UIKit
 import WidgetKit
@@ -35,7 +36,7 @@ struct CameraWidgetView: View {
                         .foregroundStyle(.white)
 
                     Button(intent: RefreshCameraWidgetIntent()) {
-                        Image(systemName: "arrow.clockwise")
+                        Image(systemSymbol: .arrowClockwise)
                             .fontWeight(.semibold)
                             .font(.caption2)
                             .foregroundStyle(.white)
@@ -55,7 +56,7 @@ struct CameraWidgetView: View {
 
     private var loadingView: some View {
         VStack(spacing: 8) {
-            Image(systemName: "camera.fill")
+            Image(systemSymbol: .cameraFill)
                 .font(.largeTitle)
                 .foregroundStyle(.secondary)
             Text("Loading camera...")
@@ -70,7 +71,7 @@ struct CameraWidgetView: View {
 
     private func errorView(message: String) -> some View {
         VStack(spacing: 8) {
-            Image(systemName: "camera.fill")
+            Image(systemSymbol: .cameraFill)
                 .font(.title2)
                 .foregroundStyle(.secondary)
             Text("Camera Unavailable")
@@ -83,7 +84,7 @@ struct CameraWidgetView: View {
                 .lineLimit(2)
 
             Button(intent: RefreshCameraWidgetIntent()) {
-                Label("Retry", systemImage: "arrow.clockwise")
+                Label("Retry", systemSymbol: .arrowClockwise)
                     .font(.caption2)
             }
             .buttonStyle(.bordered)
@@ -98,7 +99,7 @@ struct CameraWidgetView: View {
 
     private var notConfiguredView: some View {
         VStack(spacing: 8) {
-            Image(systemName: "printer.fill")
+            Image(systemSymbol: .printerFill)
                 .font(.title2)
                 .foregroundStyle(.secondary)
             Text("No Printer Configured")

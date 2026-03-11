@@ -1,5 +1,6 @@
 import BambuModels
 import BambuUI
+import SFSafeSymbols
 import SwiftUI
 import WidgetKit
 
@@ -27,14 +28,14 @@ struct AMSWidgetView: View {
         VStack(spacing: 8) {
             // Header
             HStack {
-                Label(unit.amsTypeName ?? "AMS", systemImage: "tray.2.fill")
+                Label(unit.amsTypeName ?? "AMS", systemSymbol: .tray2Fill)
                     .font(.subheadline)
                     .fontWeight(.medium)
 
                 Spacer()
 
                 HStack(spacing: 4) {
-                    Image(systemName: humidityIcon(level: unit.humidityLevel))
+                    Image(systemSymbol: humidityIcon(level: unit.humidityLevel))
                         .foregroundColor(humidityColor(level: unit.humidityLevel))
                         .font(.caption)
                     Text("\(unit.humidityRaw)%")
@@ -46,7 +47,7 @@ struct AMSWidgetView: View {
                     .frame(height: 14)
 
                 HStack(spacing: 2) {
-                    Image(systemName: "thermometer.medium")
+                    Image(systemSymbol: .thermometerMedium)
                         .font(.caption2)
                         .foregroundColor(.secondary)
                     Text("\(Int(unit.temperature.rounded()))\u{00B0}C")
@@ -76,7 +77,7 @@ struct AMSWidgetView: View {
                     .invalidatableContent()
 
                 Button(intent: RefreshAMSWidgetIntent()) {
-                    Image(systemName: "arrow.clockwise")
+                    Image(systemSymbol: .arrowClockwise)
                         .fontWeight(.semibold)
                         .font(.caption2)
                         .padding(.horizontal, 8)
@@ -96,14 +97,14 @@ struct AMSWidgetView: View {
         return active - unitStart == trayId
     }
 
-    private func humidityIcon(level: Int) -> String {
+    private func humidityIcon(level: Int) -> SFSymbol {
         switch level {
-        case 1: "drop"
-        case 2: "drop.fill"
-        case 3: "drop.fill"
-        case 4: "humidity.fill"
-        case 5: "humidity.fill"
-        default: "drop"
+        case 1: .drop
+        case 2: .dropFill
+        case 3: .dropFill
+        case 4: .humidityFill
+        case 5: .humidityFill
+        default: .drop
         }
     }
 
@@ -120,7 +121,7 @@ struct AMSWidgetView: View {
 
     private var noAMSView: some View {
         VStack(spacing: 8) {
-            Image(systemName: "tray.2.fill")
+            Image(systemSymbol: .tray2Fill)
                 .font(.title2)
                 .foregroundStyle(.secondary)
             Text("No AMS Detected")
@@ -132,7 +133,7 @@ struct AMSWidgetView: View {
                 .multilineTextAlignment(.center)
 
             Button(intent: RefreshAMSWidgetIntent()) {
-                Label("Retry", systemImage: "arrow.clockwise")
+                Label("Retry", systemSymbol: .arrowClockwise)
                     .font(.caption2)
             }
             .buttonStyle(.bordered)
@@ -146,7 +147,7 @@ struct AMSWidgetView: View {
 
     private var loadingView: some View {
         VStack(spacing: 8) {
-            Image(systemName: "tray.2.fill")
+            Image(systemSymbol: .tray2Fill)
                 .font(.largeTitle)
                 .foregroundStyle(.secondary)
             Text("Loading AMS...")
@@ -161,7 +162,7 @@ struct AMSWidgetView: View {
 
     private func errorView(message: String) -> some View {
         VStack(spacing: 8) {
-            Image(systemName: "tray.2.fill")
+            Image(systemSymbol: .tray2Fill)
                 .font(.title2)
                 .foregroundStyle(.secondary)
             Text("AMS Unavailable")
@@ -174,7 +175,7 @@ struct AMSWidgetView: View {
                 .lineLimit(2)
 
             Button(intent: RefreshAMSWidgetIntent()) {
-                Label("Retry", systemImage: "arrow.clockwise")
+                Label("Retry", systemSymbol: .arrowClockwise)
                     .font(.caption2)
             }
             .buttonStyle(.bordered)
@@ -188,7 +189,7 @@ struct AMSWidgetView: View {
 
     private var notConfiguredView: some View {
         VStack(spacing: 8) {
-            Image(systemName: "printer.fill")
+            Image(systemSymbol: .printerFill)
                 .font(.title2)
                 .foregroundStyle(.secondary)
             Text("No Printer Configured")

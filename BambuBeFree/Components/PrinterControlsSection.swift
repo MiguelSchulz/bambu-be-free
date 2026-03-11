@@ -1,3 +1,4 @@
+import SFSafeSymbols
 import SwiftUI
 
 struct PrinterControlsSection: View {
@@ -9,7 +10,7 @@ struct PrinterControlsSection: View {
                 Button {
                     viewModel.showPauseConfirmation = true
                 } label: {
-                    Label("Pause", systemImage: "pause.fill")
+                    Label("Pause", systemSymbol: .pauseFill)
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.borderedProminent)
@@ -20,7 +21,7 @@ struct PrinterControlsSection: View {
                 Button {
                     viewModel.resumePrint()
                 } label: {
-                    Label("Resume", systemImage: "play.fill")
+                    Label("Resume", systemSymbol: .playFill)
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.borderedProminent)
@@ -31,7 +32,7 @@ struct PrinterControlsSection: View {
                 Button {
                     viewModel.showStopConfirmation = true
                 } label: {
-                    Label("Stop", systemImage: "stop.fill")
+                    Label("Stop", systemSymbol: .stopFill)
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.borderedProminent)

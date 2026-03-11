@@ -1,4 +1,5 @@
 import BambuUI
+import SFSafeSymbols
 import SwiftUI
 
 struct JogPadView: View {
@@ -8,10 +9,10 @@ struct JogPadView: View {
         VStack(spacing: 4) {
             // Up: 10mm then 1mm (outer to inner)
             VStack(spacing: 4) {
-                DirectionalButton(systemImage: "chevron.up.2") {
+                DirectionalButton(systemSymbol: .chevronUp2) {
                     viewModel.jogY(distance: 10)
                 }
-                DirectionalButton(systemImage: "chevron.up") {
+                DirectionalButton(systemSymbol: .chevronUp) {
                     viewModel.jogY(distance: 1)
                 }
             }
@@ -19,16 +20,16 @@ struct JogPadView: View {
             HStack(spacing: 4) {
                 // Left: 10mm then 1mm (outer to inner)
                 HStack(spacing: 4) {
-                    DirectionalButton(systemImage: "chevron.left.2") {
+                    DirectionalButton(systemSymbol: .chevronLeft2) {
                         viewModel.jogX(distance: -10)
                     }
-                    DirectionalButton(systemImage: "chevron.left") {
+                    DirectionalButton(systemSymbol: .chevronLeft) {
                         viewModel.jogX(distance: -1)
                     }
                 }
 
                 Button { viewModel.homeAll() } label: {
-                    Image(systemName: "house.fill")
+                    Image(systemSymbol: .houseFill)
                         .font(.title3)
                         .frame(width: 52, height: 52)
                         .background(.ultraThinMaterial, in: Circle())
@@ -37,10 +38,10 @@ struct JogPadView: View {
 
                 // Right: 1mm then 10mm (inner to outer)
                 HStack(spacing: 4) {
-                    DirectionalButton(systemImage: "chevron.right") {
+                    DirectionalButton(systemSymbol: .chevronRight) {
                         viewModel.jogX(distance: 1)
                     }
-                    DirectionalButton(systemImage: "chevron.right.2") {
+                    DirectionalButton(systemSymbol: .chevronRight2) {
                         viewModel.jogX(distance: 10)
                     }
                 }
@@ -48,10 +49,10 @@ struct JogPadView: View {
 
             // Down: 1mm then 10mm (inner to outer)
             VStack(spacing: 4) {
-                DirectionalButton(systemImage: "chevron.down") {
+                DirectionalButton(systemSymbol: .chevronDown) {
                     viewModel.jogY(distance: -1)
                 }
-                DirectionalButton(systemImage: "chevron.down.2") {
+                DirectionalButton(systemSymbol: .chevronDown2) {
                     viewModel.jogY(distance: -10)
                 }
             }

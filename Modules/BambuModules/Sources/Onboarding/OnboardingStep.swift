@@ -1,4 +1,5 @@
 import Foundation
+import SFSafeSymbols
 
 public enum OnboardingStep: Int, CaseIterable, Sendable {
     case lanMode
@@ -36,13 +37,13 @@ public enum OnboardingStep: Int, CaseIterable, Sendable {
         }
     }
 
-    public var systemImage: String {
+    public var systemSymbol: SFSymbol {
         switch self {
-        case .lanMode: "wifi.router"
-        case .devMode: "wrench.and.screwdriver"
-        case .credentials: "key.fill"
-        case .enterCredentials: "rectangle.and.pencil.and.ellipsis"
-        case .slicerSetup: "desktopcomputer"
+        case .lanMode: .wifiRouter
+        case .devMode: .wrenchAndScrewdriver
+        case .credentials: .keyFill
+        case .enterCredentials: .rectangleAndPencilAndEllipsis
+        case .slicerSetup: .desktopcomputer
         }
     }
 

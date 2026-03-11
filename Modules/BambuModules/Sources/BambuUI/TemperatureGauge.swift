@@ -1,8 +1,9 @@
+import SFSafeSymbols
 import SwiftUI
 
 public struct TemperatureGauge: View {
     public let label: String
-    public let icon: String
+    public let icon: SFSymbol
     public let current: Int
     public let target: Int?
     public let range: ClosedRange<Int>?
@@ -14,7 +15,7 @@ public struct TemperatureGauge: View {
     @State private var originalValue = 0
     @FocusState private var isFocused: Bool
 
-    public init(label: String, icon: String, current: Int, target: Int?,
+    public init(label: String, icon: SFSymbol, current: Int, target: Int?,
                 range: ClosedRange<Int>?, editable: Bool, onValueSet: @escaping (Int) -> Void) {
         self.label = label
         self.icon = icon
@@ -27,7 +28,7 @@ public struct TemperatureGauge: View {
 
     public var body: some View {
         VStack(spacing: 6) {
-            Image(systemName: icon)
+            Image(systemSymbol: icon)
                 .font(.title3)
                 .foregroundColor(gaugeColor)
 
@@ -111,15 +112,15 @@ public struct TemperatureGauge: View {
 #Preview("Heating") {
     HStack {
         TemperatureGauge(
-            label: "Nozzle", icon: "flame.fill",
+            label: "Nozzle", icon: .flameFill,
             current: 180, target: 220, range: 0...300, editable: true
         ) { _ in }
         TemperatureGauge(
-            label: "Bed", icon: "square.fill",
+            label: "Bed", icon: .squareFill,
             current: 58, target: 60, range: 0...110, editable: true
         ) { _ in }
         TemperatureGauge(
-            label: "Chamber", icon: "wind",
+            label: "Chamber", icon: .wind,
             current: 28, target: nil, range: nil, editable: false
         ) { _ in }
     }

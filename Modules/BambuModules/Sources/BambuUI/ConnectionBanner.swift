@@ -1,4 +1,5 @@
 import BambuModels
+import SFSafeSymbols
 import SwiftUI
 
 /// Displays a contextual banner for the current MQTT connection state.
@@ -24,7 +25,7 @@ public struct ConnectionBanner: View {
             .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 8))
         case .error(let message):
             HStack(spacing: 8) {
-                Image(systemName: "exclamationmark.triangle.fill")
+                Image(systemSymbol: .exclamationmarkTriangleFill)
                     .foregroundColor(.red)
                 Text(message)
                     .font(.caption)
@@ -35,7 +36,7 @@ public struct ConnectionBanner: View {
             .background(Color.red.opacity(0.1), in: RoundedRectangle(cornerRadius: 8))
         case .disconnected:
             HStack(spacing: 8) {
-                Image(systemName: "wifi.slash")
+                Image(systemSymbol: .wifiSlash)
                     .foregroundColor(.secondary)
                 Text("Disconnected")
                     .font(.caption)

@@ -1,5 +1,6 @@
 import BambuModels
 import BambuUI
+import SFSafeSymbols
 import SwiftUI
 
 struct AMSSection: View {
@@ -33,14 +34,14 @@ struct AMSSection: View {
 
     private var header: some View {
         HStack {
-            Label(headerLabel, systemImage: "tray.2.fill")
+            Label(headerLabel, systemSymbol: .tray2Fill)
                 .font(.subheadline)
                 .fontWeight(.medium)
 
             Spacer()
 
             HStack(spacing: 4) {
-                Image(systemName: humidityIcon)
+                Image(systemSymbol: humidityIcon)
                     .foregroundColor(humidityColor)
                     .font(.caption)
                 Text("\(amsUnit.humidityRaw)%")
@@ -52,7 +53,7 @@ struct AMSSection: View {
                 .frame(height: 14)
 
             HStack(spacing: 2) {
-                Image(systemName: "thermometer.medium")
+                Image(systemSymbol: .thermometerMedium)
                     .font(.caption2)
                     .foregroundColor(.secondary)
                 Text("\(Int(amsUnit.temperature.rounded()))\u{00B0}C")
@@ -62,14 +63,14 @@ struct AMSSection: View {
         }
     }
 
-    private var humidityIcon: String {
+    private var humidityIcon: SFSymbol {
         switch amsUnit.humidityLevel {
-        case 1: "drop"
-        case 2: "drop.fill"
-        case 3: "drop.fill"
-        case 4: "humidity.fill"
-        case 5: "humidity.fill"
-        default: "drop"
+        case 1: .drop
+        case 2: .dropFill
+        case 3: .dropFill
+        case 4: .humidityFill
+        case 5: .humidityFill
+        default: .drop
         }
     }
 
@@ -101,7 +102,7 @@ struct AMSSection: View {
     private var dryingControls: some View {
         if amsUnit.isDrying {
             HStack {
-                Image(systemName: "flame.fill")
+                Image(systemSymbol: .flameFill)
                     .foregroundColor(.orange)
                 Text("Drying \u{2014} \(amsUnit.dryTimeFormatted) remaining")
                     .font(.caption)
@@ -117,7 +118,7 @@ struct AMSSection: View {
             Button {
                 viewModel.showStartDrying(amsId: amsUnit.id)
             } label: {
-                Label("Start Drying", systemImage: "flame")
+                Label("Start Drying", systemSymbol: .flame)
                     .font(.caption)
             }
             .buttonStyle(.bordered)

@@ -1,13 +1,14 @@
+import SFSafeSymbols
 import SwiftUI
 
 struct ControlCard<Content: View>: View {
     let title: String
-    let systemImage: String
+    let systemSymbol: SFSymbol
     @ViewBuilder let content: () -> Content
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Label(title, systemImage: systemImage)
+            Label(title, systemSymbol: systemSymbol)
                 .font(.headline)
             content()
         }

@@ -45,10 +45,10 @@ struct OnboardingStepTests {
         }
     }
 
-    @Test("All steps have non-empty system images")
-    func systemImagesNotEmpty() {
+    @Test("All steps have non-empty system symbols")
+    func systemSymbolsNotEmpty() {
         for step in OnboardingStep.allCases {
-            #expect(!step.systemImage.isEmpty)
+            #expect(!step.systemSymbol.rawValue.isEmpty)
         }
     }
 

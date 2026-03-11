@@ -1,4 +1,5 @@
 import NavigatorUI
+import SFSafeSymbols
 import SwiftUI
 
 public struct OnboardingRootView: View {
@@ -15,7 +16,7 @@ public struct OnboardingRootView: View {
             VStack(spacing: 32) {
                 Spacer()
 
-                Image(systemName: "printer.fill")
+                Image(systemSymbol: .printerFill)
                     .font(.system(size: 80))
                     .foregroundStyle(.tint)
 
@@ -35,14 +36,14 @@ public struct OnboardingRootView: View {
 
                 VStack(spacing: 12) {
                     NavigationLink(to: OnboardingDestinations.guidedLanMode) {
-                        Label("Guide Me Through Setup", systemImage: "questionmark.circle")
+                        Label("Guide Me Through Setup", systemSymbol: .questionmarkCircle)
                             .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(.borderedProminent)
                     .controlSize(.large)
 
                     NavigationLink(to: OnboardingDestinations.directConnect) {
-                        Label("I Know What I'm Doing", systemImage: "bolt.fill")
+                        Label("I Know What I'm Doing", systemSymbol: .boltFill)
                             .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(.bordered)

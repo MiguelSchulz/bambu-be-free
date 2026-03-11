@@ -1,3 +1,4 @@
+import SFSafeSymbols
 import SwiftUI
 
 struct LightControlSection: View {
@@ -5,7 +6,7 @@ struct LightControlSection: View {
 
     var body: some View {
         HStack {
-            Label("Chamber Light", systemImage: "light.recessed.fill")
+            Label("Chamber Light", systemSymbol: .lightRecessedFill)
                 .font(.subheadline)
             Spacer()
             Toggle("", isOn: Binding(

@@ -1,4 +1,5 @@
 import BambuUI
+import SFSafeSymbols
 import SwiftUI
 
 struct SlicerSetupView: View {
@@ -10,10 +11,10 @@ struct SlicerSetupView: View {
         } content: {
             VStack(spacing: 16) {
                 VStack(alignment: .leading, spacing: 12) {
-                    InstructionRow(icon: "desktopcomputer", text: "Open **Bambu Studio** on your computer")
-                    InstructionRow(icon: "printer", text: "Go to the **Device** page and select your printer")
-                    InstructionRow(icon: "lock.fill", text: "Look for the **lock icon** indicating LAN mode")
-                    InstructionRow(icon: "key.fill", text: "Enter your **Access Code** when prompted")
+                    InstructionRow(icon: .desktopcomputer, text: "Open **Bambu Studio** on your computer")
+                    InstructionRow(icon: .printer, text: "Go to the **Device** page and select your printer")
+                    InstructionRow(icon: .lockFill, text: "Look for the **lock icon** indicating LAN mode")
+                    InstructionRow(icon: .keyFill, text: "Enter your **Access Code** when prompted")
                 }
                 .padding()
                 .background(.fill.tertiary, in: RoundedRectangle(cornerRadius: 12))

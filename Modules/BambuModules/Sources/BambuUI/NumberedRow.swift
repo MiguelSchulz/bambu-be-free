@@ -1,3 +1,4 @@
+import SFSafeSymbols
 import SwiftUI
 
 public struct InstructionRow: View {
@@ -6,7 +7,7 @@ public struct InstructionRow: View {
 
     public enum Marker: Sendable {
         case number(Int)
-        case icon(String)
+        case icon(SFSymbol)
     }
 
     public init(number: Int, text: LocalizedStringKey) {
@@ -14,7 +15,7 @@ public struct InstructionRow: View {
         self.text = text
     }
 
-    public init(icon: String, text: LocalizedStringKey) {
+    public init(icon: SFSymbol, text: LocalizedStringKey) {
         self.marker = .icon(icon)
         self.text = text
     }
@@ -38,8 +39,8 @@ public struct InstructionRow: View {
                 .background(Color.accentColor)
                 .foregroundStyle(.white)
                 .clipShape(Circle())
-        case .icon(let name):
-            Image(systemName: name)
+        case .icon(let symbol):
+            Image(systemSymbol: symbol)
                 .font(.body)
                 .foregroundStyle(.tint)
                 .frame(width: 22)
@@ -51,7 +52,7 @@ public struct InstructionRow: View {
     VStack(alignment: .leading, spacing: 12) {
         InstructionRow(number: 1, text: "On your printer's touchscreen, tap **Settings**")
         InstructionRow(number: 2, text: "Navigate to **WLAN** (or Network Settings)")
-        InstructionRow(icon: "lock.fill", text: "Look for the **lock icon** indicating LAN mode")
+        InstructionRow(icon: .lockFill, text: "Look for the **lock icon** indicating LAN mode")
     }
     .padding()
 }

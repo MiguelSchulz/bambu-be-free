@@ -1,5 +1,6 @@
 import BambuUI
 import NavigatorUI
+import SFSafeSymbols
 import SwiftUI
 
 struct CredentialsStepView: View {
@@ -19,17 +20,17 @@ struct CredentialsStepView: View {
             .background(.fill.tertiary, in: RoundedRectangle(cornerRadius: 12))
 
             HStack(spacing: 16) {
-                credentialCard(icon: "network", title: "IP Address", example: "192.168.1.100")
-                credentialCard(icon: "lock.shield", title: "Access Code", example: "12345678")
+                credentialCard(icon: .network, title: "IP Address", example: "192.168.1.100")
+                credentialCard(icon: .lockShield, title: "Access Code", example: "12345678")
             }
             .padding(.horizontal)
         }
         .navigationTitle("Credentials")
     }
 
-    private func credentialCard(icon: String, title: String, example: String) -> some View {
+    private func credentialCard(icon: SFSymbol, title: String, example: String) -> some View {
         VStack(spacing: 8) {
-            Image(systemName: icon)
+            Image(systemSymbol: icon)
                 .font(.title2)
                 .foregroundStyle(.tint)
             Text(title)
