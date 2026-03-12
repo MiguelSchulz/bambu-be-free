@@ -64,7 +64,7 @@ The app works great while it's open — real-time updates, live camera, full con
 ## Upcoming
 
 - **Multi-printer support** — monitor and control multiple printers from a single dashboard
-- **Broader printer testing** — currently developed and tested on a **P1S** only. Other Bambu Lab models should work but haven't been verified — feedback from owners of other printers is very welcome
+- **Broader printer testing** — currently developed and tested on a **P2S** only. Other Bambu Lab models should work but haven't been verified — feedback from owners of other printers is very welcome
 - **Android** — if there's enough interest from the community
 
 ---
@@ -97,3 +97,4 @@ The app works great while it's open — real-time updates, live camera, full con
 ## License
 
 MIT — see [LICENSE](LICENSE) for details.
+
