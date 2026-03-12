@@ -1,3 +1,0 @@
-app_identifier ENV["APP_BUNDLE_ID"] || "com.bambubefree.app"
-itc_team_id    ENV["ITC_TEAM_ID"]
-team_id        ENV["APPLE_TEAM_ID"]
