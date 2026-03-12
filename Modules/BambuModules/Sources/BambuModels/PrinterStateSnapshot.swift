@@ -65,11 +65,22 @@ public struct PrinterStateSnapshot: Codable, Sendable {
     public var contentState: PrinterAttributes.ContentState
     public var amsUnits: [AMSUnitSnapshot]
     public var activeTrayIndex: Int?
+    public var chamberLightOn: Bool
     public var lastUpdated: Date
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.contentState = try container.decode(PrinterAttributes.ContentState.self, forKey: .contentState)
+        self.amsUnits = try container.decode([AMSUnitSnapshot].self, forKey: .amsUnits)
+        self.activeTrayIndex = try container.decodeIfPresent(Int.self, forKey: .activeTrayIndex)
+        self.chamberLightOn = try container.decodeIfPresent(Bool.self, forKey: .chamberLightOn) ?? false
+        self.lastUpdated = try container.decode(Date.self, forKey: .lastUpdated)
+    }
 
     public init(from state: PrinterState) {
         self.contentState = state.contentState
         self.activeTrayIndex = state.activeTrayIndex
+        self.chamberLightOn = state.chamberLightOn
         self.lastUpdated = state.lastUpdated ?? Date.now
 
         self.amsUnits = state.amsUnits.map { unit in

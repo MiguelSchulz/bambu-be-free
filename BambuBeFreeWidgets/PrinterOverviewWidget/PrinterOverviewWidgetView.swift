@@ -44,6 +44,14 @@ struct PrinterOverviewWidgetView: View {
                 Image(uiImage: uiImage)
                     .resizable()
                     .scaledToFit()
+                    .overlay(alignment: .bottomLeading) {
+                        Button(intent: ToggleLightIntent()) {
+                            ChamberLightLabel(isOn: entry.isLightOn)
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel("Toggle Light")
+                        .padding(8)
+                    }
             } else {
                 cameraErrorContent(message: "Invalid image data")
             }

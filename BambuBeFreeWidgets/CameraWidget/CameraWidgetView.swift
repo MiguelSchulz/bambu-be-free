@@ -30,6 +30,14 @@ struct CameraWidgetView: View {
         Image(uiImage: image)
             .resizable()
             .aspectRatio(contentMode: .fill)
+            .overlay(alignment: .bottomLeading) {
+                Button(intent: ToggleLightIntent()) {
+                    ChamberLightLabel(isOn: entry.isLightOn)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Toggle Light")
+                .padding(8)
+            }
             .overlay(alignment: .bottom) {
                 HStack {
                     Text(capturedAt, style: .relative)

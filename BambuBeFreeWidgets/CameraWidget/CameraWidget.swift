@@ -8,6 +8,7 @@ import WidgetKit
 struct CameraWidgetEntry: TimelineEntry {
     let date: Date
     let state: CameraWidgetState
+    let isLightOn: Bool
 }
 
 enum CameraWidgetState: Sendable {
@@ -21,28 +22,29 @@ enum CameraWidgetState: Sendable {
 
 struct CameraWidgetProvider: TimelineProvider {
     func placeholder(in _: Context) -> CameraWidgetEntry {
-        CameraWidgetEntry(date: .now, state: .loading)
+        CameraWidgetEntry(date: .now, state: .loading, isLightOn: false)
     }
 
     func getSnapshot(in context: Context, completion: @escaping @Sendable (CameraWidgetEntry) -> Void) {
+        let lightOn = SharedSettings.cachedPrinterState?.chamberLightOn ?? false
         if context.isPreview {
-            completion(CameraWidgetEntry(date: .now, state: .loading))
+            completion(CameraWidgetEntry(date: .now, state: .loading, isLightOn: lightOn))
             return
         }
         if let data = SharedSettings.cachedSnapshotData,
            let cachedDate = SharedSettings.cachedSnapshotDate
         {
-            completion(CameraWidgetEntry(date: .now, state: .snapshot(data, capturedAt: cachedDate)))
+            completion(CameraWidgetEntry(date: .now, state: .snapshot(data, capturedAt: cachedDate), isLightOn: lightOn))
         } else if SharedSettings.hasConfiguration {
-            completion(CameraWidgetEntry(date: .now, state: .loading))
+            completion(CameraWidgetEntry(date: .now, state: .loading, isLightOn: lightOn))
         } else {
-            completion(CameraWidgetEntry(date: .now, state: .notConfigured))
+            completion(CameraWidgetEntry(date: .now, state: .notConfigured, isLightOn: lightOn))
         }
     }
 
     func getTimeline(in _: Context, completion: @escaping @Sendable (Timeline<CameraWidgetEntry>) -> Void) {
         guard SharedSettings.hasConfiguration else {
-            let entry = CameraWidgetEntry(date: .now, state: .notConfigured)
+            let entry = CameraWidgetEntry(date: .now, state: .notConfigured, isLightOn: false)
             let timeline = Timeline(entries: [entry], policy: .after(Date.now.addingTimeInterval(60 * 60)))
             completion(timeline)
             return
@@ -50,6 +52,7 @@ struct CameraWidgetProvider: TimelineProvider {
 
         Task {
             let entry: CameraWidgetEntry
+            let lightOn = SharedSettings.cachedPrinterState?.chamberLightOn ?? false
 
             do {
                 let jpegData = try await CameraSnapshotService.captureSnapshot(
@@ -61,16 +64,17 @@ struct CameraWidgetProvider: TimelineProvider {
                 SharedSettings.cachedSnapshotData = jpegData
                 SharedSettings.cachedSnapshotDate = Date.now
 
-                entry = CameraWidgetEntry(date: .now, state: .snapshot(jpegData, capturedAt: .now))
+                entry = CameraWidgetEntry(date: .now, state: .snapshot(jpegData, capturedAt: .now), isLightOn: lightOn)
             } catch {
                 if let data = SharedSettings.cachedSnapshotData,
                    let cachedDate = SharedSettings.cachedSnapshotDate
                 {
-                    entry = CameraWidgetEntry(date: .now, state: .snapshot(data, capturedAt: cachedDate))
+                    entry = CameraWidgetEntry(date: .now, state: .snapshot(data, capturedAt: cachedDate), isLightOn: lightOn)
                 } else {
                     entry = CameraWidgetEntry(
                         date: .now,
-                        state: .error(error.localizedDescription)
+                        state: .error(error.localizedDescription),
+                        isLightOn: lightOn
                     )
                 }
             }

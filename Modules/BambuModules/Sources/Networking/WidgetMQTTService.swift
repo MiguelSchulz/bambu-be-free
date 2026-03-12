@@ -27,6 +27,28 @@ public enum WidgetMQTTService {
     /// as the closure returns, niling out CocoaMQTT's weak delegate and
     /// causing the continuation to never resume.
     fileprivate nonisolated(unsafe) static var activeSession: AnyObject?
+    fileprivate nonisolated(unsafe) static var activeCommandSession: AnyObject?
+
+    /// Send a single command to the printer via a one-shot MQTT connection.
+    /// Connects, discovers the serial from the first message, sends the command, and disconnects.
+    public static func sendCommand(
+        _ command: PrinterCommand,
+        ip: String,
+        accessCode: String,
+        timeout: TimeInterval = 5
+    ) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            let session = CommandSession(
+                command: command,
+                ip: ip,
+                accessCode: accessCode,
+                timeout: timeout,
+                continuation: continuation
+            )
+            activeCommandSession = session
+            session.start()
+        }
+    }
 
     /// Fetch the current printer state via a one-shot MQTT connection.
     /// Returns a snapshot suitable for caching and widget display.
@@ -176,6 +198,112 @@ private final class SnapshotSession: @unchecked Sendable {
     }
 }
 
+// MARK: - Command Session
+
+/// Manages a single MQTT connect→subscribe→send command→disconnect cycle.
+/// Used for one-shot commands like toggling the chamber light from a widget.
+private final class CommandSession: @unchecked Sendable {
+    private let command: PrinterCommand
+    private let ip: String
+    private let accessCode: String
+    private let timeout: TimeInterval
+    private var continuation: CheckedContinuation<Void, Error>?
+    private var mqtt: CocoaMQTT?
+    private let delegate = SessionDelegate()
+    private var timeoutTask: Task<Void, Never>?
+    private var commandPublished = false
+
+    init(command: PrinterCommand, ip: String, accessCode: String, timeout: TimeInterval,
+         continuation: CheckedContinuation<Void, Error>)
+    {
+        self.command = command
+        self.ip = ip
+        self.accessCode = accessCode
+        self.timeout = timeout
+        self.continuation = continuation
+    }
+
+    func start() {
+        let clientId = "BambuWidgetCmd_\(Int(Date.now.timeIntervalSince1970))"
+        let client = CocoaMQTT(clientID: clientId, host: ip, port: 8883)
+        client.username = "bblp"
+        client.password = accessCode
+        client.enableSSL = true
+        client.allowUntrustCACertificate = true
+        client.keepAlive = 30
+        client.sslSettings = [
+            kCFStreamSSLPeerName as String: "" as NSString,
+        ]
+        client.delegate = delegate
+
+        client.didReceiveTrust = { _, _, completionHandler in
+            completionHandler(true)
+        }
+
+        delegate.onConnected = { mqtt in
+            mqtt.subscribe("device/+/report")
+        }
+
+        delegate.onMessage = { [weak self] topic, _ in
+            self?.handleMessage(topic: topic)
+        }
+
+        delegate.onPublishAck = { [weak self] id in
+            self?.handlePublishAck(id: id)
+        }
+
+        delegate.onError = { [weak self] message in
+            self?.finish(with: .failure(WidgetMQTTService.SnapshotError.connectionFailed(message)))
+        }
+
+        delegate.onDisconnected = { [weak self] in
+            self?.finish(with: .failure(WidgetMQTTService.SnapshotError.connectionFailed("Disconnected")))
+        }
+
+        self.mqtt = client
+
+        timeoutTask = Task { [weak self, timeout] in
+            try? await Task.sleep(for: .seconds(timeout))
+            self?.finish(with: .failure(WidgetMQTTService.SnapshotError.timeout))
+        }
+
+        _ = client.connect()
+    }
+
+    private func handleMessage(topic: String) {
+        // Only handle the first message to discover the serial
+        guard !commandPublished else { return }
+
+        let parts = topic.split(separator: "/")
+        guard parts.count == 3, parts[0] == "device", parts[2] == "report" else { return }
+        let serial = String(parts[1])
+
+        let requestTopic = "device/\(serial)/request"
+        let payload = command.payload()
+        if let mqtt, let json = String(data: payload, encoding: .utf8) {
+            commandPublished = true
+            mqtt.publish(requestTopic, withString: json, qos: .qos1)
+        }
+    }
+
+    private func handlePublishAck(id _: UInt16) {
+        guard commandPublished else { return }
+        finish(with: .success(()))
+    }
+
+    private func finish(with result: Result<Void, Error>) {
+        guard let cont = continuation else { return }
+        continuation = nil
+        timeoutTask?.cancel()
+        timeoutTask = nil
+        mqtt?.disconnect()
+        mqtt?.delegate = nil
+        mqtt = nil
+        WidgetMQTTService.activeCommandSession = nil
+        cont.resume(with: result)
+    }
+}
+
 // MARK: - Session Delegate
 
 private class SessionDelegate: CocoaMQTTDelegate {
@@ -183,6 +311,7 @@ private class SessionDelegate: CocoaMQTTDelegate {
     var onDisconnected: (() -> Void)?
     var onError: ((String) -> Void)?
     var onMessage: ((String, Data) -> Void)?
+    var onPublishAck: ((UInt16) -> Void)?
 
     func mqtt(_ mqtt: CocoaMQTT, didConnectAck ack: CocoaMQTTConnAck) {
         if ack == .accept {
@@ -198,7 +327,9 @@ private class SessionDelegate: CocoaMQTTDelegate {
     }
 
     func mqtt(_: CocoaMQTT, didPublishMessage _: CocoaMQTTMessage, id _: UInt16) {}
-    func mqtt(_: CocoaMQTT, didPublishAck _: UInt16) {}
+    func mqtt(_: CocoaMQTT, didPublishAck id: UInt16) {
+        onPublishAck?(id)
+    }
 
     func mqtt(_: CocoaMQTT, didReceiveMessage message: CocoaMQTTMessage, id _: UInt16) {
         guard let data = message.string?.data(using: .utf8) else { return }

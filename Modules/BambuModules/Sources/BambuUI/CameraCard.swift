@@ -64,11 +64,7 @@ public struct CameraCard: View {
                             Button {
                                 onToggleLight(!isLightOn)
                             } label: {
-                                Image(systemSymbol: isLightOn ? .lightbulbFill : .lightbulb)
-                                    .font(.system(size: 14, weight: .semibold))
-                                    .foregroundStyle(isLightOn ? .yellow : .white.opacity(0.7))
-                                    .padding(10)
-                                    .background(.black.opacity(0.5), in: Circle())
+                                ChamberLightLabel(isOn: isLightOn)
                             }
                             .accessibilityLabel("Toggle Light")
                         }

@@ -9,6 +9,7 @@ struct PrinterOverviewEntry: TimelineEntry {
     let date: Date
     let cameraState: CameraHalfState
     let printState: PrintHalfState
+    let isLightOn: Bool
 }
 
 enum CameraHalfState: Sendable {
@@ -27,12 +28,13 @@ enum PrintHalfState: Sendable {
 
 struct PrinterOverviewProvider: TimelineProvider {
     func placeholder(in _: Context) -> PrinterOverviewEntry {
-        PrinterOverviewEntry(date: .now, cameraState: .loading, printState: .loading)
+        PrinterOverviewEntry(date: .now, cameraState: .loading, printState: .loading, isLightOn: false)
     }
 
     func getSnapshot(in context: Context, completion: @escaping @Sendable (PrinterOverviewEntry) -> Void) {
+        let lightOn = SharedSettings.cachedPrinterState?.chamberLightOn ?? false
         if context.isPreview {
-            completion(PrinterOverviewEntry(date: .now, cameraState: .loading, printState: .data(.mockPrinting)))
+            completion(PrinterOverviewEntry(date: .now, cameraState: .loading, printState: .data(.mockPrinting), isLightOn: lightOn))
             return
         }
 
@@ -50,12 +52,12 @@ struct PrinterOverviewProvider: TimelineProvider {
             .loading
         }
 
-        completion(PrinterOverviewEntry(date: .now, cameraState: camState, printState: prtState))
+        completion(PrinterOverviewEntry(date: .now, cameraState: camState, printState: prtState, isLightOn: lightOn))
     }
 
     func getTimeline(in _: Context, completion: @escaping @Sendable (Timeline<PrinterOverviewEntry>) -> Void) {
         guard SharedSettings.hasConfiguration else {
-            let entry = PrinterOverviewEntry(date: .now, cameraState: .loading, printState: .loading)
+            let entry = PrinterOverviewEntry(date: .now, cameraState: .loading, printState: .loading, isLightOn: false)
             let timeline = Timeline(entries: [entry], policy: .after(Date.now.addingTimeInterval(60 * 60)))
             completion(timeline)
             return
@@ -106,7 +108,8 @@ struct PrinterOverviewProvider: TimelineProvider {
             let cameraState = await cameraResult
             let printState = await printResult
 
-            let entry = PrinterOverviewEntry(date: .now, cameraState: cameraState, printState: printState)
+            let lightOn = SharedSettings.cachedPrinterState?.chamberLightOn ?? false
+            let entry = PrinterOverviewEntry(date: .now, cameraState: cameraState, printState: printState, isLightOn: lightOn)
             let nextRefresh = Date.now.addingTimeInterval(15 * 60)
             completion(Timeline(entries: [entry], policy: .after(nextRefresh)))
         }
