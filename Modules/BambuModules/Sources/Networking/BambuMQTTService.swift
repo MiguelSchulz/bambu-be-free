@@ -18,17 +18,13 @@ public final class BambuMQTTService: MQTTServiceProtocol, @unchecked Sendable {
     public let messageStream: AsyncStream<BambuMQTTPayload>
 
     public init() {
-        var stateCont: AsyncStream<MQTTConnectionState>.Continuation?
-        stateStream = AsyncStream { continuation in
-            stateCont = continuation
-        }
-        stateContinuation = stateCont
+        let (stateStream, stateContinuation) = AsyncStream.makeStream(of: MQTTConnectionState.self)
+        self.stateStream = stateStream
+        self.stateContinuation = stateContinuation
 
-        var msgCont: AsyncStream<BambuMQTTPayload>.Continuation?
-        messageStream = AsyncStream { continuation in
-            msgCont = continuation
-        }
-        messageContinuation = msgCont
+        let (messageStream, messageContinuation) = AsyncStream.makeStream(of: BambuMQTTPayload.self)
+        self.messageStream = messageStream
+        self.messageContinuation = messageContinuation
     }
 
     public func connect(ip: String, accessCode: String) {

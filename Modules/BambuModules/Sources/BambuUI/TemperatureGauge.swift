@@ -31,7 +31,7 @@ public struct TemperatureGauge: View {
         VStack(spacing: 6) {
             Image(systemSymbol: icon)
                 .font(.title3)
-                .foregroundColor(gaugeColor)
+                .foregroundStyle(gaugeColor)
 
             if isEditing {
                 HStack(spacing: 0) {
@@ -63,7 +63,7 @@ public struct TemperatureGauge: View {
 
             Text(label)
                 .font(.caption2)
-                .foregroundColor(.secondary)
+                .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity)
         .contentShape(Rectangle())

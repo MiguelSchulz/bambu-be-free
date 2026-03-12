@@ -18,33 +18,33 @@ public struct ConnectionBanner: View {
                     .controlSize(.small)
                 Text("Connecting to printer...")
                     .font(.caption)
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(.secondary)
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 8)
-            .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+            .background(Color(.secondarySystemGroupedBackground), in: .rect(cornerRadius: 8, style: .continuous))
         case let .error(message):
             HStack(spacing: 8) {
                 Image(systemSymbol: .exclamationmarkTriangleFill)
-                    .foregroundColor(.red)
+                    .foregroundStyle(.red)
                 Text(message)
                     .font(.caption)
-                    .foregroundColor(.red)
+                    .foregroundStyle(.red)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding()
-            .background(Color.red.opacity(0.1), in: RoundedRectangle(cornerRadius: 8))
+            .background(Color.red.opacity(0.1), in: .rect(cornerRadius: 8))
         case .disconnected:
             HStack(spacing: 8) {
                 Image(systemSymbol: .wifiSlash)
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(.secondary)
                 Text("Disconnected")
                     .font(.caption)
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(.secondary)
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 8)
-            .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+            .background(Color(.secondarySystemGroupedBackground), in: .rect(cornerRadius: 8, style: .continuous))
         case .connected:
             EmptyView()
         }

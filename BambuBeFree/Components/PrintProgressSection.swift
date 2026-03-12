@@ -8,7 +8,7 @@ struct PrintProgressSection: View {
     var body: some View {
         PrintProgressContent(state: state)
             .padding()
-            .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+            .background(Color(.secondarySystemGroupedBackground), in: .rect(cornerRadius: 12, style: .continuous))
     }
 }
 

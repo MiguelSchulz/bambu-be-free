@@ -13,7 +13,7 @@ struct OnboardingViewModelTests {
         #expect(vm.ip == "")
         #expect(vm.accessCode == "")
         #expect(vm.printerTypeRaw == "auto")
-        #expect(!vm.isTesting)
+        #expect(vm.isTesting == false)
         #expect(vm.connectionError == nil)
     }
 
@@ -22,21 +22,21 @@ struct OnboardingViewModelTests {
     @Test("canConnect is false when both fields empty")
     func canConnectBothEmpty() {
         let vm = OnboardingViewModel()
-        #expect(!vm.canConnect)
+        #expect(vm.canConnect == false)
     }
 
     @Test("canConnect is false when IP empty")
     func canConnectIPEmpty() {
         let vm = OnboardingViewModel()
         vm.accessCode = "12345678"
-        #expect(!vm.canConnect)
+        #expect(vm.canConnect == false)
     }
 
     @Test("canConnect is false when access code empty")
     func canConnectAccessCodeEmpty() {
         let vm = OnboardingViewModel()
         vm.ip = "192.168.1.100"
-        #expect(!vm.canConnect)
+        #expect(vm.canConnect == false)
     }
 
     @Test("canConnect is true when both non-empty")
@@ -52,7 +52,7 @@ struct OnboardingViewModelTests {
         let vm = OnboardingViewModel()
         vm.ip = "   "
         vm.accessCode = "12345678"
-        #expect(!vm.canConnect)
+        #expect(vm.canConnect == false)
     }
 
     @Test("canConnect is false when access code is only whitespace")
@@ -60,7 +60,7 @@ struct OnboardingViewModelTests {
         let vm = OnboardingViewModel()
         vm.ip = "192.168.1.100"
         vm.accessCode = "   "
-        #expect(!vm.canConnect)
+        #expect(vm.canConnect == false)
     }
 
     // MARK: - testConnection
@@ -75,7 +75,7 @@ struct OnboardingViewModelTests {
         let result = await vm.testConnection()
         #expect(result)
         #expect(vm.connectionError == nil)
-        #expect(!vm.isTesting)
+        #expect(vm.isTesting == false)
         #expect(SharedSettings.printerIP == "")
     }
 
@@ -86,9 +86,9 @@ struct OnboardingViewModelTests {
         vm.accessCode = "wrong"
 
         let result = await vm.testConnection()
-        #expect(!result)
+        #expect(result == false)
         #expect(vm.connectionError == "Connection refused")
-        #expect(!vm.isTesting)
+        #expect(vm.isTesting == false)
     }
 
     @Test("testConnection trims whitespace before testing")
@@ -119,7 +119,7 @@ struct OnboardingViewModelTests {
         let result = await vm.testAndSave()
         #expect(result)
         #expect(vm.connectionError == nil)
-        #expect(!vm.isTesting)
+        #expect(vm.isTesting == false)
         #expect(SharedSettings.printerIP == "192.168.1.100")
     }
 
@@ -131,7 +131,7 @@ struct OnboardingViewModelTests {
         vm.accessCode = "wrong"
 
         let result = await vm.testAndSave()
-        #expect(!result)
+        #expect(result == false)
         #expect(vm.connectionError == "Connection refused")
         #expect(SharedSettings.printerIP == "")
     }

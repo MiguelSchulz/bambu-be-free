@@ -30,25 +30,19 @@ struct OnboardingStepTests {
         #expect(steps[4] == .slicerSetup)
     }
 
-    @Test("All steps have non-empty titles")
-    func titlesNotEmpty() {
-        for step in OnboardingStep.allCases {
-            #expect(!step.title.key.isEmpty)
-        }
+    @Test("All steps have non-empty titles", arguments: OnboardingStep.allCases)
+    func titlesNotEmpty(step: OnboardingStep) {
+        #expect(step.title.key.isEmpty == false)
     }
 
-    @Test("All steps have non-empty descriptions")
-    func descriptionsNotEmpty() {
-        for step in OnboardingStep.allCases {
-            #expect(!step.description.key.isEmpty)
-        }
+    @Test("All steps have non-empty descriptions", arguments: OnboardingStep.allCases)
+    func descriptionsNotEmpty(step: OnboardingStep) {
+        #expect(step.description.key.isEmpty == false)
     }
 
-    @Test("All steps have non-empty system symbols")
-    func systemSymbolsNotEmpty() {
-        for step in OnboardingStep.allCases {
-            #expect(!step.systemSymbol.rawValue.isEmpty)
-        }
+    @Test("All steps have non-empty system symbols", arguments: OnboardingStep.allCases)
+    func systemSymbolsNotEmpty(step: OnboardingStep) {
+        #expect(step.systemSymbol.rawValue.isEmpty == false)
     }
 
     @Test("Wiki URLs are set for informational steps",

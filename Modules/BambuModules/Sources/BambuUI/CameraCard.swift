@@ -29,7 +29,7 @@ public struct CameraCard: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .onGeometryChange(for: CGSize.self) { $0.size } action: { imageSize = $0 }
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .clipShape(.rect(cornerRadius: 12))
                     .scaleEffect(zoomState.scale)
                     .offset(zoomState.offset)
                     .gesture(
@@ -104,6 +104,6 @@ public struct CameraCard: View {
         }
         .frame(maxWidth: .infinity)
         .frame(height: 200)
-        .background(Color(.systemGray6), in: RoundedRectangle(cornerRadius: 12))
+        .background(Color(.systemGray6), in: .rect(cornerRadius: 12))
     }
 }

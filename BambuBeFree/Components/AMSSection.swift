@@ -29,7 +29,7 @@ struct AMSSection: View {
             dryingControls
         }
         .padding()
-        .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+        .background(Color(.secondarySystemGroupedBackground), in: .rect(cornerRadius: 12, style: .continuous))
     }
 
     private var header: some View {
@@ -42,11 +42,11 @@ struct AMSSection: View {
 
             HStack(spacing: 4) {
                 Image(systemSymbol: humidityIcon)
-                    .foregroundColor(humidityColor)
+                    .foregroundStyle(humidityColor)
                     .font(.caption)
                 Text("\(amsUnit.humidityRaw)%")
                     .font(.caption)
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(.secondary)
             }
 
             Divider()
@@ -55,10 +55,10 @@ struct AMSSection: View {
             HStack(spacing: 2) {
                 Image(systemSymbol: .thermometerMedium)
                     .font(.caption2)
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(.secondary)
                 Text("\(Int(amsUnit.temperature.rounded()))\u{00B0}C")
                     .font(.caption)
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(.secondary)
             }
         }
     }
@@ -103,7 +103,7 @@ struct AMSSection: View {
         if amsUnit.isDrying {
             HStack {
                 Image(systemSymbol: .flameFill)
-                    .foregroundColor(.orange)
+                    .foregroundStyle(.orange)
                 Text("Drying \u{2014} \(amsUnit.dryTimeFormatted) remaining")
                     .font(.caption)
                 Spacer()

@@ -9,7 +9,7 @@ struct SpeedControlSection: View {
         VStack(alignment: .leading, spacing: 8) {
             Label("Print Speed", systemSymbol: .gaugeWithNeedle)
                 .font(.subheadline)
-                .foregroundColor(.secondary)
+                .foregroundStyle(.secondary)
 
             Picker("Speed", selection: Binding(
                 get: { viewModel.selectedSpeed },
@@ -22,7 +22,7 @@ struct SpeedControlSection: View {
             .pickerStyle(.segmented)
         }
         .padding()
-        .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+        .background(Color(.secondarySystemGroupedBackground), in: .rect(cornerRadius: 12, style: .continuous))
     }
 }
 

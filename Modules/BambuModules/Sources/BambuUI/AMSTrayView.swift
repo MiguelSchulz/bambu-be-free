@@ -19,7 +19,7 @@ public struct AMSTrayView: View {
             // Slot label (A1, A2, etc.)
             Text(slotLabel)
                 .font(.caption2)
-                .foregroundColor(.secondary)
+                .foregroundStyle(.secondary)
 
             // Spool card
             RoundedRectangle(cornerRadius: 8)
@@ -40,7 +40,7 @@ public struct AMSTrayView: View {
                         }
                         .font(.caption)
                         .fontWeight(tray.isEmpty ? .regular : .semibold)
-                        .foregroundColor(tray.isEmpty ? .secondary : textColor)
+                        .foregroundStyle(tray.isEmpty ? .secondary : textColor)
 
                         if let remain = tray.remainPercent, tray.isBambuFilament {
                             // Remaining bar
@@ -59,7 +59,7 @@ public struct AMSTrayView: View {
 
                             Text("\(remain)%")
                                 .font(.system(size: 9))
-                                .foregroundColor(textColor.opacity(0.7))
+                                .foregroundStyle(textColor.opacity(0.7))
                         }
                     }
                 }

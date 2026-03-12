@@ -51,7 +51,7 @@ struct FanSection: View {
             }
         }
         .padding()
-        .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+        .background(Color(.secondarySystemGroupedBackground), in: .rect(cornerRadius: 12, style: .continuous))
         .alert("Change Air Duct Mode",
                isPresented: $viewModel.showAirductModeConfirmation)
         {

@@ -17,7 +17,7 @@ public struct PrintProgressContent: View {
             // Status header: icon + job name + state badge
             HStack {
                 Image(systemSymbol: state.iconName)
-                    .foregroundColor(state.accentColor)
+                    .foregroundStyle(state.accentColor)
                 Text(state.displayTitle)
                     .font(.headline)
                     .lineLimit(1)
@@ -25,7 +25,7 @@ public struct PrintProgressContent: View {
                 Text(state.stateLabel)
                     .font(.caption)
                     .fontWeight(.medium)
-                    .foregroundColor(state.accentColor)
+                    .foregroundStyle(state.accentColor)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 2)
                     .background(state.accentColor.opacity(0.2))
@@ -36,7 +36,7 @@ public struct PrintProgressContent: View {
             if let stage = state.prepareStageLabel {
                 Label(stage, systemSymbol: .gearshape2)
                     .font(.subheadline)
-                    .foregroundColor(state.accentColor)
+                    .foregroundStyle(state.accentColor)
             }
 
             // Progress bar
@@ -60,14 +60,14 @@ public struct PrintProgressContent: View {
             HStack(alignment: .firstTextBaseline) {
                 Text("\(state.progress)%")
                     .font(.title)
-                    .fontWeight(.bold)
-                    .foregroundColor(state.accentColor)
+                    .bold()
+                    .foregroundStyle(state.accentColor)
                 Spacer()
                 VStack(alignment: .trailing, spacing: 4) {
                     if let layers = state.layerInfo {
                         Label("Layer \(layers)", systemSymbol: .squareStack3dUp)
                             .font(.caption)
-                            .foregroundColor(.secondary)
+                            .foregroundStyle(.secondary)
                     }
                     if state.remainingMinutes > 0 {
                         Label {
@@ -76,17 +76,17 @@ public struct PrintProgressContent: View {
                             Image(systemSymbol: .clock)
                         }
                             .font(.caption)
-                            .foregroundColor(.secondary)
+                            .foregroundStyle(.secondary)
                     }
                     if state.status == .completed {
                         Text("Print complete!")
                             .font(.caption)
-                            .foregroundColor(.green)
+                            .foregroundStyle(.green)
                     }
                     if state.status == .cancelled {
                         Text("Print cancelled")
                             .font(.caption)
-                            .foregroundColor(.red)
+                            .foregroundStyle(.red)
                     }
                 }
             }

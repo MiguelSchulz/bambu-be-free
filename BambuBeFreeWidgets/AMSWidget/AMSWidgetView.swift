@@ -44,11 +44,11 @@ struct AMSWidgetView: View {
 
                 HStack(spacing: 4) {
                     Image(systemSymbol: humidityIcon(level: unit.humidityLevel))
-                        .foregroundColor(humidityColor(level: unit.humidityLevel))
+                        .foregroundStyle(humidityColor(level: unit.humidityLevel))
                         .font(.caption)
                     Text("\(unit.humidityRaw)%")
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(.secondary)
                 }
 
                 Divider()
@@ -57,10 +57,10 @@ struct AMSWidgetView: View {
                 HStack(spacing: 2) {
                     Image(systemSymbol: .thermometerMedium)
                         .font(.caption2)
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(.secondary)
                     Text("\(Int(unit.temperature.rounded()))\u{00B0}C")
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(.secondary)
                 }
             }
 

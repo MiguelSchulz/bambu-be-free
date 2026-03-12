@@ -12,25 +12,21 @@ public final class MockMQTTService: MQTTServiceProtocol, @unchecked Sendable {
     public let messageStream: AsyncStream<BambuMQTTPayload>
 
     public init() {
-        var stateCont: AsyncStream<MQTTConnectionState>.Continuation?
-        stateStream = AsyncStream { continuation in
-            stateCont = continuation
-        }
-        stateContinuation = stateCont
+        let (stateStream, stateContinuation) = AsyncStream.makeStream(of: MQTTConnectionState.self)
+        self.stateStream = stateStream
+        self.stateContinuation = stateContinuation
 
-        var msgCont: AsyncStream<BambuMQTTPayload>.Continuation?
-        messageStream = AsyncStream { continuation in
-            msgCont = continuation
-        }
-        messageContinuation = msgCont
+        let (messageStream, messageContinuation) = AsyncStream.makeStream(of: BambuMQTTPayload.self)
+        self.messageStream = messageStream
+        self.messageContinuation = messageContinuation
     }
 
     public func connect(ip _: String, accessCode _: String) {
         connectionState = .connected
         stateContinuation?.yield(.connected)
 
-        // Emit a mock printing state after a short delay to allow subscription
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+        // Emit a mock printing state asynchronously to allow subscription
+        Task { @MainActor [weak self] in
             var payload = BambuMQTTPayload()
             payload.gcodeState = "RUNNING"
             payload.mcPercent = 42

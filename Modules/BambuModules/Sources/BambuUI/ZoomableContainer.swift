@@ -76,7 +76,7 @@ public struct ZoomableContainer<Content: View>: View {
             if tapLocation != .zero {
                 // Scale in to a specific point (double-tap)
                 uiView.zoom(to: zoomRect(for: uiView, scale: uiView.maximumZoomScale / 2, center: tapLocation), animated: true)
-                DispatchQueue.main.async { tapLocation = .zero }
+                Task { @MainActor in tapLocation = .zero }
             } else if uiView.zoomScale != currentScale {
                 // Programmatic scale change (e.g. double-tap to reset)
                 uiView.setZoomScale(currentScale, animated: true)

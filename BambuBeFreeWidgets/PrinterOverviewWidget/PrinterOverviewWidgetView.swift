@@ -22,7 +22,7 @@ struct PrinterOverviewWidgetView: View {
         VStack(spacing: 4) {
             cameraSection
                 .frame(maxWidth: .infinity)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .clipShape(.rect(cornerRadius: 12))
 
             Spacer()
 
