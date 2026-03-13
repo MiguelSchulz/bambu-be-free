@@ -4,11 +4,14 @@ import SwiftUI
 
 nonisolated enum MoreDestinations: NavigationDestination {
     case dependencies
+    case notifications
 
     var body: some View {
         switch self {
         case .dependencies:
             DependenciesView()
+        case .notifications:
+            NotificationSettingsView()
         }
     }
 }
@@ -22,6 +25,10 @@ struct MoreView: View {
         ManagedNavigationStack {
             List {
                 Section {
+                    NavigationLink(to: MoreDestinations.notifications) {
+                        Label("Notifications", systemSymbol: .bellFill)
+                    }
+
                     Link(destination: privacyPolicyURL) {
                         Label("Privacy Policy", systemSymbol: .handRaisedFill)
                             .foregroundStyle(.primary)

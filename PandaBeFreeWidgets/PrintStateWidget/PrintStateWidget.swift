@@ -1,5 +1,6 @@
 import Networking
 import PandaModels
+import PandaNotifications
 import SwiftUI
 import WidgetKit
 
@@ -56,6 +57,11 @@ struct PrintStateWidgetProvider: TimelineProvider {
                     accessCode: SharedSettings.printerAccessCode
                 )
                 SharedSettings.cachedPrinterState = snapshot
+                let actions = NotificationEvaluator.evaluate(
+                    contentState: snapshot.contentState,
+                    amsUnits: snapshot.amsUnits
+                )
+                await LocalNotificationScheduler.shared.execute(actions)
                 entry = PrintStateWidgetEntry(date: .now, state: .data(snapshot.contentState))
             } catch {
                 // Fall back to stale cache if available

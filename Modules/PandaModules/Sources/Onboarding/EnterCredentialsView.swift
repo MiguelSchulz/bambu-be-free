@@ -17,7 +17,7 @@ struct EnterCredentialsView: View {
             Task {
                 let success = await viewModel.testConnection()
                 if success {
-                    navigator.navigate(to: OnboardingDestinations.guidedSlicerSetup)
+                    navigator.navigate(to: OnboardingDestinations.guidedNotifications)
                 }
             }
         } content: {

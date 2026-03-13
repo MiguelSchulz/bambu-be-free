@@ -7,6 +7,7 @@ public nonisolated enum OnboardingDestinations: NavigationDestination {
     case guidedDevMode
     case guidedCredentials
     case guidedEnterCredentials
+    case guidedNotifications
     case guidedSlicerSetup
 
     public var body: some View {
@@ -21,6 +22,8 @@ public nonisolated enum OnboardingDestinations: NavigationDestination {
             CredentialsStepView()
         case .guidedEnterCredentials:
             EnterCredentialsView()
+        case .guidedNotifications:
+            NotificationStepView()
         case .guidedSlicerSetup:
             SlicerSetupView()
         }

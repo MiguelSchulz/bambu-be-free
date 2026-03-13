@@ -1,5 +1,6 @@
 import Networking
 import PandaModels
+import PandaNotifications
 import SwiftUI
 import WidgetKit
 
@@ -61,6 +62,11 @@ struct AMSWidgetProvider: TimelineProvider {
                     accessCode: SharedSettings.printerAccessCode
                 )
                 SharedSettings.cachedPrinterState = snapshot
+                let actions = NotificationEvaluator.evaluate(
+                    contentState: snapshot.contentState,
+                    amsUnits: snapshot.amsUnits
+                )
+                await LocalNotificationScheduler.shared.execute(actions)
                 entry = amsEntry(from: snapshot)
             } catch {
                 // Fall back to stale cache if available

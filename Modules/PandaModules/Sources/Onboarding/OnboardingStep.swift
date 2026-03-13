@@ -6,6 +6,7 @@ public enum OnboardingStep: Int, CaseIterable, Sendable {
     case devMode
     case credentials
     case enterCredentials
+    case notifications
     case slicerSetup
 
     public var stepNumber: Int {
@@ -22,6 +23,7 @@ public enum OnboardingStep: Int, CaseIterable, Sendable {
         case .devMode: "Enable Developer Mode"
         case .credentials: "Find Your Credentials"
         case .enterCredentials: "Enter Credentials"
+        case .notifications: "Enable Notifications"
         case .slicerSetup: "Configure Your Slicer"
         }
     }
@@ -36,6 +38,8 @@ public enum OnboardingStep: Int, CaseIterable, Sendable {
             "You'll need your printer's IP address and access code to connect. Here's where to find them."
         case .enterCredentials:
             "Enter the IP address and access code you found on your printer."
+        case .notifications:
+            "Get notified when your prints and drying cycles finish — even when the app is in the background."
         case .slicerSetup:
             "To send prints over LAN, you'll also need to update your slicer's connection settings."
         }
@@ -47,6 +51,7 @@ public enum OnboardingStep: Int, CaseIterable, Sendable {
         case .devMode: .wrenchAndScrewdriver
         case .credentials: .keyFill
         case .enterCredentials: .rectangleAndPencilAndEllipsis
+        case .notifications: .bellBadgeFill
         case .slicerSetup: .desktopcomputer
         }
     }
@@ -60,6 +65,8 @@ public enum OnboardingStep: Int, CaseIterable, Sendable {
         case .credentials:
             URL(string: "https://wiki.bambulab.com/en/knowledge-sharing/access-code-connect")
         case .enterCredentials:
+            nil
+        case .notifications:
             nil
         case .slicerSetup:
             URL(string: "https://wiki.bambulab.com/en/knowledge-sharing/access-code-connect")

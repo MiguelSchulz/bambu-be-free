@@ -1,5 +1,6 @@
 import NavigatorUI
 import PandaModels
+import PandaNotifications
 import PandaUI
 import Shimmer
 import SwiftUI
@@ -107,6 +108,16 @@ struct DashboardView: View {
         case .active:
             WidgetCenter.shared.reloadTimelines(ofKind: "PrintStateWidget")
             WidgetCenter.shared.reloadTimelines(ofKind: "AMSWidget")
+            // Reconcile notifications from cached state before MQTT reconnects
+            if let cached = SharedSettings.cachedPrinterState {
+                Task {
+                    let actions = NotificationEvaluator.evaluate(
+                        contentState: cached.contentState,
+                        amsUnits: cached.amsUnits
+                    )
+                    await LocalNotificationScheduler.shared.execute(actions)
+                }
+            }
             if wasConnected {
                 wasConnected = false
                 Task {

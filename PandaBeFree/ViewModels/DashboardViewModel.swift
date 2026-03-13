@@ -1,6 +1,7 @@
 import Foundation
 import Networking
 import PandaModels
+import PandaNotifications
 import SwiftUI
 import WidgetKit
 
@@ -38,6 +39,7 @@ final class DashboardViewModel {
     var stoppingDryingAmsId: Int?
 
     private let mqttService: any MQTTServiceProtocol
+    private let notificationScheduler: any NotificationScheduling
     // nonisolated(unsafe) allows cancellation from deinit; Task.cancel() is thread-safe.
     // swiftformat:disable:next nonisolatedUnsafe
     @ObservationIgnored private nonisolated(unsafe) var messageTask: Task<Void, Never>?
@@ -55,6 +57,9 @@ final class DashboardViewModel {
     private var dryingCommandTime: Date?
     private var commandedDryingState: [Int: Int] = [:] // amsId -> dryTimeRemaining (minutes)
     private var lastWidgetReload: Date?
+    private var lastScheduledPrintMinutes: Int?
+    private var lastScheduledDryingMinutes: [Int: Int] = [:]
+    private var lastScheduledStatus: PrinterStatus?
 
     var mqttServiceRef: any MQTTServiceProtocol {
         mqttService
@@ -85,8 +90,12 @@ final class DashboardViewModel {
         contentState.status == .paused
     }
 
-    init(mqttService: any MQTTServiceProtocol = PandaMQTTService()) {
+    init(
+        mqttService: any MQTTServiceProtocol = PandaMQTTService(),
+        notificationScheduler: any NotificationScheduling = LocalNotificationScheduler.shared
+    ) {
         self.mqttService = mqttService
+        self.notificationScheduler = notificationScheduler
     }
 
     deinit {
@@ -158,7 +167,29 @@ final class DashboardViewModel {
 
                 // Update widget cache with latest state (skip placeholder data)
                 if self.printerState.lastUpdated != nil {
-                    SharedSettings.cachedPrinterState = PrinterStateSnapshot(from: self.printerState)
+                    let snapshot = PrinterStateSnapshot(from: self.printerState)
+                    SharedSettings.cachedPrinterState = snapshot
+
+                    // Schedule/cancel notifications only when ETA or status changes
+                    let cs = snapshot.contentState
+                    let statusChanged = cs.status != self.lastScheduledStatus
+                    let printETAChanged = cs.remainingMinutes != self.lastScheduledPrintMinutes
+                    let dryingChanged = snapshot.amsUnits.contains { unit in
+                        self.lastScheduledDryingMinutes[unit.id] != unit.dryTimeRemaining
+                    }
+                    if statusChanged || printETAChanged || dryingChanged {
+                        self.lastScheduledStatus = cs.status
+                        self.lastScheduledPrintMinutes = cs.remainingMinutes
+                        for unit in snapshot.amsUnits {
+                            self.lastScheduledDryingMinutes[unit.id] = unit.dryTimeRemaining
+                        }
+                        let actions = NotificationEvaluator.evaluate(
+                            contentState: cs,
+                            amsUnits: snapshot.amsUnits
+                        )
+                        let scheduler = self.notificationScheduler
+                        Task { await scheduler.execute(actions) }
+                    }
                 }
                 // Reload widgets periodically (debounced to every 30s)
                 if self.lastWidgetReload.map({ Date.now.timeIntervalSince($0) > 30 }) ?? true {
@@ -205,6 +236,9 @@ final class DashboardViewModel {
         cameraManager.disconnect()
         printerState.isConnected = false
         mqttConnectionState = .disconnected
+        lastScheduledPrintMinutes = nil
+        lastScheduledDryingMinutes = [:]
+        lastScheduledStatus = nil
     }
 
     func disconnectCamera() {

@@ -5,7 +5,7 @@ import Testing
 struct OnboardingStepTests {
     @Test("Total steps count")
     func totalSteps() {
-        #expect(OnboardingStep.totalSteps == 5)
+        #expect(OnboardingStep.totalSteps == 6)
     }
 
     @Test("Step numbers are 1-based",
@@ -14,7 +14,8 @@ struct OnboardingStepTests {
               (OnboardingStep.devMode, 2),
               (OnboardingStep.credentials, 3),
               (OnboardingStep.enterCredentials, 4),
-              (OnboardingStep.slicerSetup, 5),
+              (OnboardingStep.notifications, 5),
+              (OnboardingStep.slicerSetup, 6),
           ])
     func stepNumbers(step: OnboardingStep, expected: Int) {
         #expect(step.stepNumber == expected)
@@ -27,7 +28,8 @@ struct OnboardingStepTests {
         #expect(steps[1] == .devMode)
         #expect(steps[2] == .credentials)
         #expect(steps[3] == .enterCredentials)
-        #expect(steps[4] == .slicerSetup)
+        #expect(steps[4] == .notifications)
+        #expect(steps[5] == .slicerSetup)
     }
 
     @Test("All steps have non-empty titles", arguments: OnboardingStep.allCases)
@@ -56,8 +58,9 @@ struct OnboardingStepTests {
         #expect(step.wikiURL != nil)
     }
 
-    @Test("Enter credentials step has no wiki URL")
-    func enterCredentialsNoWikiURL() {
-        #expect(OnboardingStep.enterCredentials.wikiURL == nil)
+    @Test("Steps without wiki URLs",
+          arguments: [OnboardingStep.enterCredentials, OnboardingStep.notifications])
+    func noWikiURL(step: OnboardingStep) {
+        #expect(step.wikiURL == nil)
     }
 }
