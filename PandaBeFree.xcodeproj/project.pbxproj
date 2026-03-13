@@ -58,8 +58,18 @@
 		DD0020002000200020002000 /* PandaBeFreeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PandaBeFreeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		F8861C632F61B11600E5CB64 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 880AA1AAF12ED3660BD0F1EC /* PandaBeFree */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		F8861C4E2F61B11600E5CB64 /* PandaBeFree */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = PandaBeFree; sourceTree = "<group>"; };
+		F8861C4E2F61B11600E5CB64 /* PandaBeFree */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (F8861C632F61B11600E5CB64 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PandaBeFree; sourceTree = "<group>"; };
 		F8861C772F61B11A00E5CB64 /* PandaBeFreeWidgets */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = PandaBeFreeWidgets; sourceTree = "<group>"; };
 		F8861C852F61B11D00E5CB64 /* PandaBeFreeTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = PandaBeFreeTests; sourceTree = "<group>"; };
 		F8861C882F61B14500E5CB64 /* Modules */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Modules; sourceTree = "<group>"; };
