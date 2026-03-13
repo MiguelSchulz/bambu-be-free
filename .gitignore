@@ -37,3 +37,4 @@ vendor/bundle/
 *.dSYM.zip
 *.xcarchive
 /Modules/BambuModules/.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+/BambuBeFree.xcodeproj/xcshareddata/xcschemes/BambuBeFree.xcscheme

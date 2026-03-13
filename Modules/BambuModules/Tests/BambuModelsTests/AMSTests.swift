@@ -282,6 +282,83 @@ struct AMSTests {
         #expect(tray.globalIndex(amsId: 3) == 14)
     }
 
+    // MARK: - AMSType
+
+    @Test("AMSType.from(hwVersion:) detects hardware type",
+          arguments: [
+              ("AMS08", AMSType.standard),
+              ("N3F05", AMSType.pro),
+              ("N3F05xxxx", AMSType.pro),
+              ("N3S05", AMSType.ht),
+              ("", AMSType.standard),
+              ("UNKNOWN", AMSType.standard),
+          ])
+    func amsTypeFromHwVersion(hwVersion: String, expected: AMSType) {
+        #expect(AMSType.from(hwVersion: hwVersion) == expected)
+    }
+
+    @Test("AMSType.maxDryingTemp",
+          arguments: [
+              (AMSType.standard, 55),
+              (AMSType.pro, 65),
+              (AMSType.ht, 85),
+          ])
+    func maxDryingTemp(type: AMSType, expected: Int) {
+        #expect(type.maxDryingTemp == expected)
+    }
+
+    @Test("AMSType.displayName is non-empty",
+          arguments: [AMSType.standard, AMSType.pro, AMSType.ht])
+    func displayNameNonEmpty(type: AMSType) {
+        let name = String(localized: type.displayName)
+        #expect(!name.isEmpty)
+    }
+
+    @Test("Color.hexRRGGBBAA round-trips with parseColor")
+    func colorHexRoundTrip() throws {
+        let hex = "FF8000FF" // orange, full opacity
+        let color = AMSTray.parseColor(from: hex)
+        #expect(color != nil)
+        let result = try #require(color?.hexRRGGBBAA)
+        #expect(result == hex)
+    }
+
+    // MARK: - Perceived Brightness
+
+    @Test("perceivedBrightness for white is ~1.0")
+    func brightnessWhite() throws {
+        let tray = AMSTray(id: 0, colorHex: "FFFFFFFF")
+        let brightness = try #require(tray.perceivedBrightness)
+        #expect(brightness > 0.99)
+    }
+
+    @Test("perceivedBrightness for black is ~0.0")
+    func brightnessBlack() throws {
+        let tray = AMSTray(id: 0, colorHex: "000000FF")
+        let brightness = try #require(tray.perceivedBrightness)
+        #expect(brightness < 0.01)
+    }
+
+    @Test("perceivedBrightness for yellow is high (> 0.6)")
+    func brightnessYellow() throws {
+        let tray = AMSTray(id: 0, colorHex: "FFFF00FF")
+        let brightness = try #require(tray.perceivedBrightness)
+        #expect(brightness > 0.6)
+    }
+
+    @Test("perceivedBrightness returns nil for invalid hex",
+          arguments: ["invalid", "FFF", ""])
+    func brightnessInvalid(hex: String) {
+        let tray = AMSTray(id: 0, colorHex: hex)
+        #expect(tray.perceivedBrightness == nil)
+    }
+
+    @Test("perceivedBrightness returns nil when colorHex is nil")
+    func brightnessNilHex() {
+        let tray = AMSTray(id: 0)
+        #expect(tray.perceivedBrightness == nil)
+    }
+
     // MARK: - Helpers
 
     private func parsePayload(_ printData: [String: Any]) -> BambuMQTTPayload? {

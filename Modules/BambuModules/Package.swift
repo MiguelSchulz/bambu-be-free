@@ -74,5 +74,9 @@ let package = Package(
             name: "PrinterControlTests",
             dependencies: ["PrinterControl", "BambuModels", "Networking"]
         ),
+        .testTarget(
+            name: "BambuUITests",
+            dependencies: ["BambuUI", "BambuModels", "SFSafeSymbols"]
+        ),
     ]
 )

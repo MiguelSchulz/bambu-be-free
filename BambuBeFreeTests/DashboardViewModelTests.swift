@@ -342,6 +342,115 @@ struct DashboardViewModelTests {
         #expect(state.progress == 0)
     }
 
+    // MARK: - Filament Editing
+
+    @Test("showFilamentEdit matches preset by trayInfoIdx")
+    func filamentEditByTrayInfoIdx() {
+        let vm = DashboardViewModel(mqttService: MockMQTTService())
+        let tray = AMSTray(id: 0, materialType: "PLA", trayInfoIdx: "GFL99")
+        vm.showFilamentEdit(amsId: 0, tray: tray)
+        #expect(vm.editFilamentPreset.id == "GFL99")
+        #expect(vm.editFilamentPreset.trayType == "PLA")
+    }
+
+    @Test("showFilamentEdit falls back to materialType when no trayInfoIdx")
+    func filamentEditByMaterialType() {
+        let vm = DashboardViewModel(mqttService: MockMQTTService())
+        let tray = AMSTray(id: 0, materialType: "PETG")
+        vm.showFilamentEdit(amsId: 0, tray: tray)
+        #expect(vm.editFilamentPreset.trayType == "PETG")
+    }
+
+    @Test("showFilamentEdit defaults to first preset when no match")
+    func filamentEditDefault() {
+        let vm = DashboardViewModel(mqttService: MockMQTTService())
+        let tray = AMSTray(id: 0, materialType: "UNKNOWN_MATERIAL")
+        vm.showFilamentEdit(amsId: 0, tray: tray)
+        #expect(vm.editFilamentPreset.id == FilamentPreset.all[0].id)
+    }
+
+    @Test("showFilamentEdit sets all editing state")
+    func filamentEditSetsState() {
+        let vm = DashboardViewModel(mqttService: MockMQTTService())
+        let tray = AMSTray(id: 2, materialType: "ABS", color: .red, colorHex: "FF0000FF")
+        vm.showFilamentEdit(amsId: 1, tray: tray)
+        #expect(vm.editingAmsId == 1)
+        #expect(vm.editingTrayId == 2)
+        #expect(vm.showFilamentEditSheet == true)
+    }
+
+    @Test("confirmFilamentEdit sends amsFilamentSetting command")
+    func confirmFilamentEdit() throws {
+        let mock = MockMQTTService()
+        let vm = DashboardViewModel(mqttService: mock)
+        let tray = AMSTray(id: 1, materialType: "PLA", trayInfoIdx: "GFL99")
+        vm.showFilamentEdit(amsId: 0, tray: tray)
+        vm.confirmFilamentEdit()
+
+        #expect(mock.lastCommand != nil)
+        #expect(vm.showFilamentEditSheet == false)
+        // Verify the command payload contains the right ams_id and tray_id
+        let data = try #require(mock.lastCommand?.payload())
+        let json = try #require(JSONSerialization.jsonObject(with: data) as? [String: Any])
+        let printData = try #require(json["print"] as? [String: Any])
+        #expect(printData["command"] as? String == "ams_filament_setting")
+        #expect(printData["ams_id"] as? Int == 0)
+        #expect(printData["tray_id"] as? Int == 1)
+    }
+
+    @Test("confirmFilamentEdit does nothing when editingAmsId is nil")
+    func confirmFilamentEditNoOp() {
+        let mock = MockMQTTService()
+        let vm = DashboardViewModel(mqttService: mock)
+        vm.confirmFilamentEdit()
+        #expect(mock.lastCommand == nil)
+    }
+
+    @Test("confirmStopDrying sets stoppingDryingAmsId and shows confirmation")
+    func confirmStopDryingSetsState() {
+        let vm = DashboardViewModel(mqttService: MockMQTTService())
+        vm.confirmStopDrying(amsId: 2)
+        #expect(vm.stoppingDryingAmsId == 2)
+        #expect(vm.showStopDryingConfirmation == true)
+    }
+
+    @Test("showStartDrying clamps preset temp to standard AMS maxTemp")
+    func showStartDryingClampsTemp() {
+        let vm = DashboardViewModel(mqttService: MockMQTTService())
+        let amsUnit = AMSUnit(id: 0)
+        amsUnit.hwVersion = "AMS08" // standard, maxTemp = 55
+        amsUnit.trays[0] = AMSTray(id: 0, materialType: "ABS") // ABS preset temp = 80
+        vm.printerState.amsUnits = [amsUnit]
+
+        vm.showStartDrying(amsId: 0)
+        #expect(vm.dryingTemperature == 55) // clamped from 80 to 55
+    }
+
+    @Test("applyDryingPreset clamps to AMS maxTemp")
+    func applyDryingPresetClampsToMax() {
+        let vm = DashboardViewModel(mqttService: MockMQTTService())
+        let amsUnit = AMSUnit(id: 0)
+        amsUnit.hwVersion = "AMS08" // standard, maxTemp = 55
+        vm.printerState.amsUnits = [amsUnit]
+        vm.dryingAmsId = 0
+
+        vm.applyDryingPreset(.abs) // ABS preset temp = 80
+        #expect(vm.dryingTemperature == 55) // clamped to 55
+    }
+
+    @Test("startDrying optimistically updates AMS unit dryTimeRemaining")
+    func startDryingOptimisticUpdate() {
+        let vm = DashboardViewModel(mqttService: MockMQTTService())
+        let amsUnit = AMSUnit(id: 0)
+        vm.printerState.amsUnits = [amsUnit]
+        vm.dryingAmsId = 0
+        vm.dryingTemperature = 55
+        vm.dryingDurationMinutes = 480
+
+        vm.startDrying()
+        #expect(vm.printerState.amsUnits[0].dryTimeRemaining == 480)
+    }
+
     // MARK: - Connection
 
     @Test("disconnectAll resets state")

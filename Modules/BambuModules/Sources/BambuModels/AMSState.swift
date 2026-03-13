@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 
 /// AMS hardware type, detected from `hw_ver` in MQTT data.
-public enum AMSType {
+public enum AMSType: Sendable {
     case standard // AMS08 — original AMS / AMS Lite
     case pro // N3F05 — AMS 2 Pro
     case ht // N3S05 — AMS HT (high temperature)
@@ -47,6 +47,17 @@ public struct AMSTray: Identifiable {
 
     public var isEmpty: Bool {
         materialType == nil
+    }
+
+    /// Perceived brightness of the tray color (0.0 = black, 1.0 = white).
+    /// Returns nil if `colorHex` is nil or invalid.
+    public var perceivedBrightness: Double? {
+        guard let hex = colorHex, hex.count == 8,
+              let value = UInt32(hex, radix: 16) else { return nil }
+        let r = Double((value >> 24) & 0xFF) / 255.0
+        let g = Double((value >> 16) & 0xFF) / 255.0
+        let b = Double((value >> 8) & 0xFF) / 255.0
+        return r * 0.299 + g * 0.587 + b * 0.114
     }
 
     /// Global tray index across all AMS units (amsId * 4 + id)

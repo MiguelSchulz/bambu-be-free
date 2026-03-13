@@ -71,13 +71,7 @@ public struct AMSTrayView: View {
     }
 
     private var textColor: Color {
-        guard let hex = tray.colorHex, hex.count == 8,
-              let value = UInt32(hex, radix: 16) else { return .primary }
-        let r = Double((value >> 24) & 0xFF) / 255.0
-        let g = Double((value >> 16) & 0xFF) / 255.0
-        let b = Double((value >> 8) & 0xFF) / 255.0
-        // Perceived brightness
-        let brightness = r * 0.299 + g * 0.587 + b * 0.114
+        guard let brightness = tray.perceivedBrightness else { return .primary }
         return brightness > 0.6 ? .black : .white
     }
 }
