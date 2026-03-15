@@ -17,13 +17,19 @@ struct EnterCredentialsView: View {
             Task {
                 let success = await viewModel.testConnection()
                 if success {
-                    navigator.navigate(to: OnboardingDestinations.guidedNotifications)
+                    viewModel.connectionError = nil
+                    if let next = viewModel.destination(after: .enterCredentials) {
+                        navigator.navigate(to: next)
+                    }
                 }
             }
         } content: {
             CredentialsForm(focusedField: $focusedField)
         }
         .navigationTitle("Enter Credentials")
+        .onAppear {
+            viewModel.connectionError = nil
+        }
     }
 }
 

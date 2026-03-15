@@ -4,50 +4,75 @@ import SFSafeSymbols
 import SwiftUI
 
 struct CredentialsStepView: View {
+    @Environment(OnboardingViewModel.self) private var viewModel
     @Environment(\.navigator) private var navigator
 
     var body: some View {
         SetupStepLayout(step: .credentials) {
-            navigator.navigate(to: OnboardingDestinations.guidedEnterCredentials)
+            if let next = viewModel.destination(after: .credentials) {
+                navigator.navigate(to: next)
+            }
         } content: {
-            VStack(alignment: .leading, spacing: 12) {
-                InstructionRow(number: 1, text: "On your printer's touchscreen, go to **Settings**")
-                InstructionRow(number: 2, text: "Navigate to **WLAN** (or Network Settings)")
-                InstructionRow(number: 3, text: "Note down the **IP Address** shown")
-                InstructionRow(number: 4, text: "Find the **Access Code** displayed under LAN Only Mode")
-                InstructionRow(number: 5, text: "Note the **Serial Number** on the Device tab — required for some printers")
-            }
-            .padding()
-            .background(Color(.secondarySystemGroupedBackground), in: .rect(cornerRadius: 12, style: .continuous))
+            VStack(spacing: 12) {
+                credentialCard(
+                    icon: .network,
+                    title: "IP Address",
+                    description: "Found under **Settings > WLAN** on your printer's touchscreen.",
+                    example: "192.168.1.100"
+                )
 
-            HStack(spacing: 16) {
-                credentialCard(icon: .network, title: "IP Address", example: "192.168.1.100")
-                credentialCard(icon: .lockShield, title: "Access Code", example: "12345678")
-                credentialCard(icon: .number, title: "Serial Number", example: "01P00A000000")
+                credentialCard(
+                    icon: .lockShield,
+                    title: "Access Code",
+                    description: "Displayed under **LAN Only Mode** in your printer's network settings.",
+                    example: "12345678"
+                )
+
+                if viewModel.serialRequired {
+                    credentialCard(
+                        icon: .number,
+                        title: "Serial Number",
+                        description: "Found on the **Device** tab in your printer's settings.",
+                        example: "01S00A000000"
+                    )
+                }
             }
-            .padding(.horizontal)
         }
         .navigationTitle("Credentials")
     }
 
-    private func credentialCard(icon: SFSymbol, title: LocalizedStringResource, example: String) -> some View {
-        VStack(spacing: 8) {
+    private func credentialCard(
+        icon: SFSymbol,
+        title: LocalizedStringResource,
+        description: LocalizedStringResource,
+        example: String
+    ) -> some View {
+        HStack(spacing: 14) {
             Image(systemSymbol: icon)
                 .font(.title2)
                 .foregroundStyle(.tint)
-            Text(title)
-                .font(.caption.bold())
-            Text(example)
-                .font(.caption2)
-                .foregroundStyle(.secondary)
-                .monospaced()
+                .frame(width: 36)
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(title)
+                    .font(.subheadline.bold())
+                Text(description)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                Text(example)
+                    .font(.caption)
+                    .foregroundStyle(.tertiary)
+                    .monospaced()
+            }
+
+            Spacer(minLength: 0)
         }
-        .frame(maxWidth: .infinity)
         .padding()
-        .background(Color(.secondarySystemGroupedBackground), in: .rect(cornerRadius: 12, style: .continuous))
+        .background(Color(.secondarySystemGroupedBackground), in: .rect(cornerRadius: 12))
     }
 }
 
 #Preview {
     CredentialsStepView()
+        .environment(OnboardingViewModel())
 }

@@ -3,6 +3,7 @@ import SFSafeSymbols
 import SwiftUI
 
 struct SetupStepLayout<Content: View>: View {
+    @Environment(OnboardingViewModel.self) private var viewModel
     let step: OnboardingStep
     let nextLabel: LocalizedStringResource
     let isNextDisabled: Bool
@@ -74,9 +75,11 @@ struct SetupStepLayout<Content: View>: View {
         }
         .toolbar {
             ToolbarItem(placement: .principal) {
+                let steps = viewModel.currentSteps
+                let current = (steps.firstIndex(of: step) ?? 0) + 1
                 StepProgressIndicator(
-                    current: step.stepNumber,
-                    total: OnboardingStep.totalSteps
+                    current: current,
+                    total: steps.count
                 )
             }
         }

@@ -31,6 +31,16 @@ public struct PrinterControlView: View {
         ManagedNavigationStack {
             ScrollView {
                 VStack(spacing: 16) {
+                    if let camera = viewModel.cameraProvider {
+                        CameraCard(
+                            cameraProvider: camera,
+                            isLightOn: viewModel.isLightOn,
+                            onToggleLight: { viewModel.toggleLight(on: $0) }
+                        )
+                        .redacted(reason: isLoading ? .placeholder : [])
+                        .shimmering(active: isLoading)
+                    }
+
                     if !viewModel.controlsEnabled, !isLoading {
                         Label(
                             "Controls are disabled while the printer is busy.",
@@ -40,16 +50,6 @@ public struct PrinterControlView: View {
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 4)
-                    }
-
-                    if let camera = viewModel.cameraProvider {
-                        CameraCard(
-                            cameraProvider: camera,
-                            isLightOn: viewModel.isLightOn,
-                            onToggleLight: { viewModel.toggleLight(on: $0) }
-                        )
-                        .redacted(reason: isLoading ? .placeholder : [])
-                        .shimmering(active: isLoading)
                     }
 
                     ControlCard(title: "Position", systemSymbol: .move3d) {
@@ -70,6 +70,7 @@ public struct PrinterControlView: View {
                     .shimmering(active: isLoading)
                 }
                 .padding()
+                .frame(maxWidth: .infinity)
             }
             .background(Color(.systemGroupedBackground))
             .navigationTitle("Control")

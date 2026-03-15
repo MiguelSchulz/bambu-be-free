@@ -4,17 +4,17 @@ import SwiftUI
 import UserNotifications
 
 struct NotificationStepView: View {
+    @Environment(OnboardingViewModel.self) private var viewModel
     @Environment(\.navigator) private var navigator
-    @State private var authStatus: UNAuthorizationStatus?
 
     var body: some View {
         SetupStepLayout(step: .notifications) {
             Task {
-                if authStatus == .notDetermined {
-                    _ = try? await UNUserNotificationCenter.current()
-                        .requestAuthorization(options: [.alert, .sound, .badge])
+                _ = try? await UNUserNotificationCenter.current()
+                    .requestAuthorization(options: [.alert, .sound, .badge])
+                if let next = viewModel.destination(after: .notifications) {
+                    navigator.navigate(to: next)
                 }
-                navigator.navigate(to: OnboardingDestinations.guidedSlicerSetup)
             }
         } content: {
             VStack(alignment: .leading, spacing: 12) {
@@ -33,20 +33,10 @@ struct NotificationStepView: View {
             }
         }
         .navigationTitle("Notifications")
-        .task {
-            let settings = await UNUserNotificationCenter.current().notificationSettings()
-            authStatus = settings.authorizationStatus
-            // Auto-skip if already authorized or previously denied
-            if settings.authorizationStatus == .authorized
-                || settings.authorizationStatus == .provisional
-                || settings.authorizationStatus == .denied
-            {
-                navigator.navigate(to: OnboardingDestinations.guidedSlicerSetup)
-            }
-        }
     }
 }
 
 #Preview {
     NotificationStepView()
+        .environment(OnboardingViewModel())
 }

@@ -71,28 +71,6 @@
         }
       }
     },
-    "Connecting to printer..." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verbindung zum Drucker wird hergestellt …"
-          }
-        }
-      }
-    },
-    "Disconnected" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Getrennt"
-          }
-        }
-      }
-    },
     "Done" : {
       "localizations" : {
         "de" : {

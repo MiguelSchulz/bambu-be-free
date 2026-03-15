@@ -1,5 +1,6 @@
 import Foundation
 import PandaModels
+import UserNotifications
 
 @MainActor
 @Observable
@@ -7,21 +8,51 @@ public final class OnboardingViewModel {
     public var ip = ""
     public var accessCode = ""
     public var serial = ""
-    public var printerTypeRaw = "auto"
+    public var selectedPrinter: BambuPrinter?
     public var isTesting = false
     public var connectionError: String?
+    public var needsNotificationStep = true
 
-    public let connectionTester: @MainActor (String, String, String) async -> String?
+    public let connectionTester: @MainActor (String, String, String, BambuPrinter?) async -> String?
 
     public init(
-        connectionTester: @escaping @MainActor (String, String, String) async -> String? = { _, _, _ in nil }
+        connectionTester: @escaping @MainActor (String, String, String, BambuPrinter?) async -> String? = { _, _, _, _ in nil }
     ) {
         self.connectionTester = connectionTester
     }
 
+    public var serialRequired: Bool {
+        selectedPrinter?.serialRequired ?? false
+    }
+
+    public var currentSteps: [OnboardingStep] {
+        OnboardingStep.steps(for: selectedPrinter).filter { step in
+            step != .notifications || needsNotificationStep
+        }
+    }
+
     public var canConnect: Bool {
-        !ip.trimmingCharacters(in: .whitespaces).isEmpty
-            && !accessCode.trimmingCharacters(in: .whitespaces).isEmpty
+        let hasIP = !ip.trimmingCharacters(in: .whitespaces).isEmpty
+        let hasCode = !accessCode.trimmingCharacters(in: .whitespaces).isEmpty
+        let hasSerial = !serial.trimmingCharacters(in: .whitespaces).isEmpty
+        let serialOK = !serialRequired || hasSerial
+        return hasIP && hasCode && serialOK
+    }
+
+    /// Returns the guided onboarding destination for the step after the given one,
+    /// or `nil` if the given step is the last one.
+    public func destination(after step: OnboardingStep) -> OnboardingDestinations? {
+        let steps = currentSteps
+        guard let index = steps.firstIndex(of: step),
+              steps.index(after: index) < steps.endIndex
+        else { return nil }
+        return steps[steps.index(after: index)].destination
+    }
+
+    /// Check notification authorization and exclude the step if already determined.
+    public func refreshNotificationStatus() async {
+        let settings = await UNUserNotificationCenter.current().notificationSettings()
+        needsNotificationStep = settings.authorizationStatus == .notDetermined
     }
 
     public func testAndSave() async -> Bool {
@@ -39,7 +70,7 @@ public final class OnboardingViewModel {
         isTesting = true
         defer { isTesting = false }
 
-        if let error = await connectionTester(trimmedIP, trimmedCode, trimmedSerial) {
+        if let error = await connectionTester(trimmedIP, trimmedCode, trimmedSerial, selectedPrinter) {
             connectionError = error
             return false
         }
@@ -50,8 +81,6 @@ public final class OnboardingViewModel {
         SharedSettings.printerIP = ip.trimmingCharacters(in: .whitespaces)
         SharedSettings.printerAccessCode = accessCode.trimmingCharacters(in: .whitespaces)
         SharedSettings.printerSerial = serial.trimmingCharacters(in: .whitespaces)
-        if let type = PrinterType(rawValue: printerTypeRaw) {
-            SharedSettings.printerType = type
-        }
+        SharedSettings.printerModel = selectedPrinter
     }
 }

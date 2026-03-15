@@ -50,7 +50,7 @@ struct CredentialsForm: View {
             }
 
             VStack(alignment: .leading, spacing: 8) {
-                Text("Serial Number (optional)")
+                Text(viewModel.serialRequired ? "Serial Number (required)" : "Serial Number (optional)")
                     .font(.caption.bold())
                     .foregroundStyle(.secondary)
                 TextField("e.g. 0309DA561103403", text: $vm.serial)
@@ -66,20 +66,6 @@ struct CredentialsForm: View {
                     }
             }
 
-            HStack {
-                Text("Camera Protocol")
-                    .font(.caption.bold())
-                    .foregroundStyle(.secondary)
-                Spacer()
-                Picker("Camera Protocol", selection: $vm.printerTypeRaw) {
-                    ForEach(PrinterType.allCases) { type in
-                        Text(type.displayName).tag(type.rawValue)
-                    }
-                }
-                .labelsHidden()
-                .pickerStyle(.menu)
-            }
-
             if let error = viewModel.connectionError {
                 Label(error, systemSymbol: .exclamationmarkTriangleFill)
                     .font(.subheadline)
@@ -87,7 +73,7 @@ struct CredentialsForm: View {
             }
         }
         .padding()
-        .background(Color(.secondarySystemGroupedBackground), in: .rect(cornerRadius: 12, style: .continuous))
+        .background(Color(.secondarySystemGroupedBackground), in: .rect(cornerRadius: 12))
 
         Label {
             Text("Your iPhone must be on the same network as your printer (LAN mode only). Using a VPN like Tailscale or WireGuard is the easiest way to connect remotely.")

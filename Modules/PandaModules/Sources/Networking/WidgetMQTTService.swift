@@ -91,7 +91,9 @@ private final class SnapshotSession: @unchecked Sendable {
     private var timeoutTask: Task<Void, Never>?
     private var discoveredSerial: String?
 
-    private var hasSerial: Bool { !serial.isEmpty }
+    private var hasSerial: Bool {
+        !serial.isEmpty
+    }
 
     init(ip: String, accessCode: String, serial: String, timeout: TimeInterval,
          continuation: CheckedContinuation<PrinterStateSnapshot, Error>)
@@ -223,7 +225,9 @@ private final class CommandSession: @unchecked Sendable {
     private var timeoutTask: Task<Void, Never>?
     private var commandPublished = false
 
-    private var hasSerial: Bool { !serial.isEmpty }
+    private var hasSerial: Bool {
+        !serial.isEmpty
+    }
 
     init(command: PrinterCommand, ip: String, accessCode: String, serial: String, timeout: TimeInterval,
          continuation: CheckedContinuation<Void, Error>)

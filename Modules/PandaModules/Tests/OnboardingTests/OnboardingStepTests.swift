@@ -1,4 +1,5 @@
 @testable import Onboarding
+import PandaModels
 import Testing
 
 @Suite("Onboarding Steps")
@@ -10,8 +11,8 @@ struct OnboardingStepTests {
 
     @Test("Step numbers are 1-based",
           arguments: [
-              (OnboardingStep.lanMode, 1),
-              (OnboardingStep.devMode, 2),
+              (OnboardingStep.printerSelection, 1),
+              (OnboardingStep.printerSetup, 2),
               (OnboardingStep.credentials, 3),
               (OnboardingStep.enterCredentials, 4),
               (OnboardingStep.notifications, 5),
@@ -24,8 +25,8 @@ struct OnboardingStepTests {
     @Test("Steps are in correct order")
     func stepOrder() {
         let steps = OnboardingStep.allCases
-        #expect(steps[0] == .lanMode)
-        #expect(steps[1] == .devMode)
+        #expect(steps[0] == .printerSelection)
+        #expect(steps[1] == .printerSetup)
         #expect(steps[2] == .credentials)
         #expect(steps[3] == .enterCredentials)
         #expect(steps[4] == .notifications)
@@ -49,8 +50,6 @@ struct OnboardingStepTests {
 
     @Test("Wiki URLs are set for informational steps",
           arguments: [
-              OnboardingStep.lanMode,
-              OnboardingStep.devMode,
               OnboardingStep.credentials,
               OnboardingStep.slicerSetup,
           ])
@@ -59,8 +58,26 @@ struct OnboardingStepTests {
     }
 
     @Test("Steps without wiki URLs",
-          arguments: [OnboardingStep.enterCredentials, OnboardingStep.notifications])
+          arguments: [OnboardingStep.printerSelection, OnboardingStep.printerSetup, OnboardingStep.enterCredentials, OnboardingStep.notifications])
     func noWikiURL(step: OnboardingStep) {
         #expect(step.wikiURL == nil)
+    }
+
+    @Test("steps(for:) returns all steps for any printer")
+    func stepsForPrinter() {
+        let stepsNil = OnboardingStep.steps(for: nil)
+        let stepsA1 = OnboardingStep.steps(for: .a1)
+        let stepsX1C = OnboardingStep.steps(for: .x1c)
+
+        #expect(stepsNil == OnboardingStep.allCases)
+        #expect(stepsA1 == OnboardingStep.allCases)
+        #expect(stepsX1C == OnboardingStep.allCases)
+    }
+
+    @Test("Each step maps to a unique destination", arguments: OnboardingStep.allCases)
+    func destinationMapping(step: OnboardingStep) {
+        let destinations = OnboardingStep.allCases.map(\.destination)
+        let count = destinations.count(where: { $0 == step.destination })
+        #expect(count == 1)
     }
 }

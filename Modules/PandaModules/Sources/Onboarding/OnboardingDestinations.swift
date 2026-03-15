@@ -3,8 +3,8 @@ import SwiftUI
 
 public nonisolated enum OnboardingDestinations: NavigationDestination {
     case directConnect
-    case guidedLanMode
-    case guidedDevMode
+    case guidedPrinterSelection
+    case guidedPrinterSetup
     case guidedCredentials
     case guidedEnterCredentials
     case guidedNotifications
@@ -14,10 +14,10 @@ public nonisolated enum OnboardingDestinations: NavigationDestination {
         switch self {
         case .directConnect:
             DirectConnectView()
-        case .guidedLanMode:
-            LanModeStepView()
-        case .guidedDevMode:
-            DevModeStepView()
+        case .guidedPrinterSelection:
+            PrinterSelectionView()
+        case .guidedPrinterSetup:
+            PrinterSetupStepView()
         case .guidedCredentials:
             CredentialsStepView()
         case .guidedEnterCredentials:

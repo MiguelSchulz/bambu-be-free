@@ -45,8 +45,23 @@ public enum SharedSettings {
         set { sharedDefaults?.set(newValue, forKey: "printerSerial") }
     }
 
+    public static var printerModel: BambuPrinter? {
+        get {
+            guard let raw = sharedDefaults?.string(forKey: "printerModel"),
+                  let model = BambuPrinter(rawValue: raw) else { return nil }
+            return model
+        }
+        set { sharedDefaults?.set(newValue?.rawValue, forKey: "printerModel") }
+    }
+
+    /// Camera protocol derived from the selected printer model.
+    /// Falls back to legacy `printerType` UserDefaults value for existing users
+    /// who configured before the model picker was introduced.
     public static var printerType: PrinterType {
         get {
+            if let model = printerModel {
+                return model.cameraProtocol
+            }
             guard let raw = sharedDefaults?.string(forKey: "printerType"),
                   let type = PrinterType(rawValue: raw) else { return .auto }
             return type

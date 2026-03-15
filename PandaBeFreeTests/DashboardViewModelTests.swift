@@ -465,6 +465,50 @@ struct DashboardViewModelTests {
         #expect(vm.printerState.isConnected == false)
     }
 
+    @Test("clearConfigAndDisconnect disconnects and clears settings")
+    func clearConfigAndDisconnect() {
+        SharedSettings.printerIP = "192.168.1.100"
+        SharedSettings.printerAccessCode = "12345678"
+        SharedSettings.printerSerial = "SERIAL"
+        SharedSettings.printerModel = .x1c
+
+        let vm = DashboardViewModel(mqttService: MockMQTTService())
+        vm.mqttConnectionState = .connected
+        vm.printerState.isConnected = true
+
+        vm.clearConfigAndDisconnect()
+
+        #expect(vm.mqttConnectionState == .disconnected)
+        #expect(vm.printerState.isConnected == false)
+        #expect(SharedSettings.printerIP == "")
+        #expect(SharedSettings.printerAccessCode == "")
+        #expect(SharedSettings.printerSerial == "")
+        #expect(SharedSettings.printerModel == nil)
+    }
+
+    @Test("PrinterConfig loads from SharedSettings")
+    func printerConfigFromSettings() {
+        SharedSettings.printerIP = "10.0.0.1"
+        SharedSettings.printerAccessCode = "testcode"
+        SharedSettings.printerSerial = "SN123"
+        SharedSettings.printerModel = .p2s
+
+        let config = DashboardViewModel.PrinterConfig.fromSharedSettings()
+        #expect(config.ip == "10.0.0.1")
+        #expect(config.accessCode == "testcode")
+        #expect(config.serial == "SN123")
+        #expect(config.printerModel == .p2s)
+        #expect(config.printerType == .rtsp)
+    }
+
+    @Test("PrinterConfig defaults to auto when no model")
+    func printerConfigNoModel() {
+        SharedSettings.printerModel = nil
+
+        let config = DashboardViewModel.PrinterConfig.fromSharedSettings()
+        #expect(config.printerType == SharedSettings.printerType)
+    }
+
     // MARK: - Helpers
 
     private func assertCommand(_ actual: PrinterCommand?, is expected: PrinterCommand, sourceLocation: SourceLocation = #_sourceLocation) {

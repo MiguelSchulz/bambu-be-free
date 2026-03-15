@@ -1,13 +1,21 @@
 import Foundation
+import PandaModels
 import SFSafeSymbols
 
 public enum OnboardingStep: Int, CaseIterable, Sendable {
-    case lanMode
-    case devMode
+    case printerSelection
+    case printerSetup
     case credentials
     case enterCredentials
     case notifications
     case slicerSetup
+
+    /// Dynamic step list for the guided onboarding flow.
+    /// All printers currently share the same steps; this infrastructure
+    /// supports per-model variation in the future.
+    public static func steps(for _: BambuPrinter?) -> [OnboardingStep] {
+        allCases
+    }
 
     public var stepNumber: Int {
         rawValue + 1
@@ -19,8 +27,8 @@ public enum OnboardingStep: Int, CaseIterable, Sendable {
 
     public var title: LocalizedStringResource {
         switch self {
-        case .lanMode: "Enable LAN Mode"
-        case .devMode: "Enable Developer Mode"
+        case .printerSelection: "Select Your Printer"
+        case .printerSetup: "Enable LAN & Developer Mode"
         case .credentials: "Find Your Credentials"
         case .enterCredentials: "Enter Credentials"
         case .notifications: "Enable Notifications"
@@ -30,12 +38,12 @@ public enum OnboardingStep: Int, CaseIterable, Sendable {
 
     public var description: LocalizedStringResource {
         switch self {
-        case .lanMode:
-            "LAN Mode allows your printer to communicate directly over your local network without going through the cloud."
-        case .devMode:
-            "Developer Mode lets third-party apps like this one control your printer. It only works when LAN Mode is enabled."
+        case .printerSelection:
+            "Choose your Bambu Lab printer model so we can configure the best settings for your setup."
+        case .printerSetup:
+            "LAN Mode and Developer Mode allow third-party apps like this one to communicate directly with your printer over your local network."
         case .credentials:
-            "You'll need your printer's IP address and access code to connect. Some printer models might also require the serial number."
+            "You'll need the following information from your printer:"
         case .enterCredentials:
             "Enter the IP address and access code you found on your printer."
         case .notifications:
@@ -47,8 +55,8 @@ public enum OnboardingStep: Int, CaseIterable, Sendable {
 
     public var systemSymbol: SFSymbol {
         switch self {
-        case .lanMode: .wifiRouter
-        case .devMode: .wrenchAndScrewdriver
+        case .printerSelection: .printerFill
+        case .printerSetup: .wifiRouter
         case .credentials: .keyFill
         case .enterCredentials: .rectangleAndPencilAndEllipsis
         case .notifications: .bellBadgeFill
@@ -56,12 +64,24 @@ public enum OnboardingStep: Int, CaseIterable, Sendable {
         }
     }
 
+    /// The navigation destination corresponding to this step's guided view.
+    public var destination: OnboardingDestinations {
+        switch self {
+        case .printerSelection: .guidedPrinterSelection
+        case .printerSetup: .guidedPrinterSetup
+        case .credentials: .guidedCredentials
+        case .enterCredentials: .guidedEnterCredentials
+        case .notifications: .guidedNotifications
+        case .slicerSetup: .guidedSlicerSetup
+        }
+    }
+
     public var wikiURL: URL? {
         switch self {
-        case .lanMode:
-            URL(string: "https://wiki.bambulab.com/en/knowledge-sharing/enable-lan-mode")
-        case .devMode:
-            URL(string: "https://wiki.bambulab.com/en/knowledge-sharing/enable-developer-mode")
+        case .printerSelection:
+            nil
+        case .printerSetup:
+            nil
         case .credentials:
             URL(string: "https://wiki.bambulab.com/en/knowledge-sharing/access-code-connect")
         case .enterCredentials:

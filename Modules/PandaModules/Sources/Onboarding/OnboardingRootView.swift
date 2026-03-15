@@ -1,4 +1,5 @@
 import NavigatorUI
+import PandaModels
 import SFSafeSymbols
 import SwiftUI
 
@@ -6,7 +7,7 @@ public struct OnboardingRootView: View {
     @State private var viewModel: OnboardingViewModel
 
     public init(
-        connectionTester: @escaping @MainActor (String, String, String) async -> String? = { _, _, _ in nil }
+        connectionTester: @escaping @MainActor (String, String, String, BambuPrinter?) async -> String? = { _, _, _, _ in nil }
     ) {
         _viewModel = State(initialValue: OnboardingViewModel(connectionTester: connectionTester))
     }
@@ -35,7 +36,7 @@ public struct OnboardingRootView: View {
                 Spacer()
 
                 VStack(spacing: 12) {
-                    NavigationLink(to: OnboardingDestinations.guidedLanMode) {
+                    NavigationLink(to: OnboardingDestinations.guidedPrinterSelection) {
                         Label("Guide Me Through Setup", systemSymbol: .questionmarkCircle)
                             .frame(maxWidth: .infinity)
                     }
@@ -56,6 +57,7 @@ public struct OnboardingRootView: View {
             .navigationBarTitleDisplayMode(.inline)
         }
         .environment(viewModel)
+        .task { await viewModel.refreshNotificationStatus() }
     }
 }
 

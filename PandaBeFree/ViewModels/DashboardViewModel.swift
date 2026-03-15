@@ -8,6 +8,26 @@ import WidgetKit
 @MainActor
 @Observable
 final class DashboardViewModel {
+    struct PrinterConfig {
+        let ip: String
+        let accessCode: String
+        let serial: String
+        let printerModel: BambuPrinter?
+
+        var printerType: PrinterType {
+            printerModel?.cameraProtocol ?? .auto
+        }
+
+        static func fromSharedSettings() -> PrinterConfig {
+            PrinterConfig(
+                ip: SharedSettings.printerIP,
+                accessCode: SharedSettings.printerAccessCode,
+                serial: SharedSettings.printerSerial,
+                printerModel: SharedSettings.printerModel
+            )
+        }
+    }
+
     let printerState = PrinterState()
     let cameraManager = CameraStreamManager()
 
@@ -40,6 +60,7 @@ final class DashboardViewModel {
 
     private let mqttService: any MQTTServiceProtocol
     private let notificationScheduler: any NotificationScheduling
+    private var wasConnected = false
     // nonisolated(unsafe) allows cancellation from deinit; Task.cancel() is thread-safe.
     // swiftformat:disable:next nonisolatedUnsafe
     @ObservationIgnored private nonisolated(unsafe) var messageTask: Task<Void, Never>?
@@ -213,14 +234,19 @@ final class DashboardViewModel {
         }
     }
 
-    /// Connect MQTT and camera. Awaits until MQTT reaches connected/error/timeout.
-    func connectAll(ip: String, accessCode: String, serial: String, printerType: PrinterType = .auto) async {
+    /// Connect MQTT and camera using config from SharedSettings. Awaits until MQTT reaches connected/error/timeout.
+    func connectAll() async {
+        let config = PrinterConfig.fromSharedSettings()
         // Set up stream consumers first so no events are missed
         startStreamsIfNeeded()
 
         // Then connect
-        mqttService.connect(ip: ip, accessCode: accessCode, serial: serial)
-        cameraManager.connect(ip: ip, accessCode: accessCode, printerType: printerType)
+        mqttService.connect(ip: config.ip, accessCode: config.accessCode, serial: config.serial)
+        // Only reconnect camera if not already streaming — avoids killing the
+        // shared stream when SwiftUI re-runs .task on tab switches.
+        if !cameraManager.isStreaming {
+            cameraManager.connect(ip: config.ip, accessCode: config.accessCode, printerType: config.printerType)
+        }
 
         // Wait for connection result (connected, error, or 10s timeout)
         let deadline = Date.now.addingTimeInterval(10)
@@ -241,12 +267,56 @@ final class DashboardViewModel {
         lastScheduledStatus = nil
     }
 
+    /// Disconnect and clear all saved configuration, returning to onboarding.
+    func clearConfigAndDisconnect() {
+        disconnectAll()
+        SharedSettings.printerIP = ""
+        SharedSettings.printerAccessCode = ""
+        SharedSettings.printerSerial = ""
+        SharedSettings.printerModel = nil
+    }
+
     func disconnectCamera() {
         cameraManager.disconnect()
     }
 
-    func reconnectCamera(ip: String, accessCode: String, printerType: PrinterType = .auto) {
-        cameraManager.connect(ip: ip, accessCode: accessCode, printerType: printerType)
+    func reconnectCamera() {
+        let config = PrinterConfig.fromSharedSettings()
+        cameraManager.connect(ip: config.ip, accessCode: config.accessCode, printerType: config.printerType)
+    }
+
+    /// Handle scene phase transitions. Call from `onChange(of: scenePhase)`.
+    func handleScenePhase(_ newPhase: ScenePhase) {
+        switch newPhase {
+        case .background:
+            if isConnected || mqttConnectionState == .connecting {
+                wasConnected = true
+                if hasReceivedInitialData {
+                    SharedSettings.cachedPrinterState = PrinterStateSnapshot(from: printerState)
+                }
+                disconnectAll()
+                WidgetCenter.shared.reloadAllTimelines()
+            }
+        case .active:
+            WidgetCenter.shared.reloadTimelines(ofKind: "PrintStateWidget")
+            WidgetCenter.shared.reloadTimelines(ofKind: "AMSWidget")
+            // Reconcile notifications from cached state before MQTT reconnects
+            if let cached = SharedSettings.cachedPrinterState {
+                Task {
+                    let actions = NotificationEvaluator.evaluate(
+                        contentState: cached.contentState,
+                        amsUnits: cached.amsUnits
+                    )
+                    await notificationScheduler.execute(actions)
+                }
+            }
+            if wasConnected {
+                wasConnected = false
+                Task { await connectAll() }
+            }
+        default:
+            break
+        }
     }
 
     // MARK: - Commands
