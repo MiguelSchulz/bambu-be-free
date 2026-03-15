@@ -7,6 +7,7 @@ let package = Package(
     platforms: [.iOS(.v18)],
     products: [
         .library(name: "PandaModels", targets: ["PandaModels"]),
+        .library(name: "PandaLogger", targets: ["PandaLogger"]),
         .library(name: "Networking", targets: ["Networking"]),
         .library(name: "PandaUI", targets: ["PandaUI"]),
         .library(name: "Onboarding", targets: ["Onboarding"]),
@@ -26,9 +27,14 @@ let package = Package(
             resources: [.process("Resources")]
         ),
         .target(
+            name: "PandaLogger",
+            dependencies: ["PandaModels", "SFSafeSymbols"]
+        ),
+        .target(
             name: "Networking",
             dependencies: [
                 "PandaModels",
+                "PandaLogger",
                 .product(name: "CocoaMQTT", package: "CocoaMQTT"),
             ]
         ),
@@ -45,6 +51,7 @@ let package = Package(
             name: "Onboarding",
             dependencies: [
                 "PandaModels",
+                "PandaLogger",
                 "PandaUI",
                 "SFSafeSymbols",
                 .product(name: "NavigatorUI", package: "Navigator"),
@@ -55,6 +62,7 @@ let package = Package(
             name: "PrinterControl",
             dependencies: [
                 "PandaModels",
+                "PandaLogger",
                 "PandaUI",
                 "Networking",
                 "SFSafeSymbols",
@@ -66,6 +74,10 @@ let package = Package(
         .target(
             name: "PandaNotifications",
             dependencies: ["PandaModels", "SFSafeSymbols"]
+        ),
+        .testTarget(
+            name: "PandaLoggerTests",
+            dependencies: ["PandaLogger", "PandaModels"]
         ),
         .testTarget(
             name: "PandaModelsTests",

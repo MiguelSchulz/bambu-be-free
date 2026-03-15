@@ -1,10 +1,12 @@
 import NavigatorUI
+import PandaLogger
 import SFSafeSymbols
 import SwiftUI
 
 nonisolated enum MoreDestinations: NavigationDestination {
     case dependencies
     case notifications
+    case sessionLog
 
     var body: some View {
         switch self {
@@ -12,6 +14,8 @@ nonisolated enum MoreDestinations: NavigationDestination {
             DependenciesView()
         case .notifications:
             NotificationSettingsView()
+        case .sessionLog:
+            SessionLogView()
         }
     }
 }
@@ -27,6 +31,10 @@ struct MoreView: View {
                 Section {
                     NavigationLink(to: MoreDestinations.notifications) {
                         Label("Notifications", systemSymbol: .bellFill)
+                    }
+
+                    NavigationLink(to: MoreDestinations.sessionLog) {
+                        Label("Session Log", systemSymbol: .docTextMagnifyingglass)
                     }
 
                     Link(destination: privacyPolicyURL) {

@@ -1,6 +1,9 @@
 import CocoaMQTT
 import Foundation
+import PandaLogger
 import PandaModels
+
+private let logCategory = "WidgetMQTT"
 
 /// One-shot MQTT service for widget timeline refresh.
 /// Connects, fetches printer state via pushAll, disconnects.
@@ -38,6 +41,7 @@ public enum WidgetMQTTService {
         serial: String,
         timeout: TimeInterval = 5
     ) async throws {
+        appLog(.info, category: logCategory, "Command session starting: \(command.logDescription)")
         try await withCheckedThrowingContinuation { continuation in
             let session = CommandSession(
                 command: command,
@@ -60,7 +64,8 @@ public enum WidgetMQTTService {
         serial: String,
         timeout: TimeInterval = 5
     ) async throws -> PrinterStateSnapshot {
-        try await withCheckedThrowingContinuation { continuation in
+        appLog(.info, category: logCategory, "Snapshot session starting")
+        return try await withCheckedThrowingContinuation { continuation in
             let session = SnapshotSession(
                 ip: ip,
                 accessCode: accessCode,
@@ -205,6 +210,12 @@ private final class SnapshotSession: @unchecked Sendable {
         mqtt?.delegate = nil
         mqtt = nil
         WidgetMQTTService.activeSession = nil
+        switch result {
+        case .success:
+            appLog(.info, category: logCategory, "Snapshot session completed successfully")
+        case let .failure(error):
+            appLog(.error, category: logCategory, "Snapshot session failed: \(error.localizedDescription)")
+        }
         cont.resume(with: result)
     }
 }
@@ -319,6 +330,12 @@ private final class CommandSession: @unchecked Sendable {
         mqtt?.delegate = nil
         mqtt = nil
         WidgetMQTTService.activeCommandSession = nil
+        switch result {
+        case .success:
+            appLog(.info, category: logCategory, "Command session completed successfully")
+        case let .failure(error):
+            appLog(.error, category: logCategory, "Command session failed: \(error.localizedDescription)")
+        }
         cont.resume(with: result)
     }
 }

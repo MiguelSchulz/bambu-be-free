@@ -1,5 +1,8 @@
 import Foundation
+import PandaLogger
 import PandaModels
+
+private let logCategory = "ConnectionTest"
 
 public enum ConnectionTestService {
     /// Result of a connection test phase, produced by racing an async stream against a timeout.
@@ -22,8 +25,11 @@ public enum ConnectionTestService {
         printerModel: BambuPrinter?,
         mqttServiceFactory: @Sendable () -> any MQTTServiceProtocol = { PandaMQTTService() }
     ) async -> String? {
+        appLog(.info, category: logCategory, "Starting connection test — model: \(printerModel?.displayName ?? "unknown"), serial required: \(printerModel?.serialRequired ?? false)")
+
         // 1. Pre-flight: validate serial requirement
         if let model = printerModel, model.serialRequired, serial.isEmpty {
+            appLog(.error, category: logCategory, "Serial number required for \(model.displayName) but not provided")
             return String(localized: "\(model.displayName) printers require a serial number. You can find it on the printer's Device tab in Settings.")
         }
 
@@ -44,10 +50,12 @@ public enum ConnectionTestService {
 
         switch brokerResult {
         case .success(.connected):
-            break // proceed to phase 3
+            appLog(.info, category: logCategory, "Phase 1: Broker connected successfully")
         case .success(.error):
+            appLog(.error, category: logCategory, "Phase 1: Connection rejected by printer")
             return String(localized: "Could not connect to the printer. Please check that the IP address and access code are correct, and that your iPhone is on the same network as the printer.")
         case .timeout, .success:
+            appLog(.error, category: logCategory, "Phase 1: Connection timed out")
             return String(localized: "Connection timed out. Make sure the printer is turned on and that your iPhone is on the same network.")
         }
 
@@ -61,8 +69,10 @@ public enum ConnectionTestService {
 
         switch dataResult {
         case .success(true):
+            appLog(.info, category: logCategory, "Phase 2: Data received — connection test passed")
             return nil
         case .success(false), .timeout:
+            appLog(.error, category: logCategory, "Phase 2: No data received (serial provided: \(!serial.isEmpty))")
             if serial.isEmpty {
                 return String(localized: "Connected to the printer, but no data was received. This printer may require a serial number. Please enter the serial number and try again.")
             }

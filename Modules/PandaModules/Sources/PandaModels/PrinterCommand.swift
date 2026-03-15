@@ -160,4 +160,24 @@ public enum PrinterCommand {
 
         return try! JSONSerialization.data(withJSONObject: dict)
     }
+
+    /// A safe description for logging (no sensitive data).
+    public var logDescription: String {
+        switch self {
+        case .pause: "pause"
+        case .resume: "resume"
+        case .stop: "stop"
+        case let .printSpeed(level): "printSpeed(\(level))"
+        case let .chamberLight(on): "chamberLight(\(on ? "on" : "off"))"
+        case let .airductMode(mode): "airductMode(\(mode))"
+        case let .gcodeLine(gcode): "gcode(\(gcode))"
+        case let .startDrying(amsId, temperature, durationMinutes, _):
+            "startDrying(ams: \(amsId), temp: \(temperature), duration: \(durationMinutes)m)"
+        case let .stopDrying(amsId): "stopDrying(ams: \(amsId))"
+        case let .amsFilamentSetting(amsId, trayId, _, trayType, _, _, _):
+            "amsFilamentSetting(ams: \(amsId), tray: \(trayId), type: \(trayType))"
+        case .getVersion: "getVersion"
+        case .pushAll: "pushAll"
+        }
+    }
 }

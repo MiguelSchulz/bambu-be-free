@@ -246,7 +246,7 @@ public struct PandaMQTTPayload {
 }
 
 /// AMS module version info from info.module MQTT messages.
-public struct AMSModuleVersion {
+public struct AMSModuleVersion: Equatable {
     public let id: Int // AMS unit index (0, 1, 2, ...)
     public let hwVer: String // e.g. "AMS08", "N3F05", "N3S05"
 

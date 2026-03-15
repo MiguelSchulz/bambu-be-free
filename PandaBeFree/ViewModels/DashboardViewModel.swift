@@ -1,9 +1,12 @@
 import Foundation
 import Networking
+import PandaLogger
 import PandaModels
 import PandaNotifications
 import SwiftUI
 import WidgetKit
+
+private let logCategory = "Dashboard"
 
 @MainActor
 @Observable
@@ -137,8 +140,26 @@ final class DashboardViewModel {
         messageTask = Task { [weak self] in
             guard let self else { return }
             for await payload in messageStream {
+                let wasFirstUpdate = self.printerState.lastUpdated == nil
+                let previousStgCur = self.printerState.stgCur
                 self.printerState.apply(payload)
                 self.printerState.isConnected = true
+
+                if wasFirstUpdate {
+                    appLog(.info, category: logCategory, "First printer data received — state: \(self.printerState.gcodeState)")
+                }
+                // Log printer issue states
+                if let stg = payload.stgCur, stg != previousStgCur {
+                    let (status, category) = PreparationStages.determineState(
+                        gcodeState: self.printerState.gcodeState,
+                        stgCur: stg,
+                        layerNum: self.printerState.layerNum
+                    )
+                    if status == .issue {
+                        let stageName = PreparationStages.name(for: stg) ?? "unknown"
+                        appLog(.warning, category: category ?? "Printer", "Printer issue detected: \(stageName) (stg_cur: \(stg))")
+                    }
+                }
                 // Sync light state from printer, but ignore for 3s after
                 // a local toggle to prevent the old state snapping back
                 if payload.chamberLightOn != nil {
@@ -225,10 +246,16 @@ final class DashboardViewModel {
             guard let self else { return }
             for await state in stateStream {
                 self.mqttConnectionState = state
-                if case .disconnected = state {
+                switch state {
+                case .disconnected:
                     self.printerState.isConnected = false
-                } else if case .error = state {
+                case let .error(message):
+                    appLog(.error, category: logCategory, "MQTT connection error: \(message)")
                     self.printerState.isConnected = false
+                case .connected:
+                    appLog(.info, category: logCategory, "MQTT connected")
+                case .connecting:
+                    break
                 }
             }
         }
@@ -237,6 +264,7 @@ final class DashboardViewModel {
     /// Connect MQTT and camera using config from SharedSettings. Awaits until MQTT reaches connected/error/timeout.
     func connectAll() async {
         let config = PrinterConfig.fromSharedSettings()
+        appLog(.info, category: logCategory, "connectAll — model: \(config.printerModel?.displayName ?? "unknown"), IP: \(config.ip), camera: \(config.printerType)")
         // Set up stream consumers first so no events are missed
         startStreamsIfNeeded()
 
@@ -258,6 +286,7 @@ final class DashboardViewModel {
     }
 
     func disconnectAll() {
+        appLog(.info, category: logCategory, "disconnectAll")
         mqttService.disconnect()
         cameraManager.disconnect()
         printerState.isConnected = false
@@ -289,6 +318,7 @@ final class DashboardViewModel {
     func handleScenePhase(_ newPhase: ScenePhase) {
         switch newPhase {
         case .background:
+            appLog(.info, category: logCategory, "Scene phase → background")
             if isConnected || mqttConnectionState == .connecting {
                 wasConnected = true
                 if hasReceivedInitialData {
@@ -298,6 +328,7 @@ final class DashboardViewModel {
                 WidgetCenter.shared.reloadAllTimelines()
             }
         case .active:
+            appLog(.info, category: logCategory, "Scene phase → active (wasConnected: \(wasConnected))")
             WidgetCenter.shared.reloadTimelines(ofKind: "PrintStateWidget")
             WidgetCenter.shared.reloadTimelines(ofKind: "AMSWidget")
             // Reconcile notifications from cached state before MQTT reconnects
@@ -322,23 +353,28 @@ final class DashboardViewModel {
     // MARK: - Commands
 
     func pausePrint() {
+        appLog(.info, category: logCategory, "Command: pause")
         mqttService.sendCommand(.pause)
     }
 
     func resumePrint() {
+        appLog(.info, category: logCategory, "Command: resume")
         mqttService.sendCommand(.resume)
     }
 
     func stopPrint() {
+        appLog(.info, category: logCategory, "Command: stop")
         mqttService.sendCommand(.stop)
     }
 
     func setSpeed(_ level: PrinterCommand.SpeedLevel) {
+        appLog(.info, category: logCategory, "Command: setSpeed(\(level))")
         selectedSpeed = level
         mqttService.sendCommand(.printSpeed(level))
     }
 
     func toggleLight(on: Bool) {
+        appLog(.info, category: logCategory, "Command: light \(on ? "on" : "off")")
         chamberLightOn = on
         lightCommandTime = Date.now
         mqttService.sendCommand(.chamberLight(on: on))
@@ -365,6 +401,7 @@ final class DashboardViewModel {
     }
 
     private func applyAirductMode(_ mode: Int) {
+        appLog(.info, category: logCategory, "Command: airductMode(\(mode))")
         selectedAirductMode = mode
         airductCommandTime = Date.now
         mqttService.sendCommand(.airductMode(mode: mode))
@@ -372,6 +409,7 @@ final class DashboardViewModel {
 
     func setNozzleTemp(_ temp: Int) {
         let clamped = max(0, min(300, temp))
+        appLog(.info, category: logCategory, "Command: setNozzleTemp(\(clamped))")
         commandedNozzleTarget = clamped
         printerState.nozzleTargetTemp = clamped
         nozzleTempCommandTime = Date.now
@@ -380,6 +418,7 @@ final class DashboardViewModel {
 
     func setBedTemp(_ temp: Int) {
         let clamped = max(0, min(110, temp))
+        appLog(.info, category: logCategory, "Command: setBedTemp(\(clamped))")
         commandedBedTarget = clamped
         printerState.bedTargetTemp = clamped
         bedTempCommandTime = Date.now
@@ -388,6 +427,7 @@ final class DashboardViewModel {
 
     func setFanSpeed(fanIndex: Int, percent: Int) {
         let clamped = max(0, min(100, percent))
+        appLog(.info, category: logCategory, "Command: setFanSpeed(fan: \(fanIndex), percent: \(clamped))")
         let value255 = Int(Double(clamped) / 100.0 * 255.0)
         commandedFanSpeeds[fanIndex] = value255
         fanCommandTimes[fanIndex] = Date.now

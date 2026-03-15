@@ -1,6 +1,9 @@
 import Foundation
+import PandaLogger
 import PandaModels
 import UserNotifications
+
+private let logCategory = "Onboarding"
 
 @MainActor
 @Observable
@@ -66,18 +69,22 @@ public final class OnboardingViewModel {
         let trimmedCode = accessCode.trimmingCharacters(in: .whitespaces)
         let trimmedSerial = serial.trimmingCharacters(in: .whitespaces)
 
+        appLog(.info, category: logCategory, "Testing connection — model: \(selectedPrinter?.displayName ?? "unknown"), IP: \(trimmedIP)")
         connectionError = nil
         isTesting = true
         defer { isTesting = false }
 
         if let error = await connectionTester(trimmedIP, trimmedCode, trimmedSerial, selectedPrinter) {
+            appLog(.error, category: logCategory, "Connection test failed: \(error)")
             connectionError = error
             return false
         }
+        appLog(.info, category: logCategory, "Connection test passed")
         return true
     }
 
     public func saveCredentials() {
+        appLog(.info, category: logCategory, "Saving credentials — model: \(selectedPrinter?.displayName ?? "unknown")")
         SharedSettings.printerIP = ip.trimmingCharacters(in: .whitespaces)
         SharedSettings.printerAccessCode = accessCode.trimmingCharacters(in: .whitespaces)
         SharedSettings.printerSerial = serial.trimmingCharacters(in: .whitespaces)

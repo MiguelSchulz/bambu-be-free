@@ -3,9 +3,12 @@ import CryptoKit
 import Foundation
 import Network
 import os
+import PandaLogger
 import PandaModels
 import UIKit
 import VideoToolbox
+
+private let logCategory = "CameraSnapshot"
 
 public enum CameraSnapshotError: Error, LocalizedError {
     case noConfiguration
@@ -28,11 +31,6 @@ public enum CameraSnapshotError: Error, LocalizedError {
 }
 
 public enum CameraSnapshotService {
-    private static let logger = Logger(
-        subsystem: Bundle.main.bundleIdentifier ?? "com.pandabefree.app",
-        category: "CameraSnapshot"
-    )
-
     /// Capture a single JPEG snapshot from the printer camera.
     public static func captureSnapshot(
         ip: String,
@@ -49,7 +47,7 @@ public enum CameraSnapshotService {
             do {
                 return try await captureTCPSnapshot(ip: ip, accessCode: accessCode, timeout: 5)
             } catch {
-                logger.info("TCP/6000 failed (\(error.localizedDescription)), trying RTSP/322")
+                appLog(.warning, category: logCategory, "TCP/6000 failed (\(error.localizedDescription)), trying RTSP/322")
                 return try await captureRTSPSnapshot(
                     ip: ip, accessCode: accessCode,
                     timeout: max(timeoutSeconds - 5, 10)
@@ -101,7 +99,7 @@ public enum CameraSnapshotService {
             throw CameraSnapshotError.decodingFailed
         }
 
-        logger.info("TCP snapshot captured: \(jpegData.count) bytes")
+        appLog(.info, category: logCategory, "TCP snapshot captured: \(jpegData.count) bytes")
         return jpegData
     }
 
@@ -495,7 +493,7 @@ public enum CameraSnapshotService {
                     if let session = decompressionSession {
                         VTDecompressionSessionInvalidate(session)
                     }
-                    logger.info("RTSP snapshot captured: \(jpegData.count) bytes")
+                    appLog(.info, category: logCategory, "RTSP snapshot captured: \(jpegData.count) bytes")
                     return jpegData
                 }
             }

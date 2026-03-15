@@ -4,10 +4,13 @@ import CryptoKit
 import Foundation
 import Network
 import os
+import PandaLogger
 import PandaModels
 import PandaUI
 import UIKit
 import VideoToolbox
+
+private let logCategory = "Camera"
 
 /// CVBuffer is an immutable, thread-safe Core Foundation type.
 extension CVBuffer: @retroactive @unchecked Sendable {}
@@ -25,8 +28,6 @@ final class CameraStreamManager: CameraStreamProviding {
     var isStreaming: Bool {
         connectionState == .streaming
     }
-
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.pandabefree.app", category: "CameraStream")
 
     var connectionState: CameraConnectionState = .disconnected
     var currentFrame: UIImage?
@@ -90,7 +91,7 @@ final class CameraStreamManager: CameraStreamProviding {
             }
 
             // Fall back to RTSP/322
-            self.logger.info("TCP/6000 unavailable, falling back to RTSP/322")
+            appLog(.warning, category: logCategory, "TCP/6000 unavailable, falling back to RTSP/322")
             self.connectRTSP(ip: ip, accessCode: accessCode)
         }
     }
@@ -178,13 +179,13 @@ final class CameraStreamManager: CameraStreamProviding {
     ) {
         switch state {
         case .ready:
-            logger.info("TLS connection established to \(ip):6000")
+            appLog(.info, category: logCategory, "TLS connection established to \(ip):6000")
             let conn = self.connection!
             streamTask = Task { [weak self] in
                 await self?.performTCPStreaming(ip: ip, accessCode: accessCode, connection: conn)
             }
         case let .failed(error):
-            logger.error("TCP connection failed: \(error.localizedDescription)")
+            appLog(.error, category: logCategory, "TCP connection failed: \(error.localizedDescription)")
             connectionState = .error(String(localized: "Connection failed: \(error.localizedDescription)"))
         case .waiting:
             connectionState = .error(String(localized: "Printer unreachable. Check IP address and that printer is on."))
@@ -247,7 +248,7 @@ final class CameraStreamManager: CameraStreamProviding {
         } catch {
             if !Task.isCancelled {
                 await MainActor.run {
-                    self.logger.error("TCP stream error: \(error.localizedDescription)")
+                    appLog(.error, category: logCategory, "TCP stream error: \(error.localizedDescription)")
                     self.connectionState = .error(String(localized: "Stream error: \(error.localizedDescription)"))
                 }
             }
@@ -306,13 +307,13 @@ final class CameraStreamManager: CameraStreamProviding {
     ) {
         switch state {
         case .ready:
-            logger.info("TLS connection established to \(ip):322")
+            appLog(.info, category: logCategory, "TLS connection established to \(ip):322")
             let conn = self.connection!
             streamTask = Task { [weak self] in
                 await self?.performRTSPStreaming(ip: ip, accessCode: accessCode, connection: conn)
             }
         case let .failed(error):
-            logger.error("Connection failed: \(error.localizedDescription)")
+            appLog(.error, category: logCategory, "Connection failed: \(error.localizedDescription)")
             connectionState = .error(String(localized: "Connection failed: \(error.localizedDescription)"))
         case .waiting:
             connectionState = .error(String(localized: "Printer unreachable. Check IP address and that printer is on."))
@@ -354,7 +355,7 @@ final class CameraStreamManager: CameraStreamProviding {
         }
 
         guard status == noErr, let desc else {
-            logger.error("Failed to create format description: \(status)")
+            appLog(.error, category: logCategory, "Failed to create format description: \(status)")
             return
         }
         formatDescription = desc
@@ -374,11 +375,11 @@ final class CameraStreamManager: CameraStreamProviding {
         )
 
         guard sessionStatus == noErr, let session else {
-            logger.error("Failed to create decompression session: \(sessionStatus)")
+            appLog(.error, category: logCategory, "Failed to create decompression session: \(sessionStatus)")
             return
         }
         decompressionSession = session
-        logger.info("H.264 decoder session created")
+        appLog(.info, category: logCategory, "H.264 decoder session created")
     }
 
     private func decodeNALUnit(_ nalData: Data) {
@@ -389,15 +390,11 @@ final class CameraStreamManager: CameraStreamProviding {
 
         // Handle SPS/PPS in-band
         if nalType == 7 {
-            let newSPS = nalData
-            logger.debug("Got SPS in-band (\(newSPS.count) bytes)")
-            if let pps = ppsData { configureDecoder(sps: newSPS, pps: pps) }
+            if let pps = ppsData { configureDecoder(sps: nalData, pps: pps) }
             return
         }
         if nalType == 8 {
-            let newPPS = nalData
-            logger.debug("Got PPS in-band (\(newPPS.count) bytes)")
-            if let sps = spsData { configureDecoder(sps: sps, pps: newPPS) }
+            if let sps = spsData { configureDecoder(sps: sps, pps: nalData) }
             return
         }
 
@@ -574,7 +571,7 @@ final class CameraStreamManager: CameraStreamProviding {
                     let after = value[r.upperBound...]
                     if let end = after.firstIndex(of: "\"") { digestNonce = String(after[..<end]) }
                 }
-                logger.info("Digest auth: realm=\(digestRealm), nonce=\(digestNonce)")
+                appLog(.info, category: logCategory, "Digest auth: realm=\(digestRealm), nonce=\(digestNonce)")
             }
         }
 
@@ -629,7 +626,7 @@ final class CameraStreamManager: CameraStreamProviding {
                 body = String(data: bodyData, encoding: .utf8) ?? ""
             }
 
-            logger.info("RTSP \(method) → \(statusCode)")
+            appLog(.info, category: logCategory, "RTSP \(method) → \(statusCode)")
             return (statusCode, headers, body)
         }
 
@@ -648,7 +645,7 @@ final class CameraStreamManager: CameraStreamProviding {
                 if let wwwAuth = challenge.headers["WWW-Authenticate"] {
                     parseWWWAuthenticate(wwwAuth)
                 }
-                logger.info("Got 401, retrying with \(useDigestAuth ? "Digest" : "Basic") auth")
+                appLog(.info, category: logCategory, "Got 401, retrying with \(useDigestAuth ? "Digest" : "Basic") auth")
                 desc = try await sendRTSP(
                     method: "DESCRIBE", url: baseURL,
                     extraHeaders: [("Accept", "application/sdp")]
@@ -664,7 +661,7 @@ final class CameraStreamManager: CameraStreamProviding {
                 return
             }
 
-            logger.info("SDP response:\n\(desc.body)")
+            appLog(.info, category: logCategory, "SDP response:\n\(desc.body)")
 
             // Parse SDP for track URL and SPS/PPS
             var trackURL = baseURL
@@ -696,7 +693,7 @@ final class CameraStreamManager: CameraStreamProviding {
                     if params.count >= 2 {
                         spropSPS = Data(base64Encoded: params[0])
                         spropPPS = Data(base64Encoded: params[1])
-                        logger.info("SPS from SDP: \(spropSPS?.count ?? 0) bytes, PPS: \(spropPPS?.count ?? 0) bytes")
+                        appLog(.info, category: logCategory, "SPS from SDP: \(spropSPS?.count ?? 0) bytes, PPS: \(spropPPS?.count ?? 0) bytes")
                     }
                 }
             }
@@ -712,7 +709,7 @@ final class CameraStreamManager: CameraStreamProviding {
             }
 
             let sessionId = setup.headers["Session"]?.components(separatedBy: ";").first ?? ""
-            logger.info("RTSP session: \(sessionId)")
+            appLog(.info, category: logCategory, "RTSP session: \(sessionId)")
 
             // 3. PLAY
             let play = try await sendRTSP(
@@ -724,7 +721,7 @@ final class CameraStreamManager: CameraStreamProviding {
                 return
             }
 
-            logger.info("RTSP PLAY started — receiving H.264 frames")
+            appLog(.info, category: logCategory, "RTSP PLAY started — receiving H.264 frames")
             connectionState = .streaming
 
             // Initialize H.264 decoder with SPS/PPS from SDP
@@ -769,7 +766,7 @@ final class CameraStreamManager: CameraStreamProviding {
 
         } catch {
             if !Task.isCancelled {
-                logger.error("RTSP stream error: \(error.localizedDescription)")
+                appLog(.error, category: logCategory, "RTSP stream error: \(error.localizedDescription)")
                 connectionState = .error(String(localized: "Stream error: \(error.localizedDescription)"))
             }
         }
