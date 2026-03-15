@@ -53,6 +53,7 @@
 - **Printer Controls** — pause, resume, stop, speed profiles, light toggle, temperature adjustment, fan control, and airduct mode
 - **Home Screen Widgets** — camera snapshot, print progress, and AMS status at a glance
 - **Fully Local** — your data never leaves your network
+- **Notifications** — the app estimated when your print or AMS drying finishes and schedules a notification. Having at least one widget on the homescreen can greatly improve the accuracy of notifications, as they provide additonal background computing time
 - **Localized** — available in English and German
 
 ## Requirements
